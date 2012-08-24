@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Site Teste</title>
+</h:head>
+<h:body>
+	<h:messages globalOnly="true" />
+	<h:form id="formPesquisa" rendered="#{!siteBean.editMode}">
+		<h:commandLink value="Adicionar Site" actionListener="#{siteBean.create}"/>
+		<h:panelGrid columns="2">
+			<h:panelGroup>
+				<h:outputText value="Filtro:" />
+				<h:inputText maxlength="30" size="30" value="#{siteBean.tituloSite}">
+					<f:ajax event="keyup" render="resultados" listener="#{siteBean.filtrarSite}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+		<h:dataTable value="#{siteBean.sites}" var="site" id="resultados" border="1">
+			<h:column>
+				<f:facet name="header">Título do Site</f:facet>
+				<h:outputText value="#{site.web_titulo}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">_!</f:facet>
+				<h:commandLink value="Alterar" action="#{siteBean.update}">
+					<f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
+				</h:commandLink>
+			</h:column>
+			<h:column>
+				<f:facet name="header">x</f:facet>
+				<h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{siteBean.delete}">
+					<f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
+				</h:commandLink>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+	<h:form id="formEdicao" rendered="#{siteBean.editMode}">
+		<h:panelGrid columns="2">
+			<h:outputText value="Título do Site:"/>
+			<h:inputText maxlength="30" size="30" value="#{siteBean.site.web_titulo}"/>
+		</h:panelGrid>
+		<h:commandButton value="Salvar" actionListener="#{siteBean.salvar}"/>
+		<h:commandButton value="Cancelar" action="#{siteBean.cancel}"/>
+	</h:form>
+</h:body>
+</html>
