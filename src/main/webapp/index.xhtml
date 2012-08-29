@@ -1,15 +1,56 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</h:head>
-<h:body>
-	<h2>Bem vindo ao JSF2.</h2>
-	<ul>
-		<li><h:link value="Site" outcome="site"/></li>
-	</ul>
-</h:body>
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.prime.com.tr/ui">
+	
+   <h:head>
+    
+       <title>
+       		Spring + Security + Hibernate
+       </title>
+       
+       <link href="#{facesContext.externalContext.requestContextPath}/css/redmond/skin.css" rel="stylesheet" type="text/css" />
+        
+   </h:head> 
+   
+   <h:body style="font-size: 10pt">
+   
+   <h:form prependId="false">     
+  		
+   		<p:dialog header="Spring + Security + Hibernate"
+   				  modal="true"
+   				  closable="false"
+   				  position="center"
+   				  widgetVar="modalInicio"
+   				  width="400"
+   				  height="400"
+   		    	  draggable="false"
+   		    	  resizable="false"
+   		    	  visible="true">
+   		    
+   		    <center>	  
+   		    	<img src="#{facesContext.externalContext.requestContextPath}/img/spring_security.jpg" />
+   		    </center>
+   		    
+   		    <br />
+   		    <br />
+   		    <br />	 
+   		    
+   		    <ul>
+		       <li><h:link value="Site" outcome="site"/></li>
+		       <li><a href="#{facesContext.externalContext.request.contextPath}/login.jsf">Login</a></li>
+		       <li><a href="#{facesContext.externalContext.requestContextPath}/admin/admin.jsf">Página do administrador</a></li>
+		       <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Sair</a></li>
+	        </ul>   		
+	        
+   		</p:dialog>	
+   		
+   	</h:form>					 
+ 	
+ 	</h:body>
+ 
 </html>

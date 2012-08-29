@@ -12,7 +12,7 @@ import br.net.rwd.website.servico.SiteServico;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends BaseBean {
+public class SiteBean extends UtilBean {
 	
 	private static final long serialVersionUID = 1L;
 	
