@@ -28,8 +28,18 @@ public class Perfil implements Serializable, GrantedAuthority {
 	private Integer per_cod;
 	private String per_nome;
 	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name = "usuarioperfil", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
+	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
+	
+	@Transient
+	public String getAuthority() {
+		return this.per_nome;
+	}
+
+	@Transient
+	public int compareTo(Object o) {
+		return this.compareTo(o);
+	}
 
 	public Perfil() {
 		super();
@@ -84,15 +94,4 @@ public class Perfil implements Serializable, GrantedAuthority {
 		return true;
 	}
 
-	@Transient
-	@Override
-	public String getAuthority() {
-		return this.per_nome;
-	}
-
-	@Transient
-	public int compareTo(Object o) {
-		return this.compareTo(o);
-	}
-	
 }
