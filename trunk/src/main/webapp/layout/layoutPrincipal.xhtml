@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xml:lang="pt-br">
+
+<h:head>
+<title><ui:insert name="tituloJanela" /></title>
+<meta name="description" content="AMEX Advocacia e assessoria empresarial e do consumidor. Acesse #{siteControlador.webinfo.web_titulo} e veja mais #{siteControlador.detalhes.pag_titulo}" />
+<meta name="keywords" content="advocacia,assessoria,empresarial,consultoria,advogado,juridico,civel,familia,sucessoes,bancaria,fiscal,crimes financeiros,cobrancas,imobiliario, conteudo #{siteControlador.detalhes.pag_titulo}" />
+<link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
+<link rel="icon" type="image/gif" href="#{facesContext.externalContext.request.contextPath}/animated_favicon1.gif" />
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="css" name="layout.css" target="body" />
+	<h:outputScript library="javascript" name="jquery-1.4.1.min.js" target="head"/>
+	<h:outputScript library="javascript" name="jquery.jcarousel.pack.js" target="head"/>
+	<h:outputScript library="javascript" name="jquery.jcarousel.setup.js" target="head"/>
+
+	<h:form id="formSite" prependId="false">
+	
+<!-- ####################################################################################################### -->
+<div class="wrapper col1">
+  <div id="header">
+	<!-- inicio insert topo -->
+	<ui:insert name="header">	
+		<ui:include src="/layout/layoutTopo.xhtml" />				
+	</ui:insert> 
+	<!-- final insert topo -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col2">
+  <div id="featured_slide">
+	<!-- inicio insert subtopo -->
+	<ui:insert name="featured_slide">	
+		<ui:include src="/layout/layoutSubTopo.xhtml" />				
+	</ui:insert> 
+	<!-- final insert subtopo -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col3">
+  <div id="container">
+	<!-- inicio insert conteudo -->
+	<ui:insert name="container">	
+		<ui:include src="/layout/layoutConteudo.xhtml" />				
+	</ui:insert> 
+	<!-- final insert conteudo -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col4">
+  <div id="footer">
+	<!-- inicio insert rodape -->
+	<ui:insert name="footer">	
+		<ui:include src="/layout/layoutRodape.xhtml" />				
+	</ui:insert> 
+	<!-- final insert rodape -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col5">
+  <div id="copyright">
+	<!-- inicio insert subrodape -->
+	<ui:insert name="copyright">	
+		<ui:include src="/layout/layoutSubRodape.xhtml" />				
+	</ui:insert> 
+	<!-- final insert subrodape -->
+  </div>
+</div>
+
+	</h:form>
+	
+</h:body>
+
+</html>

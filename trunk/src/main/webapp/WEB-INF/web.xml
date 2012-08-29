@@ -7,8 +7,6 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		<!--  /WEB-INF/applicationContext.xml -->
-		<!--  /WEB-INF/spring-security.xml-->
 		/WEB-INF/applicationContext.xml
         /WEB-INF/spring-security-config.xml
 		</param-value>
@@ -34,12 +32,11 @@
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
-		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
 	<!-- PrimeFaces -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>bluesky</param-value>
+		<param-value>none</param-value>
 	</context-param>
 	
 	<filter>
@@ -75,9 +72,8 @@
 		<param-value>/WEB-INF/log4j.properties</param-value>
 	</context-param>
 	<welcome-file-list>
-		<welcome-file>index.jsf</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	<session-config>
 		<session-timeout>45</session-timeout>
