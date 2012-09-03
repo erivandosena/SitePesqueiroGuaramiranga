@@ -1,11 +1,34 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<ui:composition template="/layout/layoutPrincipalColuna.xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+      
+<h:head>
+<title><ui:insert name="tituloJanela" />xxx</title>
+<meta name="description" content="AMEX Advocacia e assessoria empresarial e do consumidor. Acesse #{siteControlador.webinfo.web_titulo} e veja mais #{siteControlador.detalhes.pag_titulo}" />
+<meta name="keywords" content="advocacia,assessoria,empresarial,consultoria,advogado,juridico,civel,familia,sucessoes,bancaria,fiscal,crimes financeiros,cobrancas,imobiliario, conteudo #{siteControlador.detalhes.pag_titulo}" />
+<link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
+<link rel="icon" type="image/gif" href="#{facesContext.externalContext.request.contextPath}/animated_favicon1.gif" />
+</h:head>
+      
+    <h:body>
+ 
+    	<ui:composition template="/layout/layoutPrincipal.xhtml">
+    	<ui:define name="tituloJanela"> xxxx<!--  #{siteControlador.webinfo.web_titulo} &#149; #{siteControlador.webinfo.web_slogan}--></ui:define>
 	
-	<ui:define name="tituloJanela"><!--  #{siteControlador.webinfo.web_titulo} &#149; #{siteControlador.webinfo.web_slogan}--></ui:define>
-	
-</ui:composition>
+		<ui:define name="featured_slide">	
+		xxxx
+		</ui:define>
+
+ 
+    	</ui:composition>
+ 
+    </h:body>
+ 
+</html>

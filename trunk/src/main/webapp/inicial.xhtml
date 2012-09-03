@@ -6,6 +6,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns="http://www.w3.org/1999/xhtml">
 	
-	<ui:define name="tituloJanela"><!--  #{siteControlador.webinfo.web_titulo} &#149; #{siteControlador.webinfo.web_slogan}--></ui:define>
+	<ui:define name="tituloJanela">#{siteBean.carregarDados.web_titulo} &#149; <!--  <h:outputText value="#{siteBean.carregarDados.web_titulo}" /> --></ui:define>
 	
 </ui:composition>
