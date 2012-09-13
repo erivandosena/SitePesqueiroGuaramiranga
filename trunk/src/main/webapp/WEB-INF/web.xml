@@ -62,6 +62,7 @@
 		<url-pattern>/primefaces_resource/*</url-pattern>
 	</servlet-mapping>
 	<!-- PrimeFaces -->
+	
 	<!-- log4j -->
 	<description>Aponta para a raiz do aplicativo web</description>
 	<listener>
