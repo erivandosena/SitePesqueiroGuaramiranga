@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+  
+	<ui:define name="featured_slide"></ui:define>
+	
+	<ui:define name="container">
+    <fieldset>
+      <legend>Cadastro do usuário</legend>
+      <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" />
+      <h:form id="formDados" rendered="#{!usuarioBean.modoEdicao}" prependId="false">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<h:outputText value="Pesquisa " />
+				<h:inputText maxlength="30" size="30" value="#{usuarioBean.usu_nome}">
+					<f:ajax event="keyup" render="listagem" listener="#{usuarioBean.filtrar}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+        <h:dataTable value="#{usuarioBean.usuarios}" var="usuario" id="listagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Nome</f:facet>
+            <h:outputText value="#{usuario.usu_nome}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header">E-mail</f:facet>
+            <h:outputText value="#{usuario.usu_email}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{usuarioBean.atualizar}" >
+              <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{usuarioBean.excluir}">
+              <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+        <h:commandButton value="Cadastrar" actionListener="#{usuarioBean.incluir}" />
+        <h:commandButton value="Atualizar" action="#{usuarioBean.retornar}" immediate="true" />
+      </h:form>
+      <h:form id="formEdicao" rendered="#{usuarioBean.modoEdicao}" prependId="false">
+        <h:panelGrid columns="1" border="0" >
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty usuarioBean.usuario.usu_cod}" styleClass=""/>
+			<h:inputText id="codigo" value="#{usuarioBean.usuario.usu_cod}" rendered="#{!empty usuarioBean.usuario.usu_cod}" readonly="#{!empty usuarioBean.usuario.usu_cod}" styleClass=""/>
+			
+			<h:outputLabel for="nome" value="Nome" styleClass=""/>
+			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="60" maxlength="50" required="true" requiredMessage="Campo obrigatório." styleClass="" />
+			<h:message for="nome" styleClass="msg_erro" />
+			
+			<h:outputLabel for="email" value="E-mail" styleClass=""/>
+			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="25" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass=""/>
+			<h:message for="email" styleClass="msg_erro" />
+			
+			<h:outputLabel for="senha" value="Senha" styleClass=""/>
+			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="15" maxlength="25" required="true" requiredMessage="Campo obrigatório." styleClass=""/>
+			<h:message for="senha" styleClass="msg_erro" />
+			
+			<h:outputLabel for="perfil" value="Perfil" styleClass=""/>
+			<h:selectOneMenu id="perfil" value="#{perfilBean.perfil.per_cod}" disabled="#{loginBean.usuarioEmSessao == 'ROLE_USER'}" required="false" requiredMessage="Campo obrigatório." styleClass="">
+				<f:selectItem itemValue="" itemLabel="Selecione" /> 
+				<f:selectItems value="#{perfilBean.perfis}"/>
+			</h:selectOneMenu>
+			
+		</h:panelGrid> 
+		
+        <h:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}"/>
+        <h:commandButton value="Cancelar" action="#{usuarioBean.retornar}" immediate="true" />
+
+      </h:form>
+    </fieldset>
+	</ui:define>
+	
+	<ui:define name="footer"></ui:define>
+  
+</ui:composition>

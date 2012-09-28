@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:sec="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+	<sec:http auto-config="true" access-denied-page="/negado.jsf">
+		
+		<sec:intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <sec:intercept-url pattern="/admin/**" access="ROLE_USUARIO, ROLE_ADMINISTRADOR" />	
+		
+		<sec:form-login 
+		login-page="/login.jsf" 
+		login-processing-url="/j_spring_security_check" 
+		default-target-url="/admin/index.jsf" 
+		authentication-failure-url="/login.jsf?login_error=true"
+		always-use-default-target="false" />
+		
+		<sec:logout 
+		logout-success-url="/login.jsf" 
+		logout-url="/j_spring_security_logout"
+		invalidate-session="true" />
+		
+		<!--  <sec:remember-me data-source-ref="dataSource" user-service-ref="usuarioDetailsService" token-validity-seconds="1209600"/> -->
+	</sec:http>
+
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:jdbc-user-service data-source-ref="dataSource" 
+			users-by-username-query="SELECT usu_email, usu_senha, usu_situacao, usu_alteracao FROM usuarios 
+			WHERE usu_email = ?" 
+			authorities-by-username-query="SELECT u.usu_email, p.per_nome FROM usuarios u 
+			INNER JOIN usuariosperfis up ON up.usu_cod = u.usu_cod 
+			INNER JOIN perfis p ON p.per_cod = up.per_cod 
+			AND u.usu_email = ?" />
+			<sec:password-encoder hash="md5" />
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+</beans>

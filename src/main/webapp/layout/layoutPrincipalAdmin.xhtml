@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xml:lang="pt-br">
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<title><ui:insert name="titulo"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Administrativo</ui:insert></title>
+<link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
+<link rel="icon" type="image/gif" href="#{facesContext.externalContext.request.contextPath}/animated_favicon1.gif" />
+<h:outputStylesheet library="css" name="layout.css" target="body" />
+</h:head>
+
+<h:body>
+
+<!-- form -->
+	
+<!-- ####################################################################################################### -->
+<div class="wrapper col1">
+  <div id="header">
+    <div id="logo">
+      <h1><a href="index.jsf">Administrativo</a></h1>
+      <p id="admin">Visualizar <a href="#{facesContext.externalContext.requestContextPath}/index.jsf">Website</a></p>
+    </div>
+    <div id="topnav">
+      <ul>
+        <li class="active"><a href="index.jsf">Principal</a></li>
+        <li><a href="site.jsf">Site</a></li>
+        <li><a href="pagina.jsf">Página</a></li>
+        <li><a href="evento.jsf">Evento</a></li>
+        <li><a href="galeriajsf">Galeria</a></li>
+        <li><a href="usuario.jsf">Usuário</a></li>
+        <!-- 
+        <li><a href="#">DropDown</a>
+          <ul>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 3</a></li>
+          </ul>
+        </li>
+        -->
+        <li class="last"><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Sair</a></li>
+      </ul>
+    </div>
+    <br class="clear" />
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col2">
+	<!-- inicio insert subtopo -->
+	<ui:insert name="featured_slide">	
+		<ui:include src="/layout/layoutSubTopo.xhtml" />				
+	</ui:insert> 
+	<!-- final insert subtopo -->
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col3">
+  <div id="container">
+	<!-- inicio insert conteudo -->
+	<ui:insert name="container">	
+		<ui:include src="/layout/layoutConteudo.xhtml" />				
+	</ui:insert> 
+	<!-- final insert conteudo -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col4">
+  <div id="footer">
+	<!-- inicio insert rodape -->
+	<ui:insert name="footer">	
+		<ui:include src="/layout/layoutRodape.xhtml" />				
+	</ui:insert> 
+	<!-- final insert rodape -->
+  </div>
+</div>
+<!-- ####################################################################################################### -->
+<div class="wrapper col5">
+  <div id="copyright">
+	<!-- inicio insert subrodape -->
+	<ui:insert name="copyright">	
+		<ui:include src="/layout/layoutSubRodape.xhtml" />				
+	</ui:insert> 
+	<!-- final insert subrodape -->
+  </div>
+</div>
+
+<!-- /form -->
+	
+</h:body>
+
+</html>
