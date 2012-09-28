@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+  
+	<ui:define name="featured_slide"></ui:define>
+	
+	<ui:define name="container">
+	
+ 	<fieldset>
+ 	
+      <legend>Cadastro de Página</legend>
+      <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" />
+      <h:form id="formDados" rendered="#{!paginaBean.modoEdicao}" prependId="false">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<h:outputText value="Pesquisa " />
+				<h:inputText maxlength="30" size="30" value="#{paginaBean.pag_titulo}">
+					<f:ajax event="keyup" render="listagem" listener="#{paginaBean.filtrar}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+        <h:dataTable value="#{paginaBean.paginas}" var="pagina" id="listagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Título</f:facet>
+            <h:outputText value="#{pagina.pag_titulo}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{paginaBean.atualizar}" >
+              <f:setPropertyActionListener target="#{paginaBean.pagina}" value="#{pagina}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{paginaBean.excluir}">
+              <f:setPropertyActionListener target="#{paginaBean.pagina}" value="#{pagina}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+        <h:commandButton value="Cadastrar" actionListener="#{paginaBean.incluir}" />
+        <h:commandButton value="Atualizar" action="#{paginaBean.retornar}" immediate="true" />
+      </h:form>
+      <h:form id="formEdicao" rendered="#{paginaBean.modoEdicao}" prependId="false">
+        <h:panelGrid columns="1" border="0" >
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty paginaBean.pagina.pag_cod}" />
+			<h:inputText id="codigo" value="#{paginaBean.pagina.pag_cod}" rendered="#{!empty paginaBean.pagina.pag_cod}" readonly="#{!empty paginaBean.pagina.pag_cod}" />
+			
+			<h:outputLabel for="nome" value="Título" />
+			<h:inputText id="nome" value="#{paginaBean.pagina.pag_titulo}" size="60" maxlength="50" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="nome" styleClass="msg_erro" />
+			
+			<h:outputLabel for="legenda" value="Legenda" />
+			<h:inputText id="legenda" value="#{paginaBean.pagina.pag_legenda}" size="40" maxlength="100" />
+			
+			<h:outputLabel for="conteudo" value="Conteúdo" />
+			<h:inputTextarea id="conteudo" rows="40" cols="72" value="#{paginaBean.pagina.pag_conteudo}" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="conteudo" styleClass="msg_erro" />
+			
+			<h:outputLabel for="extra" value="Conteúdo extra" />
+			<h:inputTextarea id="extra" rows="6" cols="72" value="#{paginaBean.pagina.pag_extra}" />
+			
+			<h:outputLabel for="posicao" value="Posição" />
+			<h:selectOneMenu id="posicao" value="#{paginaBean.pagina.pag_posicao}" required="true" requiredMessage="Campo obrigatório." onchange="#{paginaBean.pagina.pag_posicao}" >
+				<f:selectItem itemValue="" itemLabel="Selecione" /> 
+				<f:selectItems value="#{paginaBean.posicoes}" />	
+			</h:selectOneMenu>
+			<h:message for="posicao" styleClass="erro" />
+				
+		</h:panelGrid> 
+		
+        <h:commandButton value="Salvar" actionListener="#{paginaBean.salvar}"/>
+        <h:commandButton value="Cancelar" action="#{paginaBean.retornar}" immediate="true" />
+
+      </h:form>
+
+    </fieldset>
+	
+	</ui:define>
+	
+	<ui:define name="footer"></ui:define>
+  
+</ui:composition>

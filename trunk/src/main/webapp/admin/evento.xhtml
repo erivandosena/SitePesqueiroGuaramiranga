@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+  
+	<ui:define name="featured_slide"></ui:define>
+	
+	<ui:define name="container">
+	
+ 	<fieldset>
+ 	
+      <legend>Cadastro de Evento</legend>
+      
+     <!--  <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" /> -->
+     
+     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="true" /> 
+      
+      <h:form id="formDados" rendered="#{!eventoBean.modoEdicao}" prependId="false">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<h:outputText value="Pesquisa " />
+				<h:inputText maxlength="30" size="30" value="#{eventoBean.pub_titulo}">
+					<f:ajax event="keyup" render="listagem" listener="#{eventoBean.filtrar}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+        <h:dataTable value="#{eventoBean.eventos}" var="evento" id="listagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Título</f:facet>
+            <h:outputText value="#{evento.pub_titulo}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{eventoBean.atualizar}" >
+              <f:setPropertyActionListener target="#{eventoBean.evento}" value="#{evento}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{eventoBean.excluir}">
+              <f:setPropertyActionListener target="#{eventoBean.evento}" value="#{evento}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Adicionar/Remover Imagem" action="#{eventoBean.incluirImagem}" >
+              <f:setPropertyActionListener target="#{eventoBean.evento}" value="#{evento}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+        <h:commandButton value="Cadastrar" actionListener="#{eventoBean.incluir}" />
+        <h:commandButton value="Atualizar" action="#{eventoBean.retornar}" immediate="true" />
+      </h:form>
+      <h:form id="formEdicao" rendered="#{eventoBean.modoEdicao}" prependId="false">
+        <h:panelGrid columns="1" border="0" >
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty eventoBean.evento.pub_cod}" />
+			<h:inputText id="codigo" value="#{eventoBean.evento.pub_cod}" rendered="#{!empty eventoBean.evento.pub_cod}" readonly="#{!empty eventoBean.evento.pub_cod}" />
+			
+			<h:outputLabel for="nome" value="Título" />
+			<h:inputText id="nome" value="#{eventoBean.evento.pub_titulo}" size="99" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="nome" styleClass="msg_erro" />
+			
+			<h:outputLabel for="sumario" value="Resumo" />
+			<h:inputTextarea id="sumario" rows="5" cols="96" value="#{eventoBean.evento.pub_sumario}" />
+
+			<h:outputLabel for="conteudo" value="Conteúdo" />
+			<h:inputTextarea id="conteudo" rows="40" cols="96" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="conteudo" styleClass="msg_erro" />
+				
+		</h:panelGrid> 
+		
+        <h:commandButton value="Salvar" actionListener="#{eventoBean.salvar}"/>
+        <h:commandButton value="Cancelar" action="#{eventoBean.retornar}" immediate="true" />
+
+      </h:form>
+      <br />
+
+      <h:form id="formImagem" rendered="#{eventoBean.modoEdicaoImagem}" prependId="false">
+      
+      <h:outputText value="Evento selecionado: #{eventoBean.evento.pub_titulo}" />
+      <h:panelGrid columns="1" border="0" >
+      
+      <h:outputLabel for="descricao" value="Descrição da imagem" />
+	  <h:inputText id="descricao" value="#{eventoBean.imagem.ima_descricao}" size="150" maxlength="150" />
+	  
+	  <h:outputLabel for="upload" value="Imagem do evento"/>
+      <p:fileUpload id="upload" sizeLimit="52428800" auto="true" widgetVar="uploader" label="Localizar..." fileUploadListener="#{eventoBean.handleFileUpload}" allowTypes="*.jpg" description="Arquivos de imagens *.jpg" update="mensagens,btSalvar,imagem" multiple="false" customUI="true" />
+
+	  </h:panelGrid>
+	  
+	  <h:dataTable value="#{eventoBean.imagens}" var="imagem" id="listagemImagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Imagem</f:facet>
+            <a href="#" title="#{imagem.ima_descricao}">
+            <img src="#{facesContext.externalContext.request.contextPath}/upload/#{imagem.evento.pub_cod}/#{imagem.ima_normal}" border="0" height="80" alt="#{imagem.ima_descricao}" />
+            </a>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{eventoBean.atualizarImagem}" >
+              <f:setPropertyActionListener target="#{eventoBean.imagem}" value="#{imagem}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" action="#{eventoBean.excluirImagem}" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" >
+              <f:setPropertyActionListener target="#{eventoBean.imagem}" value="#{imagem}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+
+      <h:commandButton id="btSalvar" value="Salvar" actionListener="#{eventoBean.salvarImagem}" disabled="#{eventoBean.bytesImagem eq null}"/>
+      <h:commandButton value="Cancelar" action="#{eventoBean.retornar}" immediate="true" />
+      
+      </h:form>
+
+    </fieldset>
+	
+	</ui:define>
+	
+	<ui:define name="footer"></ui:define>
+  
+</ui:composition>
