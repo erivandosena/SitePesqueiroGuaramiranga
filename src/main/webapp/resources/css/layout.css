@@ -25,7 +25,6 @@ br.clear{clear:both; margin-top:-15px;}
 
 a{
 	color:#B2C629;
-	background-color:#FFFFFF;
 	outline:none;
 	text-decoration:none;
 	}
@@ -93,8 +92,8 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	}
 
 #header #logo h1{
-	font-size:36px;
-	text-transform:uppercase;
+	font-size:34px;
+	text-transform:capitalize;
 	}
 
 #header h1 a{
@@ -704,6 +703,18 @@ input, textarea, select{font-size:12px; font-family:Verdana, Arial, Helvetica, s
 	background-color:#C80000;
 	border-color:#C80000;
 	cursor:pointer;
+	}
+	
+/* -----------------------------------------------Mensagens---------------------------------------*/
+	
+.msg_ok {
+	color: green;
+	}
+.msg_aviso {
+	color: blue;
+	}
+.msg_erro {
+	color: red;
 	}
 	
 /* ----------------------------------------------Fim-------------------------------------*/

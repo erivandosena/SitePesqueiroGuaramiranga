@@ -1,5 +1,5 @@
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-	response.sendRedirect("inicial.jsf");
+	response.sendRedirect("index.jsf");
 %>

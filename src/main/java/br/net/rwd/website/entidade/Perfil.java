@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +26,8 @@ public class Perfil implements Serializable, GrantedAuthority {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer per_cod;
 	private String per_nome;
-	@ManyToMany(fetch=FetchType.EAGER)
+	
+	@ManyToMany(targetEntity=Usuario.class)
 	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 	
