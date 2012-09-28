@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -8,44 +8,42 @@
 	xml:lang="pt-br">
 
 <h:head>
-<title><ui:insert name="tituloJanela" /></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><ui:insert name="titulo">#{siteBean.carregarDados.web_titulo}<h:outputText value=" - #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_slogan}" /></ui:insert></title>
 
 <meta name="description" content="AMEX Advocacia e assessoria empresarial e do consumidor. Acesse #{siteControlador.webinfo.web_titulo} e veja mais #{siteControlador.detalhes.pag_titulo}" />
 <meta name="keywords" content="advocacia,assessoria,empresarial,consultoria,advogado,juridico,civel,familia,sucessoes,bancaria,fiscal,crimes financeiros,cobrancas,imobiliario, conteudo #{siteControlador.detalhes.pag_titulo}" />
+
 <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
 <link rel="icon" type="image/gif" href="#{facesContext.externalContext.request.contextPath}/animated_favicon1.gif" />
 
-
-	<h:outputStylesheet library="css" name="layout.css" target="body" />
-	<h:outputScript library="javascript" name="jquery-1.4.1.min.js" target="head"/>
-	<h:outputScript library="javascript" name="jquery.jcarousel.pack.js" target="head"/>
-	<h:outputScript library="javascript" name="jquery.jcarousel.setup.js" target="head"/>
-
+<h:outputStylesheet library="css" name="layout.css" target="body" />
+<h:outputScript library="javascript" name="jquery-1.4.1.min.js" target="head"/>
+<h:outputScript library="javascript" name="jquery.jcarousel.pack.js" target="head"/>
+<h:outputScript library="javascript" name="jquery.jcarousel.setup.js" target="head"/>
 </h:head>
 
 <h:body>
 
-	<h:form id="formSite" prependId="false">
+<!-- form -->
 	
 <!-- ####################################################################################################### -->
 <div class="wrapper col1">
   <div id="header">
 	<!-- inicio insert topo -->
 	<ui:insert name="header">	
-		<ui:include src="/layout/layoutTopoTeste.xhtml" />				
+		<ui:include src="/layout/layoutTopo.xhtml" />				
 	</ui:insert> 
 	<!-- final insert topo -->
   </div>
 </div>
 <!-- ####################################################################################################### -->
 <div class="wrapper col2">
-  <div id="featured_slide">
 	<!-- inicio insert subtopo -->
 	<ui:insert name="featured_slide">	
 		<ui:include src="/layout/layoutSubTopo.xhtml" />				
 	</ui:insert> 
 	<!-- final insert subtopo -->
-  </div>
 </div>
 <!-- ####################################################################################################### -->
 <div class="wrapper col3">
@@ -78,7 +76,7 @@
   </div>
 </div>
 
-	</h:form>
+<!-- /form -->
 	
 </h:body>
 

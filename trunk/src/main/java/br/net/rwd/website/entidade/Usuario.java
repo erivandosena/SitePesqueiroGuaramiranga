@@ -3,6 +3,7 @@ package br.net.rwd.website.entidade;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,12 +19,10 @@ import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "usuarios")
-// @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Usuario implements Serializable, UserDetails {
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,8 +38,9 @@ public class Usuario implements Serializable, UserDetails {
 	private String usu_cep;
 	private String usu_estado;
 	private boolean usu_situacao = true;
+	private Date usu_alteracao;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity=Perfil.class,fetch=FetchType.LAZY)
 	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "usu_cod"), inverseJoinColumns = @JoinColumn(name = "per_cod"))
 	private List<Perfil> perfis = new ArrayList<Perfil>();
 
@@ -161,6 +161,14 @@ public class Usuario implements Serializable, UserDetails {
 
 	public void setUsu_situacao(boolean usu_situacao) {
 		this.usu_situacao = usu_situacao;
+	}
+
+	public Date getUsu_alteracao() {
+		return usu_alteracao;
+	}
+
+	public void setUsu_alteracao(Date usu_alteracao) {
+		this.usu_alteracao = usu_alteracao;
 	}
 
 	public List<Perfil> getPerfis() {

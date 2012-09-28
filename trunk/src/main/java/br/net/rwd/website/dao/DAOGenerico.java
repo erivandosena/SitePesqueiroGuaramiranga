@@ -59,16 +59,9 @@ public class DAOGenerico<T extends Serializable> {
 		return (List<T>) consulta.getResultList();
 	}
 
-	@SuppressWarnings("hiding")
-	@Transactional
-	public <T> T obterEntidade(Class<T> classe, Serializable chave) {
-		T entidade = entityManager.find(classe, chave);
-		return entidade;
-	}
-
 	@SuppressWarnings({ "hiding", "unchecked" })
 	@Transactional
-	public <T> T obterEntidade(Class<T> classe, String jpql, Object... parametros) {
+	public <T> T obterEntidade(Class<T> classe, String jpql, Serializable... parametros) {
 		Query consulta = entityManager.createQuery(jpql);
 		T entidade = null;
 		try {
@@ -81,6 +74,13 @@ public class DAOGenerico<T extends Serializable> {
 		} catch (NoResultException nre) {
 			log4j.error(nre);
 		}
+		return entidade;
+	}
+	
+	@SuppressWarnings("hiding")
+	@Transactional
+	public <T> T obterEntidade(Class<T> classe, Integer chave) {
+		T entidade = entityManager.find(classe, chave);
 		return entidade;
 	}
 

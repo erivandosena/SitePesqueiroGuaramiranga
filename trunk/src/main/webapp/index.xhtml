@@ -1,56 +1,11 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/layout/layoutPrincipal.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml">
 	
-   <h:head>
-    
-       <title>
-       		Spring + Security + Hibernate
-       </title>
-       
-       <link href="#{facesContext.externalContext.requestContextPath}/css/redmond/skin.css" rel="stylesheet" type="text/css" />
-        
-   </h:head> 
-   
-   <h:body style="font-size: 10pt">
-   
-   <h:form prependId="false">     
-  		
-   		<p:dialog header="Spring + Security + Hibernate"
-   				  modal="true"
-   				  closable="false"
-   				  position="center"
-   				  widgetVar="modalInicio"
-   				  width="400"
-   				  height="400"
-   		    	  draggable="false"
-   		    	  resizable="false"
-   		    	  visible="true">
-   		    
-   		    <center>	  
-   		    	<img src="#{facesContext.externalContext.requestContextPath}/img/spring_security.jpg" />
-   		    </center>
-   		    
-   		    <br />
-   		    <br />
-   		    <br />	 
-   		    
-   		    <ul>
-		       <li><h:link value="Site" outcome="site"/></li>
-		       <li><a href="#{facesContext.externalContext.request.contextPath}/login.jsf">Login</a></li>
-		       <li><a href="#{facesContext.externalContext.requestContextPath}/admin/admin.jsf">Página do administrador</a></li>
-		       <li><a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Sair</a></li>
-	        </ul>   		
-	        
-   		</p:dialog>	
-   		
-   	</h:form>					 
- 	
- 	</h:body>
- 
-</html>
+	<ui:define name="tituloJanela">#{siteBean.carregarDados.web_titulo} &#149; <!--  <h:outputText value="#{siteBean.carregarDados.web_titulo}" /> --></ui:define>
+	
+</ui:composition>

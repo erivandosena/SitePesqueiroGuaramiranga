@@ -1,5 +1,6 @@
 package br.net.rwd.website.controle;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -340,11 +341,11 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
         if (site.getWeb_cod() == null || site.getWeb_cod().intValue() == 0) {
             site = model.incluirSite(site);
             site = new Site();
-            addInfoMessage("Site criado com sucesso.");
+            addInfoMensagem("Site criado com sucesso.");
             retornar();
         } else {
-            model.editarSite(site);
-            addInfoMessage("Site alterado com sucesso.");
+            model.alterarSite(site);
+            addInfoMensagem("Site alterado com sucesso.");
             retornar();
         }
 	}
@@ -361,7 +362,7 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
 	}
 
 	@Override
-	public void filtrarSite(AjaxBehaviorEvent event) {
+	public void filtrar(AjaxBehaviorEvent event) {
         if (web_titulo != null && !web_titulo.isEmpty()) {
             sites = model.listarSite(web_titulo);
         } else {
@@ -379,14 +380,45 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
 	/* ------------------------------------------------- */
 	
 	public Site getCarregarDados() {
-		Site site = model.listarSite().set(0, null);
-		if (!site.equals(null) || !site.getWeb_titulo().isEmpty()) {
-			return site;
+		List<Site> lista = model.listarSite();
+		if (lista.isEmpty())
+			return null;
+		else
+			return (Site) lista.set(0, null);
+	}
+
+	public String getSaldacao() {
+		String texto = null;
+		Calendar DataToda = Calendar.getInstance();
+		int HoraAtual = DataToda.get(Calendar.HOUR_OF_DAY);
+		switch (HoraAtual) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+			texto = "Bom dia!";
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+			texto = "Boa tarde!";
+			break;
+		default:
+			texto = "Boa noite!";
+			break;
 		}
-		else {
-			site = null;
-		}
-		return site;
+		return texto;
 	}
 
 }

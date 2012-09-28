@@ -1,59 +1,67 @@
 package br.net.rwd.website.servico;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.net.rwd.website.dao.DAOGenerico;
 import br.net.rwd.website.dao.UsuarioDAO;
 import br.net.rwd.website.entidade.Usuario;
 
 @Service("usuarioServico")
-public class UsuarioServico {// extends HibernateDaoSupport implements UserDetailsService {
+public class UsuarioServico extends DAOGenerico<Serializable> {
 
 	@Autowired
 	private UsuarioDAO dao;
-
-	/*
-	@Autowired
-	public UsuarioServico(SessionFactory sessionFactory) {
-		setSessionFactory(sessionFactory);
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String login) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(Usuario.class, "usuario");
-		criteria.add(Restrictions.eq("usuario.usu_email", login));
-		List<?> resultado = getHibernateTemplate().findByCriteria(criteria);
-		if (resultado != null && resultado.size() == 0) {
-			throw new UsernameNotFoundException("Usuário não encontrado!");
-		}
-		return (Usuario) resultado.get(0);
-	}
-	*/
-
-	public List<Usuario> getAllUsuarios() {
-		return dao.findAll();
-	}
-
-	public List<Usuario> getUsuariosByName(String nomeUsuario) {
-		return dao.findByName(nomeUsuario);
-	}
-
-	public Usuario createUsuario(Usuario usuario) {
-		return dao.create(usuario);
-	}
-
-	public void updateUsuario(Usuario usuario) {
-		dao.update(usuario);
-	}
-
-	public void deleteUsuario(Usuario usuario) {
-		dao.delete(usuario);
-
-	}
-
-	public void setDao(UsuarioDAO dao) {
+	
+	protected void setDao(UsuarioDAO dao) {
 		this.dao = dao;
 	}
+	
+	public Usuario incluirUsuario(Usuario usuario) {
+		return dao.adicionar(usuario);
+	}
+	
+	public void alterarUsuario(Usuario usuario) {
+		dao.atualizar(usuario);
+	}
+	
+	public void excluirUsuario(Usuario usuario) {
+		dao.remover(usuario);
+	}
+	
+	public Usuario selecionarUsuarios() {
+		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u");
+	}
+	
+	public Usuario selecionarUsuario(int codigo) {
+		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_cod = ?1", codigo);
+	}
+	
+	public Usuario selecionarUsuario(String nome) {
+		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome = ?1", nome);
+	}
+	
+	public Usuario selecionarUsuarioLogin(String login) {
+		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_email = ?1", login);
+	}
+	
+	public List<Usuario> listarUsuarios() {
+		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u ORDER BY u.usu_cod ASC");
+	}
+	
+	public List<Usuario> listarUsuario(int codigo) {
+		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_cod = ?1", codigo);
+	}
+	
+	public List<Usuario> listarUsuario(String nome) {
+		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome = ?1", nome);
+	}
+	
+	public List<Usuario> listarLikeUsuario(String nome) {
+		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome like ?1", nome);
+	}
+	
 }

@@ -12,7 +12,7 @@ public interface CrudBeans<T> {
 
 	public void excluir();
 
-	public void filtrarSite(AjaxBehaviorEvent event);
+	public void filtrar(AjaxBehaviorEvent event);
 
 	public String retornar();
 	

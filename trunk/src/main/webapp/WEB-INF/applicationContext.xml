@@ -13,19 +13,23 @@
 	<context:annotation-config />
 	
 	<!-- Define o pacote onde o Spring vai procurar por beans anotados -->
-	<context:component-scan base-package="br.net.rwd.website.dao, br.net.rwd.website.servico" />
+	<context:component-scan base-package="br.net.rwd.website.dao, br.net.rwd.website.servico, br.net.rwd.website.controle" />
 	
 	<!-- define que as transaçoes irao ser anotadas -->
 	<tx:annotation-driven />
 	
 	<!-- Configuracao do Banco de Dados -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost:5432/pesqueiro" />
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/pesqueiro" />
 		<property name="username" value="postgres" />
-		<property name="password" value="postgres" />
+		<property name="password" value="postgres" /> 
+  <!--  <property name="url" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/camaramulungu" />
+        <property name="username" value="camaramulungu" />
+		<property name="password" value="33281120" /> -->
+		
 	</bean>
-	
+
 	<!-- Configuracao do Hibernate -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="WebSitePU" />
@@ -42,5 +46,12 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-
+	
+	<!-- Envio de e-mail do Spring  -->
+	<bean id="enviarEmail" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.camaramulungu.com.br"/>
+		<property name="username" value="camara@camaramulungu.com.br"/>
+		<property name="password" value="33281120"/>
+	</bean>
+	
 </beans>
