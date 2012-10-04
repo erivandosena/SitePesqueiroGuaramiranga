@@ -50,18 +50,18 @@
       <h:form id="formEdicao" rendered="#{usuarioBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
 			<h:outputLabel for="codigo" value="Código" rendered="#{!empty usuarioBean.usuario.usu_cod}" styleClass=""/>
-			<h:inputText id="codigo" value="#{usuarioBean.usuario.usu_cod}" rendered="#{!empty usuarioBean.usuario.usu_cod}" readonly="#{!empty usuarioBean.usuario.usu_cod}" styleClass=""/>
+			<h:inputText id="codigo" value="#{usuarioBean.usuario.usu_cod}" rendered="#{!empty usuarioBean.usuario.usu_cod}" readonly="#{!empty usuarioBean.usuario.usu_cod}" size="10" styleClass=""/>
 			
 			<h:outputLabel for="nome" value="Nome" styleClass=""/>
-			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="60" maxlength="50" required="true" requiredMessage="Campo obrigatório." styleClass="" />
+			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Campo obrigatório." styleClass="" />
 			<h:message for="nome" styleClass="msg_erro" />
 			
 			<h:outputLabel for="email" value="E-mail" styleClass=""/>
-			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="25" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass=""/>
+			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass=""/>
 			<h:message for="email" styleClass="msg_erro" />
 			
 			<h:outputLabel for="senha" value="Senha" styleClass=""/>
-			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="15" maxlength="25" required="true" requiredMessage="Campo obrigatório." styleClass=""/>
+			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" required="true" requiredMessage="Campo obrigatório." styleClass=""/>
 			<h:message for="senha" styleClass="msg_erro" />
 			
 			<h:outputLabel for="perfil" value="Perfil" styleClass=""/>

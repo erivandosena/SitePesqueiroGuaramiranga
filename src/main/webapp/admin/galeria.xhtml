@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+  
+	<ui:define name="featured_slide"></ui:define>
+	
+	<ui:define name="container">
+	
+ 	<fieldset>
+ 	
+      <legend>Cadastro de Galeria de Fotos</legend>
+
+     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
+      
+      <h:form id="formDados" rendered="#{!galeriaBean.modoEdicaoGaleria}" prependId="false">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<h:outputText value="Pesquisa " />
+				<h:inputText maxlength="30" size="30" value="#{galeriaBean.gal_titulo}">
+					<f:ajax event="keyup" render="listagem" listener="#{galeriaBean.filtrar}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+        <h:dataTable value="#{galeriaBean.galerias}" var="galeria" id="listagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Título</f:facet>
+            <h:outputText value="#{galeria.gal_titulo}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{galeriaBean.atualizar}" >
+              <f:setPropertyActionListener target="#{galeriaBean.galeria}" value="#{galeria}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{galeriaBean.excluir}">
+              <f:setPropertyActionListener target="#{galeriaBean.galeria}" value="#{galeria}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Gerenciar foto" action="#{galeriaBean.incluirFoto}" >
+              <f:setPropertyActionListener target="#{galeriaBean.galeria}" value="#{galeria}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+        <h:commandButton value="Cadastrar" actionListener="#{galeriaBean.incluir}" />
+        <h:commandButton value="Atualizar" action="#{galeriaBean.retornar}" immediate="true" />
+      </h:form>
+      <h:form id="formEdicao" rendered="#{galeriaBean.modoEdicaoGaleria}" prependId="false">
+        <h:panelGrid columns="1" border="0" >
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty galeriaBean.galeria.gal_cod}" />
+			<h:inputText id="codigo" value="#{galeriaBean.galeria.gal_cod}" rendered="#{!empty galeriaBean.galeria.gal_cod}" readonly="#{!empty galeriaBean.galeria.gal_cod}" size="10" />
+			
+			<h:outputLabel for="nome" value="Título" />
+			<h:inputText id="nome" value="#{galeriaBean.galeria.gal_titulo}" size="99" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="nome" styleClass="msg_erro" />
+			
+			<h:outputLabel for="sumario" value="Descrição da galeria" />
+			<h:inputTextarea id="sumario" rows="5" cols="96" value="#{galeriaBean.galeria.gal_descricao}" />	
+		</h:panelGrid> 
+		
+        <h:commandButton value="Salvar" actionListener="#{galeriaBean.salvar}"/>
+        <h:commandButton value="Cancelar" action="#{galeriaBean.retornar}" immediate="true" />
+
+      </h:form>
+      <br />
+
+      <h:form id="formFoto" rendered="#{galeriaBean.modoEdicaoFoto}" prependId="false">
+      
+      <h:outputText value="Galeria selecionada: #{galeriaBean.galeria.gal_titulo}" />
+      <h:panelGrid columns="1" border="0" >
+      
+      <h:outputLabel for="descricao" value="Descrição da foto" />
+	  <h:inputText id="descricao" value="#{galeriaBean.foto.fot_descricao}" size="150" maxlength="150" />
+	  
+	  <h:outputLabel for="upload" value="Foto da galeria"/>
+      <p:fileUpload id="upload" sizeLimit="52428800" auto="true" widgetVar="uploader" label="Localizar..." fileUploadListener="#{galeriaBean.handleFileUpload}" allowTypes="*.jpg" description="Arquivos de fotos *.jpg" update="mensagens,btSalvar,foto" multiple="false" customUI="true" />
+
+	  </h:panelGrid>
+	  
+	  <h:dataTable value="#{galeriaBean.fotos}" var="foto" id="listagemFoto" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Foto</f:facet>
+            <a href="#" title="#{foto.fot_descricao}">
+            <img src="#{facesContext.externalContext.request.contextPath}/upload/galeria/#{foto.galeria.gal_cod}/#{foto.fot_foto}" border="0" height="80" alt="#{foto.fot_descricao}" />
+            </a>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{galeriaBean.atualizarFoto}" >
+              <f:setPropertyActionListener target="#{galeriaBean.foto}" value="#{foto}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" action="#{galeriaBean.excluirFoto}" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" >
+              <f:setPropertyActionListener target="#{galeriaBean.foto}" value="#{foto}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+
+      <h:commandButton id="btSalvar" value="Salvar" actionListener="#{galeriaBean.salvarFoto}" disabled="#{galeriaBean.bytesFoto eq null}"/>
+      <h:commandButton value="Cancelar" action="#{galeriaBean.retornar}" immediate="true" />
+      
+      </h:form>
+
+    </fieldset>
+	
+	</ui:define>
+	
+	<ui:define name="footer"></ui:define>
+  
+</ui:composition>

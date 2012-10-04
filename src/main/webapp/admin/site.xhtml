@@ -40,84 +40,68 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{siteBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-          <h:outputLabel value="Código" rendered="#{!empty siteBean.site.web_cod}" styleClass="" />
-          <h:inputText id="codigo" value="#{siteBean.site.web_cod}" rendered="#{!empty siteBean.site.web_cod}" readonly="#{!empty siteBean.site.web_cod}" styleClass="" />
+          <h:outputLabel for="codigo" value="Código" rendered="#{!empty siteBean.site.web_cod}" styleClass="" />
+          <h:inputText id="codigo" value="#{siteBean.site.web_cod}" rendered="#{!empty siteBean.site.web_cod}" readonly="#{!empty siteBean.site.web_cod}" size="10" styleClass="" />
           
-          <h:outputLabel value="Título" styleClass="" />
-          <h:inputText id="titulo" value="#{siteBean.site.web_titulo}" required="true" requiredMessage="Campo obrigatório." size="25" maxlength="100" styleClass="" />
+          <h:outputLabel for="titulo" value="Título" styleClass="" />
+          <h:inputText id="titulo" value="#{siteBean.site.web_titulo}" required="true" requiredMessage="Campo obrigatório." size="50" maxlength="100" styleClass="" />
           <h:message for="titulo" styleClass="msg_erro" />
           
-          <h:outputLabel value="Slogan" styleClass="" />
+          <h:outputLabel for="slogan" value="Slogan" styleClass="" />
           <h:inputText id="slogan" value="#{siteBean.site.web_slogan}" size="50" maxlength="50" styleClass="" />
           
-          <h:outputLabel value="Descrição do perfil" styleClass="" />
-          <h:inputTextarea id="descricao" rows="20" cols="70" value="#{siteBean.site.web_descricao}" styleClass="" />
+          <h:outputLabel for="descricao" value="Sobre o site ou Informações" styleClass="" />
+          <h:inputTextarea id="descricao" rows="25" cols="100" value="#{siteBean.site.web_descricao}" styleClass="" />
           
-          <h:outputLabel value="Nome do responsável" styleClass="" />
+          <h:outputLabel for="proprietario" value="Nome do responsável" styleClass="" />
           <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" styleClass="" />
           
-          <h:outputLabel value="Endereço" styleClass="" />
+          <h:outputLabel for="endereco" value="Endereço" styleClass="" />
           <h:inputText id="endereco" value="#{siteBean.site.web_endereco}" size="50" maxlength="100" styleClass="" />
           
-          <h:outputLabel value="Número" styleClass="" />
-          <h:inputText id="numero" value="#{siteBean.site.web_numero}" size="5" maxlength="10" styleClass="" />
+          <h:outputLabel for="numero" value="Número" styleClass="" />
+          <h:inputText id="numero" value="#{siteBean.site.web_numero}" size="10" maxlength="10" styleClass="" />
           
-          <h:outputLabel value="Bairro" styleClass="" />
+          <h:outputLabel for="bairro" value="Bairro" styleClass="" />
           <h:inputText id="bairro" value="#{siteBean.site.web_bairro}" size="25" maxlength="40" styleClass="" />
           
-          <h:outputLabel value="CEP" styleClass="" />
+          <h:outputLabel for="cep" value="CEP" styleClass="" />
           <h:inputText id="cep" value="#{siteBean.site.web_cep}" size="10" maxlength="10" styleClass="" />
           
-          <h:outputLabel value="Cidade" styleClass="" />
+          <h:outputLabel for="cidade" value="Cidade" styleClass="" />
           <h:inputText id="cidade" value="#{siteBean.site.web_cidade}" size="25" maxlength="40" styleClass="" />
           
-          <h:outputLabel value="UF do Estado" styleClass="" />
-          <h:inputText id="ufestado" value="#{siteBean.site.web_estado}" size="5" maxlength="2" styleClass="" />
+          <h:outputLabel for="ufestado" value="UF do Estado" styleClass="" />
+          <h:inputText id="ufestado" value="#{siteBean.site.web_estado}" size="10" maxlength="2" styleClass="" />
 
-          <h:outputLabel value="Telefone" styleClass="" />
-          <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="10" maxlength="15" styleClass="" />
+          <h:outputLabel for="telefone" value="Telefone" styleClass="" />
+          <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="25" maxlength="15" styleClass="" />
           
-          <h:outputLabel value="E-mail" styleClass="" />
-          <h:inputText id="email" value="#{siteBean.site.web_email}" size="40" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass="" />
+          <h:outputLabel for="site" value="#{msg.blog} #{msg.exemploUrl}" styleClass="" />
+          <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" styleClass="" />
+          
+          <h:outputLabel for="blog" value="#{msg.messenger}" styleClass="" />
+          <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" styleClass="" />
+          
+          <h:outputLabel for="email" value="E-mail" styleClass="" />
+          <h:inputText id="email" value="#{siteBean.site.web_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass="" />
           <h:message for="email" styleClass="msg_erro" />
+ 
+          <h:outputLabel for="messenger" value="Messenger" styleClass="" />
+          <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="50" maxlength="100" styleClass="" />
           
-          <!--
-          <h:message for="email" styleClass="" />
-          <h:outputLabel value="#{msg.site} #{msg.exemploUrl}" styleClass="" />
-          
-          <h:inputText id="site" value="#{siteBean.site.web_site}" size="40" maxlength="50" styleClass="" />
-          <h:outputLabel value="#{msg.blog} #{msg.exemploUrl}" styleClass="" />
-          
-          <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="40" maxlength="250" styleClass="" />
-          <h:outputLabel value="#{msg.messenger}" styleClass="" />
-          
-          <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="40" maxlength="100" styleClass="" />
-          <h:outputLabel value="#{msg.skype} #{msg.exemploUrl}" styleClass="" />
-          
-          <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="40" maxlength="50" styleClass="" />
-          <h:outputLabel value="#{msg.orkut} #{msg.exemploUrl}" styleClass="" />
-          
-          <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="40" maxlength="250" styleClass="" />
-          <h:outputLabel value="#{msg.twitter} #{msg.exemploUrl}" styleClass="" />
-          
-		  <h:outputLabel value="#{msg.twitter} #{msg.exemploUrl}" styleClass="" />
-	      <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="40" maxlength="250" styleClass="edit" />
+          <h:outputLabel for="skype" value="Skype" styleClass="" />          
+          <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" styleClass="" />
+
+          <h:outputLabel for="orkut" value="Orkut" styleClass="" />          
+          <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" styleClass="" />
+
+		  <h:outputLabel for="twitter" value="Twitter" styleClass="" />
+	      <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
 	      
-          <h:outputLabel value="#{msg.facebook} #{msg.exemploUrl}" styleClass="" />
-          <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="40" maxlength="250" styleClass="" />
+          <h:outputLabel for="facebook" value="Facebook" styleClass="" />
+          <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" styleClass="" />
           
-          <h:outputLabel value="#{msg.linkedin} #{msg.exemploUrl}" styleClass="" />
-          <h:inputText id="linkedin" value="#{siteBean.site.web_linkedin}" size="40" maxlength="250" styleClass="" />
-          
-          <h:outputLabel value="#{msg.flickr} #{msg.exemploUrl}" styleClass="" />
-          <h:inputText id="flickr" value="#{siteBean.site.web_flickr}" size="40" maxlength="250" styleClass="" />
-          
-          <h:outputLabel value="#{msg.myspace} #{msg.exemploUrl}" styleClass="" />
-          <h:inputText id="myspace" value="#{siteBean.site.web_myspace}" size="40" maxlength="250" styleClass="" />
-          
-          <h:outputLabel value="#{msg.vimeo} #{msg.exemploUrl}" styleClass="" />
-          <h:inputText id="vimeo" value="#{siteBean.site.web_vimeo}" size="40" maxlength="250" styleClass="" />
-          -->
         </h:panelGrid>
         <h:commandButton value="Salvar" actionListener="#{siteBean.salvar}" />
         <h:commandButton value="Cancelar" action="#{siteBean.retornar}" immediate="true" />

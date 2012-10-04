@@ -17,7 +17,7 @@
       
      <!--  <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" /> -->
      
-     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="true" /> 
+     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
       
       <h:form id="formDados" rendered="#{!eventoBean.modoEdicao}" prependId="false">
 		<h:panelGrid columns="1">
@@ -47,7 +47,7 @@
           </h:column>
           <h:column>
             <f:facet name="header"></f:facet>
-            <h:commandLink value="Adicionar/Remover Imagem" action="#{eventoBean.incluirImagem}" >
+            <h:commandLink value="Gerenciar imagem" action="#{eventoBean.incluirImagem}" >
               <f:setPropertyActionListener target="#{eventoBean.evento}" value="#{evento}" />
             </h:commandLink>
           </h:column>
@@ -58,17 +58,17 @@
       <h:form id="formEdicao" rendered="#{eventoBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
 			<h:outputLabel for="codigo" value="Código" rendered="#{!empty eventoBean.evento.pub_cod}" />
-			<h:inputText id="codigo" value="#{eventoBean.evento.pub_cod}" rendered="#{!empty eventoBean.evento.pub_cod}" readonly="#{!empty eventoBean.evento.pub_cod}" />
+			<h:inputText id="codigo" value="#{eventoBean.evento.pub_cod}" rendered="#{!empty eventoBean.evento.pub_cod}" readonly="#{!empty eventoBean.evento.pub_cod}" size="10" />
 			
 			<h:outputLabel for="nome" value="Título" />
 			<h:inputText id="nome" value="#{eventoBean.evento.pub_titulo}" size="99" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
-			<h:outputLabel for="sumario" value="Resumo" />
+			<h:outputLabel for="sumario" value="Resumo do conteúdo" />
 			<h:inputTextarea id="sumario" rows="5" cols="96" value="#{eventoBean.evento.pub_sumario}" />
 
 			<h:outputLabel for="conteudo" value="Conteúdo" />
-			<h:inputTextarea id="conteudo" rows="40" cols="96" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
+			<h:inputTextarea id="conteudo" rows="30" cols="96" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="conteudo" styleClass="msg_erro" />
 				
 		</h:panelGrid> 

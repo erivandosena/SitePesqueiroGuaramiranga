@@ -33,18 +33,12 @@ public class Site implements Serializable {
 	private String web_orkut;
 	private String web_twitter;
 	private String web_facebook;
-	private String web_flickr;
-	private String web_linkedin;
-	private String web_myspace;
-	private String web_vimeo;
 	private String web_youtube;
 	private String web_blog;
 	private String web_localizacao;
 	private String web_messenger;
 	private String web_skype;
-	private byte[] web_img_padrao;
-	private String web_img_mime;
-	private String web_img_nome;
+	private String web_logomarca;
 
 	public Integer getWeb_cod() {
 		return web_cod;
@@ -182,38 +176,6 @@ public class Site implements Serializable {
 		this.web_facebook = web_facebook;
 	}
 
-	public String getWeb_flickr() {
-		return web_flickr;
-	}
-
-	public void setWeb_flickr(String web_flickr) {
-		this.web_flickr = web_flickr;
-	}
-
-	public String getWeb_linkedin() {
-		return web_linkedin;
-	}
-
-	public void setWeb_linkedin(String web_linkedin) {
-		this.web_linkedin = web_linkedin;
-	}
-
-	public String getWeb_myspace() {
-		return web_myspace;
-	}
-
-	public void setWeb_myspace(String web_myspace) {
-		this.web_myspace = web_myspace;
-	}
-
-	public String getWeb_vimeo() {
-		return web_vimeo;
-	}
-
-	public void setWeb_vimeo(String web_vimeo) {
-		this.web_vimeo = web_vimeo;
-	}
-
 	public String getWeb_youtube() {
 		return web_youtube;
 	}
@@ -254,28 +216,12 @@ public class Site implements Serializable {
 		this.web_skype = web_skype;
 	}
 
-	public byte[] getWeb_img_padrao() {
-		return web_img_padrao;
+	public String getWeb_logomarca() {
+		return web_logomarca;
 	}
 
-	public void setWeb_img_padrao(byte[] web_img_padrao) {
-		this.web_img_padrao = web_img_padrao;
-	}
-
-	public String getWeb_img_mime() {
-		return web_img_mime;
-	}
-
-	public void setWeb_img_mime(String web_img_mime) {
-		this.web_img_mime = web_img_mime;
-	}
-
-	public String getWeb_img_nome() {
-		return web_img_nome;
-	}
-
-	public void setWeb_img_nome(String web_img_nome) {
-		this.web_img_nome = web_img_nome;
+	public void setWeb_logomarca(String web_logomarca) {
+		this.web_logomarca = web_logomarca;
 	}
 
 	@Override

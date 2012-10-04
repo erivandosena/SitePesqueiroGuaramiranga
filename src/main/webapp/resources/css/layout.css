@@ -14,7 +14,7 @@ body{
 	background-color:#FFFFFF;
 	}
 
-img{display:block; margin:0; padding:0; border:none;}
+img{display:inline; margin:0; padding:0; border:none;}
 .justify{text-align:justify;}
 .bold{font-weight:bold;}
 .center{text-align:center;}
@@ -657,7 +657,8 @@ table tbody tr.dark{
 /* ----------------------------------------------Forms-------------------------------------*/
 
 form, fieldset, legend{margin:0; padding:0; border:none;}
-legend{display:none;}
+/*legend{display:none;}*/
+legend{font-size: 14pt; color: color:#B2C629;}
 input, textarea, select{font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif;}
 
 /* ----------------------------------------------Forms in Content Area-------------------------------------*/

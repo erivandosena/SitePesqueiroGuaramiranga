@@ -323,7 +323,11 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 		this.modoEdicaoImagem = true;
 		nomeArquivo = imagem.getIma_normal();
 		subPasta = imagem.getEvento().getPub_cod().toString();
-		bytesImagem = FileParaBytes.getFileBytes(new File(PATH + "\\" + imagem.getEvento().getPub_cod() + "\\" + imagem.getIma_normal()));
+		File arquivo = new File(PATH + "\\" + imagem.getEvento().getPub_cod() + "\\" + imagem.getIma_normal());
+		if(arquivo.exists()) 
+		bytesImagem = FileParaBytes.getFileBytes(arquivo);
+		else
+			addErroMensagem("O arquivo da imagem selecionada não foi encontrado! Carregue uma nova imagem.");
 	}
 
 	public void excluirImagem() {
