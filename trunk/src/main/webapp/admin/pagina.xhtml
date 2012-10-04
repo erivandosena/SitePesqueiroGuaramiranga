@@ -47,24 +47,24 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{paginaBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="codigo" value="Código" rendered="#{!empty paginaBean.pagina.pag_cod}" />
-			<h:inputText id="codigo" value="#{paginaBean.pagina.pag_cod}" rendered="#{!empty paginaBean.pagina.pag_cod}" readonly="#{!empty paginaBean.pagina.pag_cod}" />
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty paginaBean.pagina.pag_cod}" size="10"/>
+			<h:inputText id="codigo" value="#{paginaBean.pagina.pag_cod}" rendered="#{!empty paginaBean.pagina.pag_cod}" readonly="#{!empty paginaBean.pagina.pag_cod}" size="10" />
 			
 			<h:outputLabel for="nome" value="Título" />
-			<h:inputText id="nome" value="#{paginaBean.pagina.pag_titulo}" size="60" maxlength="50" required="true" requiredMessage="Campo obrigatório." />
+			<h:inputText id="nome" value="#{paginaBean.pagina.pag_titulo}" size="50" maxlength="50" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
 			<h:outputLabel for="legenda" value="Legenda" />
-			<h:inputText id="legenda" value="#{paginaBean.pagina.pag_legenda}" size="40" maxlength="100" />
+			<h:inputText id="legenda" value="#{paginaBean.pagina.pag_legenda}" size="50" maxlength="100" />
 			
-			<h:outputLabel for="conteudo" value="Conteúdo" />
-			<h:inputTextarea id="conteudo" rows="40" cols="72" value="#{paginaBean.pagina.pag_conteudo}" required="true" requiredMessage="Campo obrigatório." />
+			<h:outputLabel for="conteudo" value="Conteúdo da página" />
+			<h:inputTextarea id="conteudo" rows="50" cols="100" value="#{paginaBean.pagina.pag_conteudo}" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="conteudo" styleClass="msg_erro" />
 			
-			<h:outputLabel for="extra" value="Conteúdo extra" />
-			<h:inputTextarea id="extra" rows="6" cols="72" value="#{paginaBean.pagina.pag_extra}" />
+			<h:outputLabel for="extra" value="Publicidade da página" />
+			<h:inputTextarea id="extra" rows="5" cols="100" value="#{paginaBean.pagina.pag_extra}" />
 			
-			<h:outputLabel for="posicao" value="Posição" />
+			<h:outputLabel for="posicao" value="Posição do link" />
 			<h:selectOneMenu id="posicao" value="#{paginaBean.pagina.pag_posicao}" required="true" requiredMessage="Campo obrigatório." onchange="#{paginaBean.pagina.pag_posicao}" >
 				<f:selectItem itemValue="" itemLabel="Selecione" /> 
 				<f:selectItems value="#{paginaBean.posicoes}" />	

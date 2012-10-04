@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+  
+	<ui:define name="featured_slide"></ui:define>
+	
+	<ui:define name="container">
+	
+ 	<fieldset>
+ 	
+      <legend>Cadastro de Link</legend>
+      <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" />
+      <h:form id="formDados" rendered="#{!linkBean.modoEdicao}" prependId="false">
+		<h:panelGrid columns="1">
+			<h:panelGroup>
+				<h:outputText value="Pesquisa " />
+				<h:inputText maxlength="30" size="30" value="#{linkBean.lin_nome}">
+					<f:ajax event="keyup" render="listagem" listener="#{linkBean.filtrar}" />
+				</h:inputText>
+			</h:panelGroup>
+		</h:panelGrid>
+        <h:dataTable value="#{linkBean.links}" var="link" id="listagem" border="0" width="620" >
+          <h:column>
+            <f:facet name="header">Nome</f:facet>
+            <h:outputText value="#{link.lin_nome}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink value="Alterar" action="#{linkBean.atualizar}" >
+              <f:setPropertyActionListener target="#{linkBean.link}" value="#{link}" />
+            </h:commandLink>
+          </h:column>
+          <h:column>
+            <f:facet name="header"></f:facet>
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{linkBean.excluir}">
+              <f:setPropertyActionListener target="#{linkBean.link}" value="#{link}" />
+            </h:commandLink>
+          </h:column>
+        </h:dataTable>
+        <h:commandButton value="Cadastrar" actionListener="#{linkBean.incluir}" />
+        <h:commandButton value="Atualizar" action="#{linkBean.retornar}" immediate="true" />
+      </h:form>
+      <h:form id="formEdicao" rendered="#{linkBean.modoEdicao}" prependId="false">
+        <h:panelGrid columns="1" border="0" >
+			<h:outputLabel for="codigo" value="Código" rendered="#{!empty linkBean.link.lin_cod}" size="10"/>
+			<h:inputText id="codigo" value="#{linkBean.link.lin_cod}" rendered="#{!empty linkBean.link.lin_cod}" readonly="#{!empty linkBean.link.lin_cod}" size="10" />
+			
+			<h:outputLabel for="nome" value="Nome" />
+			<h:inputText id="nome" value="#{linkBean.link.lin_nome}" size="50" maxlength="40" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="nome" styleClass="msg_erro" />
+			
+			<h:outputLabel for="url" value="URL do link" />
+			<h:inputText id="url" value="#{linkBean.link.lin_url}" size="99" maxlength="250" required="true" requiredMessage="Campo obrigatório." />
+			<h:message for="url" styleClass="msg_erro" />
+
+			<h:outputLabel for="posicao" value="Posição do link" />
+			<h:selectOneMenu id="posicao" value="#{linkBean.link.lin_posicao}" required="true" requiredMessage="Campo obrigatório." onchange="#{linkBean.link.lin_posicao}" >
+				<f:selectItem itemValue="" itemLabel="Selecione" /> 
+				<f:selectItems value="#{linkBean.posicoes}" />	
+			</h:selectOneMenu>
+			<h:message for="posicao" styleClass="erro" />
+				
+		</h:panelGrid> 
+		
+        <h:commandButton value="Salvar" actionListener="#{linkBean.salvar}"/>
+        <h:commandButton value="Cancelar" action="#{linkBean.retornar}" immediate="true" />
+
+      </h:form>
+
+    </fieldset>
+	
+	</ui:define>
+	
+	<ui:define name="footer"></ui:define>
+  
+</ui:composition>

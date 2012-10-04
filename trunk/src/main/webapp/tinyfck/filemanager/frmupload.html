@@ -1,0 +1,113 @@
+<!--
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * "Support Open Source software. What about a donation today?"
+ * 
+ * File Name: frmupload.html
+ * 	Page used to upload new files in the current folder.
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+ *
+ * Traduzido by Erivando Ramos (erivandoramos@bol.com.br) RWD.net.br
+ *
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link href="browser.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="js/common.js"></script>
+		<script language="javascript">
+
+function SetCurrentFolder( resourceType, folderPath )
+{
+	var sUrl = oConnector.ConnectorUrl +'Command=FileUpload' ;
+	sUrl += '&Type=' + resourceType ;
+	sUrl += '&CurrentFolder=' + folderPath ;
+	
+	document.getElementById('frmUpload').action = sUrl ;
+}
+
+function OnSubmit()
+{
+	if ( document.getElementById('NewFile').value.length == 0 )
+	{
+		alert( 'Selecione um arquivo do seu computador' ) ;
+		return false ;
+	}
+
+	// Set the interface elements.
+	document.getElementById('eUploadMessage').innerHTML = 'Carregar um novo arquivo nesta pasta (Upload em andamento, por favor aguarde...)' ;
+	document.getElementById('btnUpload').disabled = true ;
+	
+	return true ;
+}
+
+function OnUploadCompleted( errorNumber, data )
+{
+	// Reset the Upload Worker Frame.
+	window.parent.frames['frmUploadWorker'].location = '../../../fckblank.html' ;
+	
+	// Reset the upload form (On IE we must do a little trick to avout problems).
+	if ( document.all )
+		document.getElementById('NewFile').outerHTML = '<input id="NewFile" name="NewFile" style="WIDTH: 100%" type="file">' ;
+	else
+		document.getElementById('frmUpload').reset() ;
+	
+	// Reset the interface elements.
+	document.getElementById('eUploadMessage').innerHTML = 'Carregar um novo arquivo nesta pasta' ;
+	document.getElementById('btnUpload').disabled = false ;
+	
+	switch ( errorNumber )
+	{
+		case 0 :
+			window.parent.frames['frmResourcesList'].Refresh() ;
+			break ;
+		case 1 :	// Custom error.
+			alert( data ) ;
+			break ;
+		case 201 :
+			window.parent.frames['frmResourcesList'].Refresh() ;
+			alert( 'Um arquivo com o mesmo nome já está disponível. O arquivo enviado foi renomeado para "' + data + '"' ) ;
+			break ;
+		case 202 :
+			alert( 'Arquivo inválido' ) ;
+			break ;
+		default :
+			alert( 'Erro no upload de arquivos. Número do erro: ' + errorNumber ) ;
+			break ;
+	}
+}
+
+window.onload = function()
+{
+	window.top.IsLoadedUpload = true ;
+}
+		</script>
+	</head>
+	<body bottomMargin="0" topMargin="0">
+		<form id="frmUpload" action="" target="frmUploadWorker" method="post" enctype="multipart/form-data" onsubmit="return OnSubmit();">
+			<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
+				<tr>
+					<td nowrap>
+						<span id="eUploadMessage">Carregar um novo arquivo nesta pasta</span><br>
+						<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+							<tr>
+								<td width="100%"><input id="NewFile" name="NewFile" style="WIDTH: 100%" type="file" title="Localizar arquivo"></td>
+								<td nowrap>&nbsp;<input id="btnUpload" type="submit" value="Upload" title="Carregar para o servidor"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>
