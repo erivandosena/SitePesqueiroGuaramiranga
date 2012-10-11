@@ -1,18 +1,28 @@
 package br.net.rwd.website.controle;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import br.net.rwd.website.entidade.Usuario;
 import br.net.rwd.website.servico.UsuarioServico;
 import br.net.rwd.website.util.Criptografia;
 
 @ManagedBean(name = "usuarioBean")
-@ViewScoped
+@RequestScoped
 public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 
 	private static final long serialVersionUID = 1L;
@@ -222,6 +232,38 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
         this.modoEdicao = false;
         usuarios = model.listarUsuarios();
         return "usuario";
+	}
+	
+	/* ------------------------------------------------- */
+	/* 						LOGIN						 */
+	/* ------------------------------------------------- */
+	
+	public String logar() throws IOException, ServletException {
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("/j_spring_security_check?j_username=" + usu_email + "&j_password=" + Criptografia.criptografarMD5(usu_senha));
+		dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
+		FacesContext.getCurrentInstance().responseComplete();
+		return null;
+	}
+
+	public String getUsuarioLogado() {
+		String username = null;
+		Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuarioLogado instanceof UserDetails) {
+			username = model.selecionarUsuarioLogin(((UserDetails)usuarioLogado).getUsername()).getUsu_nome().toString();
+		} else {
+			username = usuarioLogado.toString().replace("anonymousUser","Visitante");
+		}
+		return username;
+	}
+	
+	public boolean getStatusLogado() {
+		Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (usuarioLogado instanceof UserDetails) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

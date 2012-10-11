@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -27,7 +27,7 @@ import br.net.rwd.website.util.FileParaBytes;
 import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "galeriaBean")
-@ViewScoped
+@SessionScoped
 public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 	// galeria
@@ -38,6 +38,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	private Date gal_data;
 	private String gal_titulo;
 	private String gal_descricao;
+	private String gal_foto;
 
 	private Galeria galeria;
 	private List<Galeria> galerias;
@@ -64,7 +65,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	String subPasta = null;
 	File arquivo = null;
 	//
-	
+
 	public GaleriaServico getModelgaleria() {
 		return modelgaleria;
 	}
@@ -105,6 +106,14 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 		this.gal_descricao = gal_descricao;
 	}
 
+	public String getGal_foto() {
+		return gal_foto;
+	}
+
+	public void setGal_foto(String gal_foto) {
+		this.gal_foto = gal_foto;
+	}
+
 	public Galeria getGaleria() {
 		if (galeria == null) {
 			galeria = new Galeria();
@@ -117,14 +126,10 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	}
 
 	public List<Galeria> getGalerias() {
-		if (galerias == null) {
+		if(galerias == null) {
 			galerias = modelgaleria.listarGalerias();
 		}
 		return galerias;
-	}
-
-	public void setGalerias(List<Galeria> galerias) {
-		this.galerias = galerias;
 	}
 
 	public boolean isModoEdicaoGaleria() {
@@ -233,7 +238,20 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 	@Override
 	public void excluir() {
+		String local = PATH + "\\" + galeria.getGal_cod();
 		modelgaleria.excluirGaleria(galeria);
+		//Exclui a pasta e os arquivos do disco
+		File pasta = new File(local);
+		File arquivo = null;
+		if (pasta.isDirectory()) {  
+            String[] children = pasta.list();  
+            for (int i=0; i<children.length; i++) {  
+            	arquivo = new File(pasta+"\\"+children[i]);
+            	arquivo.delete(); 
+            }  
+        }
+		pasta.delete();
+		addInfoMensagem("Galeria excluída com sucesso.");
 		retornar();
 	}
 
@@ -271,6 +289,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 			foto.setGaleria(galeria);
 			if (salvaArquivo()) {
 				foto = modelfoto.incluirFoto(foto);
+				modelgaleria.alterarGaleria(galeria);
 				foto = new Foto();
 				bytesFoto = null;
 				addInfoMensagem("Foto incluída com sucesso.");
@@ -290,6 +309,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 					addErroMensagem("Alteração da imagem não realizada!");
 			}
 			modelfoto.alterarFoto(foto);
+			modelgaleria.alterarGaleria(galeria);
 			foto = new Foto();
 			bytesFoto = null;
 			addInfoMensagem("Cadastro da foto alterado com sucesso.");
@@ -300,7 +320,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 		this.modoEdicaoFoto = true;
 		nomeArquivo = foto.getFot_foto();
 		subPasta = foto.getGaleria().getGal_cod().toString();
-		File arquivo = new File(PATH + "\\" + foto.getGaleria().getGal_cod() + "\\" + foto.getFot_foto());
+		arquivo = new File(PATH + "\\" + subPasta + "\\" + foto.getFot_foto());
 		if(arquivo.exists()) 
 		bytesFoto = FileParaBytes.getFileBytes(arquivo);
 		else
@@ -321,11 +341,11 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = galeria.getGal_cod().toString();
-		arquivo = new File(PATH + "\\" + subPasta);
 		nomeArquivo = event.getFile().getFileName();
+		arquivo = new File(PATH + "\\" + subPasta + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
 		bytesFoto = Redimensiona.novaLargura(event.getFile().getContents(),640);
-
-		if (new File(arquivo.getPath()+ "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg")).exists())
+		
+		if (arquivo.exists())
 			addAvisoMensagem("Já existe uma foto com mesmo nome, se continuar, a foto atual será substituída.");
 		addAvisoMensagem("O arquivo " + nomeArquivo + " foi carregado. \nUse o botão salvar para completar a operação!");
 	}
@@ -333,15 +353,14 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	boolean salvaArquivo() {
 		boolean retorno = false;
 		// se a pasta não existir cria
-		if (!arquivo.exists())
-			arquivo.mkdirs();
-
-		arquivo = new File(arquivo.getPath() + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
+		File pasta = new File(PATH + "\\"+subPasta);
+		if (!pasta.exists())
+			pasta.mkdirs();
 
 		// se o arquivo ja existe exclui
 		if (arquivo.exists()) {
 			arquivo.delete();
-			addAvisoMensagem("O arquivo " + nomeArquivo + " existente foi excluído.");
+			addAvisoMensagem("O arquivo da foto existente foi excluído.");
 		}
 
 		try {
@@ -359,18 +378,48 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 				// faz outras coisas aqui
 				foto.setFot_foto(arquivo.getName());
+				galeria.setGal_foto(arquivo.getName());
 			}
 
 			fileOutputStream.close();
 			inputStream.close();
-			addInfoMensagem("O arquivo " + nomeArquivo + " foi enviado.");
+			addInfoMensagem("O arquivo arquivo da foto foi enviado.");
 			retorno = true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			addErroMensagem("O arquivo " + nomeArquivo + " não foi enviado, tente novamente!");
+			addErroMensagem("O arquivo arquivo da foto não foi enviado, tente novamente!");
 			retorno = false;
 		}
 		return retorno;
+	}
+	
+	public Galeria getConteudoGaleria() throws IOException {
+		if (gal_cod != null)
+			return modelgaleria.selecionarGaleria(gal_cod);
+		else
+			return null;
+	}
+    
+	public List<Foto> getFotosGaleria() {
+		if (gal_cod != null) {
+		List<Foto> lista = modelfoto.listarFotosPorGaleria(gal_cod);
+		if (lista.isEmpty())
+			return null;
+		else
+			return lista;
+		}
+		return null;
+	}
+
+	public Foto getFotoGaleria() {
+		if (fot_cod != null)
+			return modelfoto.selecionarFoto(fot_cod);
+		else
+			return null;
+	}
+	
+	public List<Galeria> getGaleriasNovas() {
+		return galerias = modelgaleria.listar6Galerias();
 	}
 
 }

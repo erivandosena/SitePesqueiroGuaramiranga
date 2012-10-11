@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipal.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="featured_slide">
+  	<div id="breadcrumb">
+    <ul>
+      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li>&#187;</li>
+      <li class="first">Você está aqui</li>
+      <li>&#187;</li>
+      <li class="current"><a href="#">#{eventoBean.pub_titulo}</a></li>
+    </ul>
+  	</div>
+	</ui:define>
+	
+	<ui:define name="content">
+	<div id="content">
+	pagina evento
+	</div>
+	</ui:define>
+
+
+</ui:composition>

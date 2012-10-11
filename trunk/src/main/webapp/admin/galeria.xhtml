@@ -4,20 +4,19 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
 	
-	<ui:define name="container">
+	<ui:define name="content">
 	
  	<fieldset>
  	
       <legend>Cadastro de Galeria de Fotos</legend>
 
-     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
-      
       <h:form id="formDados" rendered="#{!galeriaBean.modoEdicaoGaleria}" prependId="false">
+      <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
 		<h:panelGrid columns="1">
 			<h:panelGroup>
 				<h:outputText value="Pesquisa " />
@@ -73,15 +72,23 @@
       <br />
 
       <h:form id="formFoto" rendered="#{galeriaBean.modoEdicaoFoto}" prependId="false">
-      
       <h:outputText value="Galeria selecionada: #{galeriaBean.galeria.gal_titulo}" />
       <h:panelGrid columns="1" border="0" >
       
       <h:outputLabel for="descricao" value="Descrição da foto" />
-	  <h:inputText id="descricao" value="#{galeriaBean.foto.fot_descricao}" size="150" maxlength="150" />
+	  <h:inputText id="descricao" value="#{galeriaBean.foto.fot_descricao}" size="110" maxlength="150" />
 	  
 	  <h:outputLabel for="upload" value="Foto da galeria"/>
-      <p:fileUpload id="upload" sizeLimit="52428800" auto="true" widgetVar="uploader" label="Localizar..." fileUploadListener="#{galeriaBean.handleFileUpload}" allowTypes="*.jpg" description="Arquivos de fotos *.jpg" update="mensagens,btSalvar,foto" multiple="false" customUI="true" />
+      <p:fileUpload id="upload" 
+                    fileUploadListener="#{galeriaBean.handleFileUpload}" 
+      				sizeLimit="52428800" 
+      				auto="true" 
+      				label="Localizar..." 
+     	 			allowTypes="/(\.|\/)(jpe?g)$/" 
+     	 			multiple="false" 
+      				description="Imagens .JPG" 
+      				update="listagemFoto,btSalvar" 
+      				/>
 
 	  </h:panelGrid>
 	  
@@ -114,6 +121,8 @@
     </fieldset>
 	
 	</ui:define>
+	
+	<ui:define name="column"></ui:define>
 	
 	<ui:define name="footer"></ui:define>
   

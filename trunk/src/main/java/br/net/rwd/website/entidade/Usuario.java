@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,14 +16,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,9 +42,11 @@ public class Usuario implements Serializable {
 	private String usu_cep;
 	private String usu_estado;
 	private boolean usu_situacao = true;
+	@Temporal(TemporalType.DATE)
+	@Column(columnDefinition = "date")
 	private Date usu_alteracao;
 
-	@ManyToMany(targetEntity=Perfil.class,fetch=FetchType.LAZY)
+	@ManyToMany(targetEntity=Perfil.class,fetch=FetchType.EAGER)
 	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "usu_cod"), inverseJoinColumns = @JoinColumn(name = "per_cod"))
 	private List<Perfil> perfis = new ArrayList<Perfil>();
 

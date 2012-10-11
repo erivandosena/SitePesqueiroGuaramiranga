@@ -14,14 +14,14 @@
         <sec:intercept-url pattern="/admin/**" access="ROLE_USUARIO, ROLE_ADMINISTRADOR" />	
 		
 		<sec:form-login 
-		login-page="/login.jsf" 
+		login-page="/login/" 
 		login-processing-url="/j_spring_security_check" 
 		default-target-url="/admin/index.jsf" 
 		authentication-failure-url="/login.jsf?login_error=true"
 		always-use-default-target="false" />
 		
 		<sec:logout 
-		logout-success-url="/login.jsf" 
+		logout-success-url="/login/" 
 		logout-url="/j_spring_security_logout"
 		invalidate-session="true" />
 		
@@ -29,7 +29,10 @@
 	</sec:http>
 
 	<sec:authentication-manager>
+		<sec:authentication-provider user-service-ref="usuarioDetailsService" ref="daoAuthenticationProvider" />
+		 <!--
 		<sec:authentication-provider>
+		
 			<sec:jdbc-user-service data-source-ref="dataSource" 
 			users-by-username-query="SELECT usu_email, usu_senha, usu_situacao, usu_alteracao FROM usuarios 
 			WHERE usu_email = ?" 
@@ -37,8 +40,15 @@
 			INNER JOIN usuariosperfis up ON up.usu_cod = u.usu_cod 
 			INNER JOIN perfis p ON p.per_cod = up.per_cod 
 			AND u.usu_email = ?" />
+			
 			<sec:password-encoder hash="md5" />
+			
 		</sec:authentication-provider>
+		-->
 	</sec:authentication-manager>
+	
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="usuarioDetailsService" />
+	</bean>
 
 </beans>

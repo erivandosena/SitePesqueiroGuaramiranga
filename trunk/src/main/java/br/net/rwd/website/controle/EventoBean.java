@@ -5,12 +5,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -28,59 +26,47 @@ import br.net.rwd.website.util.Criptografia;
 import br.net.rwd.website.util.FileParaBytes;
 import br.net.rwd.website.util.Redimensiona;
 
-@SuppressWarnings("restriction")
 @ManagedBean(name = "eventoBean")
 @ViewScoped
 public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 	@ManagedProperty("#{eventoServico}")
 	private EventoServico model;
-	
-	@ManagedProperty("#{imagemServico}")
-	private ImagemServico modelimagem;
-	
+
 	private Evento evento;
 	private List<Evento> eventos;
-	private boolean modoEdicao;
 	private Integer pub_cod;
 	private Date pub_data;
 	private Date pub_dataalteracao;
 	private String pub_titulo;
 	private String pub_sumario;
 	private String pub_conteudo;
+	private String pub_imagem;
+	private boolean modoEdicao;
 	
+	@ManagedProperty("#{imagemServico}")
+	private ImagemServico modelimagem;
 	private Imagem imagem;
-	private boolean modoEdicaoImagem;
-
+	private List<Imagem> imagens;
 	private Integer ima_cod;
 	private String ima_descricao;
 	private String ima_normal;
-	private String ima_mini;
-	
+	private String ima_mini;	
+	private boolean modoEdicaoImagem;
+
+	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+	private static final String PATH = extContext.getRealPath("/upload/");
 	private byte[] bytesImagem;
-	private List<String> fotos;
-	
 	String nomeArquivo = null;
 	String subPasta = null;
 	File arquivo = null;
-	
-	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-	private static final String PATH = extContext.getRealPath("/upload/");
-	 
+
 	public EventoServico getModel() {
 		return model;
 	}
 
 	public void setModel(EventoServico model) {
 		this.model = model;
-	}
-
-	public ImagemServico getModelimagem() {
-		return modelimagem;
-	}
-
-	public void setModelimagem(ImagemServico modelimagem) {
-		this.modelimagem = modelimagem;
 	}
 
 	public Evento getEvento() {
@@ -94,46 +80,11 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 		this.evento = evento;
 	}
 
-	public Imagem getImagem() {
-		if (imagem == null) {
-			imagem = new Imagem();
-		}
-		return imagem;
-	}
-
-	public void setImagem(Imagem imagem) {
-		this.imagem = imagem;
-	}
-
 	public List<Evento> getEventos() {
 		if (eventos == null) {
-			eventos = model.listarEvento();
+			eventos = model.listarEventos();
 		}
 		return eventos;
-	}
-
-	public void setEventos(List<Evento> eventos) {
-		this.eventos = eventos;
-	}
-
-	public List<Imagem> getImagens() {
-		return modelimagem.listarImagemPorEvento(evento.getPub_cod());
-	}
-
-	public boolean isModoEdicao() {
-		return modoEdicao;
-	}
-
-	public void setModoEdicao(boolean modoEdicao) {
-		this.modoEdicao = modoEdicao;
-	}
-
-	public boolean isModoEdicaoImagem() {
-		return modoEdicaoImagem;
-	}
-
-	public void setModoEdicaoImagem(boolean modoEdicaoImagem) {
-		this.modoEdicaoImagem = modoEdicaoImagem;
 	}
 
 	public Integer getPub_cod() {
@@ -183,6 +134,46 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	public void setPub_conteudo(String pub_conteudo) {
 		this.pub_conteudo = pub_conteudo;
 	}
+	
+	public String getPub_imagem() {
+		return pub_imagem;
+	}
+
+	public void setPub_imagem(String pub_imagem) {
+		this.pub_imagem = pub_imagem;
+	}
+	
+	public boolean isModoEdicao() {
+		return modoEdicao;
+	}
+
+	public void setModoEdicao(boolean modoEdicao) {
+		this.modoEdicao = modoEdicao;
+	}
+
+	public ImagemServico getModelimagem() {
+		return modelimagem;
+	}
+
+	public void setModelimagem(ImagemServico modelimagem) {
+		this.modelimagem = modelimagem;
+	}
+
+	public Imagem getImagem() {
+		if (imagem == null) {
+			imagem = new Imagem();
+		}
+		return imagem;
+	}
+
+	public void setImagem(Imagem imagem) {
+		this.imagem = imagem;
+	}
+
+	public List<Imagem> getImagens() {
+		imagens = modelimagem.listarImagemPorEvento(evento.getPub_cod());
+		return imagens;
+	}
 
 	public Integer getIma_cod() {
 		return ima_cod;
@@ -214,6 +205,14 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 	public void setIma_mini(String ima_mini) {
 		this.ima_mini = ima_mini;
+	}
+	
+	public boolean isModoEdicaoImagem() {
+		return modoEdicaoImagem;
+	}
+
+	public void setModoEdicaoImagem(boolean modoEdicaoImagem) {
+		this.modoEdicaoImagem = modoEdicaoImagem;
 	}
 
 	public byte[] getBytesImagem() {
@@ -256,23 +255,36 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 	@Override
 	public void excluir() {
+		String local = PATH + "\\" + evento.getPub_cod();
 		model.excluirEvento(evento);
+		//Exclui a pasta e os arquivos do disco
+		File pasta = new File(local);
+		File arquivo = null;
+		if (pasta.isDirectory()) {  
+            String[] children = pasta.list();  
+            for (int i=0; i<children.length; i++) {  
+            	arquivo = new File(pasta+"\\"+children[i]);
+            	arquivo.delete(); 
+            }  
+        }
+		pasta.delete();
+		addInfoMensagem("Evento excluído com sucesso.");
 		retornar();
 	}
 
 	@Override
 	public void filtrar(AjaxBehaviorEvent event) {
 		if (pub_titulo != null && !pub_titulo.isEmpty()) {
-			eventos = model.listarEvento(pub_titulo);
+			eventos = model.listarEventos(pub_titulo);
 		} else {
-			eventos = model.listarEvento();
+			eventos = model.listarEventos();
 		}
 	}
 
 	@Override
 	public String retornar() {
 		this.modoEdicao = false;
-		eventos = model.listarEvento();
+		eventos = model.listarEventos();
 		this.modoEdicaoImagem = false;
 		bytesImagem = null;
 		return "evento";
@@ -294,6 +306,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 			imagem.setEvento(evento);
 			if (salvaArquivo()) {
 				imagem = modelimagem.incluirImagem(imagem);
+				model.alterarEvento(evento);
 				imagem = new Imagem();
 				bytesImagem = null;
 				addInfoMensagem("Imagem incluída com sucesso.");
@@ -313,6 +326,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 					addErroMensagem("Alteração da imagem não realizada!");
 			}
 			modelimagem.alterarImagem(imagem);
+			model.alterarEvento(evento);
 			imagem = new Imagem();
 			bytesImagem = null;
 			addInfoMensagem("Cadastro da imagem alterado com sucesso.");
@@ -323,7 +337,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 		this.modoEdicaoImagem = true;
 		nomeArquivo = imagem.getIma_normal();
 		subPasta = imagem.getEvento().getPub_cod().toString();
-		File arquivo = new File(PATH + "\\" + imagem.getEvento().getPub_cod() + "\\" + imagem.getIma_normal());
+		arquivo = new File(PATH + "\\" + subPasta + "\\" + imagem.getIma_normal());
 		if(arquivo.exists()) 
 		bytesImagem = FileParaBytes.getFileBytes(arquivo);
 		else
@@ -344,8 +358,8 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = evento.getPub_cod().toString();
-		arquivo = new File(PATH + "\\" + subPasta);
 		nomeArquivo = event.getFile().getFileName();
+		arquivo = new File(PATH + "\\" + subPasta + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
 		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),640);
 
 		if (new File(arquivo.getPath()+ "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg")).exists())
@@ -356,15 +370,14 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	boolean salvaArquivo() {
 		boolean retorno = false;
 		// se a pasta não existir cria
-		if (!arquivo.exists())
-			arquivo.mkdirs();
-
-		arquivo = new File(arquivo.getPath() + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
+		File pasta = new File(PATH + "\\"+subPasta);
+		if (!pasta.exists())
+			pasta.mkdirs();
 
 		// se o arquivo ja existe exclui
 		if (arquivo.exists()) {
 			arquivo.delete();
-			addAvisoMensagem("O arquivo " + nomeArquivo + " existente foi excluído.");
+			addAvisoMensagem("O arquivo da imagem existente foi excluído.");
 		}
 
 		try {
@@ -382,31 +395,23 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 				// faz outras coisas aqui
 				imagem.setIma_normal(arquivo.getName());
+				evento.setPub_imagem(arquivo.getName());
 			}
 
 			fileOutputStream.close();
 			inputStream.close();
-			addInfoMensagem("O arquivo " + nomeArquivo + " foi enviado.");
+			addInfoMensagem("O arquivo da imagem foi enviado.");
 			retorno = true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			addErroMensagem("O arquivo " + nomeArquivo + " não foi enviado, tente novamente!");
+			addErroMensagem("O arquivo da imagem não foi enviado, tente novamente!");
 			retorno = false;
 		}
 		return retorno;
 	}
-
-	public List<String> fotos() {
-        return fotos;
-    }
 	
-    @PostConstruct
-	public void init() {
-		fotos = new ArrayList<String>();
-		for (int i = 1; i <= 12; i++) {
-			fotos.add(extContext.getRealPath("//upload//") + i + ".jpg");
-			System.out.println(extContext.getRealPath("//upload//") + i + ".jpg");
-		}
+	public List<Evento> getEventosNovos() {
+		return eventos = model.listar4Eventos();
 	}
     
 }

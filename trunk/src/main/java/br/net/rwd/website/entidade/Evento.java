@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,11 +25,14 @@ public class Evento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer pub_cod;
 	@Temporal(TemporalType.DATE)
+	@Column(columnDefinition = "date")
 	private Date pub_data;
+	@Column(columnDefinition = "date")
 	private Date pub_dataalteracao;
 	private String pub_titulo;
 	private String pub_sumario;
 	private String pub_conteudo;
+	private String pub_imagem;
 	@OneToMany(mappedBy="evento")
     private List<Imagem> imagens = new LinkedList<Imagem>();
 
@@ -78,6 +82,14 @@ public class Evento implements Serializable {
 
 	public void setPub_conteudo(String pub_conteudo) {
 		this.pub_conteudo = pub_conteudo;
+	}
+
+	public String getPub_imagem() {
+		return pub_imagem;
+	}
+
+	public void setPub_imagem(String pub_imagem) {
+		this.pub_imagem = pub_imagem;
 	}
 
 	public List<Imagem> getImagens() {

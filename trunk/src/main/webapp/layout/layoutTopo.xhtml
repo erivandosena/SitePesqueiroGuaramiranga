@@ -7,22 +7,37 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div id="logo">
-      <h1><a href="#">+Business</a></h1>
-      <p>Free CSS Website Template</p>
+      <h:panelGroup rendered="#{empty siteBean.carregarDados.web_logomarca}">
+      <h1><a href="index.jsf">#{siteBean.carregarDados.web_titulo}</a></h1>
+      <p>#{siteBean.carregarDados.web_slogan}</p>
+      </h:panelGroup>
+      <h:graphicImage library="images" name="logo.png" alt="#{siteBean.carregarDados.web_titulo} #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_logomarca}" />
+      <br /><br />
+      <span>#{siteBean.saldacao} <strong>#{usuarioBean.usuarioLogado}</strong></span>
     </div>
     <div id="topnav">
       <ul>
-        <li class="active"><a href="index.html">Home</a></li>
-        <li><a href="demo.jsf">Style Demo</a></li>
-        <li><a href="full-width.html">Full Width</a></li>
+        <li class="active"><h:link value="Inicial" outcome="/index.jsp"/></li>
+        <li><h:link value="Eventos" outcome="/eventos.jsf"/></li>
+        <li><h:link value="Galeria de fotos" outcome="/galerias.jsf"/></li>
+        <li><h:link value="Fale conosco" outcome="/contato.jsf"/></li>
+        <!--  
         <li><a href="#">DropDown</a>
           <ul>
             <li><a href="#">Link 1</a></li>
-            <li><a href="#">Link 2</a></li>
-            <li><a href="#">Link 3</a></li>
           </ul>
         </li>
-        <li class="last"><a href="#">A Long Link Text</a></li>
+        -->
+        <li>
+    		<h:link value="Login" outcome="/login.jsf" rendered="#{usuarioBean.statusLogado eq false}"/>
+
+    	    <h:outputLink value="#{request.contextPath}/j_spring_security_logout" rendered="#{usuarioBean.statusLogado eq true}">Sair</h:outputLink>
+        <h:panelGroup rendered="#{usuarioBean.statusLogado eq true}">
+          <ul>
+            <li><h:link value="Administrativo" outcome="/admin/index.jsf" /></li>
+          </ul>
+        </h:panelGroup>
+        </li>
       </ul>
     </div>
     <br class="clear" />

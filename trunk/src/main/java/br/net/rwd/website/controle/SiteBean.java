@@ -1,5 +1,6 @@
 package br.net.rwd.website.controle;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import br.net.rwd.website.servico.SiteServico;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends UtilBean implements CrudBeans<Object> {
+public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object> {
 	private static final long serialVersionUID = 1L;
 
 	@ManagedProperty("#{siteServico}")
@@ -79,7 +80,7 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
 	public void setSites(List<Site> sites) {
 		this.sites = sites;
 	}
-	
+
 	public boolean isModoEdicao() {
 		return modoEdicao;
 	}

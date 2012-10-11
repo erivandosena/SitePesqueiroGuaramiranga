@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition template="/layout/layoutPrincipal.xhtml"
-    xmlns:p="http://primefaces.org/ui"
     xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
-
-	<ui:define name="featured_slide"></ui:define>
 	
-	<ui:define name="container">
-	<form id="formLogin" method="post" action="${request.contextPath}/j_spring_security_check">
+    <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Login</ui:define>
+    
+	<ui:define name="featured_slide">
+  	<div id="breadcrumb">
+    <ul>
+      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li>&#187;</li>
+      <li class="first">Você está aqui</li>
+      <li>&#187;</li>
+      <li class="current"><a href="#">Login</a></li>
+    </ul>
+  	</div>
+	</ui:define>
+	
+	<ui:define name="content">
+
+	<h:form id="formLogin" prependId="false">
 	<div id="respond">
 
 	    <p:messages id="mensagens" showDetail="true" showSummary="false" />
 
+		<!-- 
         <h:panelGrid>
           <h:outputLabel for="j_username" value="Usuário" />
           <h:inputText id="j_username" size="40"  />
@@ -23,10 +37,22 @@
           <h:inputSecret id="j_password" size="20" />
           <h:commandButton type="submit" value="Entrar" />
         </h:panelGrid>
+        -->
+        
+        <h:panelGrid columns="1">
+          <h:outputLabel for="_j_username" value="Usuário" />
+          <h:inputText id="_j_username" value="#{usuarioBean.usu_email}" size="15" />
+          <h:outputLabel for="_j_password" value="Senha" />
+          <h:inputSecret id="_j_password" value="#{usuarioBean.usu_senha}" size="15" />
+          <h:commandButton value="Entrar" action="#{usuarioBean.logar}" />
+        </h:panelGrid>
 
 	</div>
 	
-	</form>
+
+	</h:form>
 	</ui:define>
+	
+	<ui:define name="column"></ui:define>
 	
 </ui:composition>

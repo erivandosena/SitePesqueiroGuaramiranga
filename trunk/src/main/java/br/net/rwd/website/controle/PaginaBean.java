@@ -1,12 +1,13 @@
 package br.net.rwd.website.controle;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import br.net.rwd.website.entidade.Pagina;
@@ -14,7 +15,7 @@ import br.net.rwd.website.servico.PaginaServico;
 import br.net.rwd.website.util.EnumPosicaoMenu;
 
 @ManagedBean(name = "paginaBean")
-@ViewScoped
+@RequestScoped
 public class PaginaBean extends UtilBean implements CrudBeans<Object> {
 
 	@ManagedProperty("#{paginaServico}")
@@ -172,5 +173,18 @@ public class PaginaBean extends UtilBean implements CrudBeans<Object> {
 		}
 		return mapParam;
 	}  
+	
+	public Pagina getConteudoPagina() throws IOException {
+		// captura o codigo por GET. Exibe a pagina selecionada
+		//String cod = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("p");
+		try {
+			if(pag_cod != null) 
+			return model.selecionarPagina(pag_cod);
+			else
+				return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 }

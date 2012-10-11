@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition template="/layout/layoutPrincipal.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+	<ui:define name="featured_slide">
+  	<div id="breadcrumb">
+    <ul>
+      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li>&#187;</li>
+      <li class="first">Você está aqui</li>
+      <li>&#187;</li>
+      <li class="current"><a href="#">#{galeriaBean.conteudoGaleria.gal_titulo}</a></li>
+    </ul>
+  	</div>
+	</ui:define>
+	
+	<ui:define name="content">
+
+	<div id="content">
+	<h3>Galeria: #{galeriaBean.conteudoGaleria.gal_titulo}</h3>
+	<p>
+	<h:outputText value="#{galeriaBean.conteudoGaleria.gal_descricao}" escape="false" />
+	</p>
+
+	<p:galleria value="#{galeriaBean.fotosGaleria}"
+            var="item" effect="fade" effectSpeed="1000"
+            panelWidth="600" panelHeight="450" frameWidth="160" frameHeight="70"  
+            filmstripPosition="bottom" showCaptions="true" showOverlays="true">
+    
+    <h:link outcome="/foto.jsf" target="_self">
+    <p:graphicImage value="/upload/galeria/#{galeriaBean.conteudoGaleria.gal_cod}/#{item.fot_foto}" alt="#{item.fot_descricao}"/>
+	<f:param name="cod" value="#{item.fot_cod}" />
+	</h:link>
+
+    <p:galleriaOverlay title="#{item.fot_descricao}" >
+    <h:outputText value="#{galeriaBean.conteudoGaleria.gal_titulo}" escape="false" />
+    </p:galleriaOverlay>
+
+	</p:galleria>
+	</div>
+
+	</ui:define>
+	
+	<ui:define name="column">
+    <div id="column">
+      <div class="subnav">
+      	<h:panelGroup rendered="#{galeriaBean.galerias ne null}">
+      	<h2>Galerias</h2>
+		<ul>
+			<ui:repeat value="#{galeriaBean.galerias}" var="item">
+			<li>
+		  	<h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
+				<f:param name="tit" value="#{item.titulo_normalizado}" />
+				<f:param name="cod" value="#{item.gal_cod}" />
+				#{item.gal_titulo}
+		  	</h:link>
+			</li>
+			</ui:repeat>
+		</ul>
+		</h:panelGroup>
+	  </div>
+      </div>
+   
+    <br class="clear" />
+	</ui:define>
+
+
+</ui:composition>

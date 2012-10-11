@@ -9,7 +9,7 @@
   
 	<ui:define name="featured_slide"></ui:define>
 	
-	<ui:define name="container">
+	<ui:define name="content">
 	
  <fieldset>
       <legend>Cadastro do site</legend>
@@ -77,10 +77,10 @@
           <h:outputLabel for="telefone" value="Telefone" styleClass="" />
           <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="25" maxlength="15" styleClass="" />
           
-          <h:outputLabel for="site" value="#{msg.blog} #{msg.exemploUrl}" styleClass="" />
+          <h:outputLabel for="site" value="Site" styleClass="" />
           <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" styleClass="" />
           
-          <h:outputLabel for="blog" value="#{msg.messenger}" styleClass="" />
+          <h:outputLabel for="blog" value="Blog" styleClass="" />
           <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" styleClass="" />
           
           <h:outputLabel for="email" value="E-mail" styleClass="" />
@@ -93,15 +93,18 @@
           <h:outputLabel for="skype" value="Skype" styleClass="" />          
           <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" styleClass="" />
 
-          <h:outputLabel for="orkut" value="Orkut" styleClass="" />          
-          <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" styleClass="" />
+          <h:outputLabel for="facebook" value="Facebook" styleClass="" />
+          <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" styleClass="" />
 
 		  <h:outputLabel for="twitter" value="Twitter" styleClass="" />
 	      <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
 	      
-          <h:outputLabel for="facebook" value="Facebook" styleClass="" />
-          <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" styleClass="" />
-          
+          <h:outputLabel for="orkut" value="Orkut" styleClass="" />          
+          <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" styleClass="" />
+
+          <h:outputLabel for="youtube" value="Canal do Youtube" styleClass="" />          
+          <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" styleClass="" />
+
         </h:panelGrid>
         <h:commandButton value="Salvar" actionListener="#{siteBean.salvar}" />
         <h:commandButton value="Cancelar" action="#{siteBean.retornar}" immediate="true" />
@@ -109,6 +112,8 @@
     </fieldset>
 	
 	</ui:define>
+	
+	<ui:define name="column"></ui:define>
 	
 	<ui:define name="footer"></ui:define>
   
