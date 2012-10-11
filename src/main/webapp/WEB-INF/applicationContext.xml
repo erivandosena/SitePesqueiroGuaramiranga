@@ -19,27 +19,61 @@
 	<tx:annotation-driven />
 	
 	<!-- Configuracao do Banco de Dados -->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/pesqueiro" />
-		<property name="username" value="postgres" />
-		<property name="password" value="postgres" /> 
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> 
   <!--  <property name="url" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/camaramulungu" />
         <property name="username" value="camaramulungu" />
 		<property name="password" value="33281120" /> -->
 		
+  		<!-- Connection properties --> 
+  		<property name="driverClass" value="org.postgresql.Driver" /> 
+  		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/pesqueiro" /> 
+  		<property name="user" value="postgres" /> 
+  		<property name="password" value="postgres" /> 
+  		<!-- Pool properties --> 
+  		<property name="initialPoolSize" value="2" />
+  		<property name="minPoolSize" value="2" /> 
+  		<property name="maxPoolSize" value="30" /> 
+  		<property name="maxStatements" value="50" /> 
+  		<property name="idleConnectionTestPeriod" value="3000" /> 
+  		<property name="loginTimeout" value="1800" /> 
+  		<property name="acquireIncrement" value="5" />
+    	<property name="numHelperThreads" value="3" /> 
 	</bean>
 
 	<!-- Configuracao do Hibernate -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="WebSitePU" />
-		<property name="dataSource" ref="dataSource" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
-				<property name="showSql" value="true" />
-			</bean>
-		</property>
+    <property name="dataSource" ref="dataSource" /> 
+    <property name="persistenceUnitName" value="WebSitePU" /> 
+	<property name="jpaVendorAdapter">
+		<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+			<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="showSql" value="true" />
+		</bean>
+	</property>
+    <property name="jpaDialect"> 
+        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/> 
+    </property>
+    <property name="jpaProperties"> 
+        <props>  
+            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> 
+            <prop key="hibernate.format_sql">false</prop>     
+			<prop key="hibernate.use_sql_comments">true</prop> 
+			<prop key="hibernate.generate_statistics">true</prop>
+			<prop key="hibernate.hbm2ddl.auto">validate</prop>
+       		<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop> 
+       		<prop key="net.sf.ehcache.configurationResourceName">ehcache.xml</prop> 
+			<prop key="hibernate.cache.use_second_level_cache">true</prop>
+			<prop key="hibernate.cache.use_query_cache">true</prop>
+           	<prop key="hibernate.cache.use_second_level_cache">true</prop> 
+           	<prop key="hibernate.cache.use_structured_entries">true</prop> 
+           	<prop key="hibernate.cache.use_query_cache">true</prop> 
+           	<prop key="hibernate.connection.show_sql">false</prop> 
+           	<prop key="hibernate.use_outer_join">true</prop> 
+           	<prop key="hibernate.default_batch_fetch_size">500</prop> 
+           	<prop key="hibernate.max_fetch_depth">5</prop> 
+           	<prop key="hibernate.jdbc.batch_size">1000</prop>  	
+        </props> 
+    </property> 
 	</bean>
 
 	<!-- Configuracao do gerente de transacoes do Spring -->

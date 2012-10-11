@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -6,25 +6,57 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
-    <div class="homepage">
+	<div id="content">
+	<h2>Novas fotos</h2>
+	  <div class="homepage">
+	  <h:panelGroup rendered="#{galeriaBean.galeriasNovas ne null}">
       <ul>
-        <li>
-          <h2><h:graphicImage library="images" name="demo/60x60.gif" alt=""/>Nullamlacus dui ipsum conseque loborttis</h2>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat. Adipisciniapellentum leo ut consequam ris felit elit id nibh sociis malesuada.</p>
-          <p class="readmore"><a href="#">Continue Reading &#187;</a></p>
-        </li>
-        <li>
-          <h2><h:graphicImage library="images" name="demo/60x60.gif" alt=""/>Nullamlacus dui ipsum conseque loborttis</h2>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat. Adipisciniapellentum leo ut consequam ris felit elit id nibh sociis malesuada.</p>
-          <p class="readmore"><a href="#">Continue Reading &#187;</a></p>
-        </li>
+      	<ui:repeat value="#{galeriaBean.galeriasNovas}" var="item">
         <li class="last">
-          <h2><h:graphicImage library="images" name="demo/60x60.gif" alt=""/>Nullamlacus dui ipsum conseque loborttis</h2>
-          <p>Nullamlacus dui ipsum conseque loborttis non euisque morbi penas dapibulum orna. Urnaultrices quis curabitur phasellentesque congue magnis vestibulum quismodo nulla et feugiat. Adipisciniapellentum leo ut consequam ris felit elit id nibh sociis malesuada.</p>
-          <p class="readmore"><a href="#">Continue Reading &#187;</a></p>
+          <h2><h:graphicImage value="/upload/galeria/#{item.gal_cod}/#{item.gal_foto}" height="60" alt="#{item.gal_titulo}" rendered="#{!empty item.gal_foto}"/>
+          <a href="#" class="submitdate">
+            <h:outputText value="#{item.gal_data}" style="font-size: 8pt;">
+			<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="dd 'de' MMMM 'de' yyyy"/>
+		    </h:outputText>
+		  </a>
+          <br />
+          #{item.gal_titulo}</h2>
+          <p><h:outputText value="#{item.gal_descricao}" escape="false"/></p>
+          <br />
+          <p class="readmore">
+		  <h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
+				<f:param name="tit" value="#{item.titulo_normalizado}" />
+				<f:param name="cod" value="#{item.gal_cod}" />
+				Veja as fotos &#187;
+		  </h:link>
+          </p>
         </li>
+        </ui:repeat>
       </ul>
+      </h:panelGroup>
       <br class="clear" />
     </div>
-		
+	
+      <div id="comments">
+      	<h:panelGroup rendered="#{eventoBean.eventosNovos ne null}">
+      	<h2>Novos eventos</h2>
+        <ul class="commentlist">
+          <ui:repeat value="#{eventoBean.eventosNovos}" var="item">
+          <li class="comment_even">
+            <div class="author">
+            <span class="name">#{item.pub_titulo}</span> 
+            </div>
+            <div class="submitdate"><a href="#">
+            <h:outputText value="#{item.pub_data}">
+					<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="EEEEEEEEEEEEE, dd 'de' MMMM 'de' yyyy"/>
+		    </h:outputText>
+            </a></div>
+            <p><h:outputText value="#{item.pub_sumario}" escape="false"/></p>
+          </li>
+          </ui:repeat>
+        </ul>
+        </h:panelGroup>
+      </div>
+    </div>
+
 </ui:composition>

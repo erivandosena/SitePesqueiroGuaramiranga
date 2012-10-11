@@ -32,11 +32,15 @@ public class EventoServico extends DAOGenerico<Serializable> {
 		dao.remover(evento);
 	}
 	
-	public List<Evento> listarEvento(String nome) {
+	public List<Evento> listarEventos(String nome) {
 		return dao.obterLista(Evento.class, "SELECT e FROM Evento e WHERE lower(e.pub_titulo) like ?1", "%"+nome.toLowerCase()+"%");
 	}
 	
-	public List<Evento> listarEvento() {
+	public List<Evento> listarEventos() {
 		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod ASC");
+	}
+	
+	public List<Evento> listar4Eventos() {
+		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod DESC LIMIT 4");
 	}
 }

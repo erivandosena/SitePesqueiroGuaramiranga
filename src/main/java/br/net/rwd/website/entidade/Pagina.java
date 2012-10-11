@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import br.net.rwd.website.util.NormalizaString;
 
 @Entity
 @Table(name = "paginas")
@@ -22,6 +25,11 @@ public class Pagina implements Serializable {
 	private String pag_conteudo;
 	private String pag_extra;
 	private String pag_posicao;
+
+	@Transient
+	public String getTitulo_normalizado() {
+		return NormalizaString.normalizar(this.pag_titulo);
+	}
 
 	public Integer getPag_cod() {
 		return pag_cod;
@@ -70,6 +78,7 @@ public class Pagina implements Serializable {
 	public void setPag_posicao(String pag_posicao) {
 		this.pag_posicao = pag_posicao;
 	}
+	
 
 	@Override
 	public int hashCode() {
@@ -95,4 +104,5 @@ public class Pagina implements Serializable {
 			return false;
 		return true;
 	}	
+
 }

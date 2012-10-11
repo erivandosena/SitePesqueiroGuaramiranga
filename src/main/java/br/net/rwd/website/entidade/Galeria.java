@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import br.net.rwd.website.util.NormalizaString;
 
 @Entity
 @Table(name = "galerias")
@@ -24,11 +28,18 @@ public class Galeria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer gal_cod;
 	@Temporal(TemporalType.DATE)
+	@Column(columnDefinition = "date")
 	private Date gal_data;
 	private String gal_titulo;
 	private String gal_descricao;
+	private String gal_foto;
 	@OneToMany(mappedBy = "galeria")
 	private List<Foto> fotos = new LinkedList<Foto>();
+	
+	@Transient
+	public String getTitulo_normalizado() {
+		return NormalizaString.normalizar(this.gal_titulo);
+	}
 
 	public Integer getGal_cod() {
 		return gal_cod;
@@ -60,6 +71,14 @@ public class Galeria implements Serializable {
 
 	public void setGal_descricao(String gal_descricao) {
 		this.gal_descricao = gal_descricao;
+	}
+
+	public String getGal_foto() {
+		return gal_foto;
+	}
+
+	public void setGal_foto(String gal_foto) {
+		this.gal_foto = gal_foto;
 	}
 
 	public List<Foto> getFotos() {

@@ -12,6 +12,7 @@
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 		<spring.security.version>${org.springframework.version}</spring.security.version>
 		<slf4jVersion>1.6.1</slf4jVersion>
+		<jsfVersion>2.1.10</jsfVersion>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -23,12 +24,12 @@
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>2.1.12</version>
+			<version>${jsfVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>2.1.12</version>
+			<version>${jsfVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -121,6 +122,18 @@
 			<version>8.3-606.jdbc4</version>
 		</dependency>
 		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.2.2</version>
@@ -153,12 +166,12 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>2.2</version>
+			<version>3.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>bluesky</artifactId>
-			<version>1.0.7</version>
+			<artifactId>afterwork</artifactId>
+			<version>1.0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -179,6 +192,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.0</version>
+		</dependency>
+		<dependency>
+   			<groupId>com.ocpsoft</groupId>
+   			<artifactId>prettyfaces-jsf2</artifactId>
+   			<version>3.3.3</version>
 		</dependency>
 	</dependencies>
 	<repositories>

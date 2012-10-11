@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -9,13 +10,10 @@
 
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><ui:insert name="titulo">#{siteBean.carregarDados.web_titulo}<h:outputText value=" - #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_slogan}" /></ui:insert></title>
-
-<meta name="description" content="AMEX Advocacia e assessoria empresarial e do consumidor. Acesse #{siteControlador.webinfo.web_titulo} e veja mais #{siteControlador.detalhes.pag_titulo}" />
-<meta name="keywords" content="advocacia,assessoria,empresarial,consultoria,advogado,juridico,civel,familia,sucessoes,bancaria,fiscal,crimes financeiros,cobrancas,imobiliario, conteudo #{siteControlador.detalhes.pag_titulo}" />
-
+<title><ui:insert name="tituloJanela" >#{siteBean.carregarDados.web_titulo}<h:outputText value=" - #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_slogan}" /></ui:insert></title>
+<meta name="description" content="#{siteBean.carregarDados.web_titulo} Acesse #{siteBean.carregarDados.web_titulo} e veja mais. #{siteBean.carregarDados.web_slogan}" />
+<meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,eventos,galeria,fotos" />
 <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
-<link rel="icon" type="image/gif" href="#{facesContext.externalContext.request.contextPath}/animated_favicon1.gif" />
 
 <h:outputStylesheet library="css" name="layout.css" target="body" />
 <h:outputScript library="javascript" name="jquery-1.4.1.min.js" target="head"/>
@@ -49,10 +47,16 @@
 <div class="wrapper col3">
   <div id="container">
 	<!-- inicio insert conteudo -->
-	<ui:insert name="container">	
+	<ui:insert name="content">	
 		<ui:include src="/layout/layoutConteudo.xhtml" />				
 	</ui:insert> 
 	<!-- final insert conteudo -->
+	
+	<!-- inicio insert coluna -->
+	<ui:insert name="column">	
+		<ui:include src="/layout/layoutConteudoColuna.xhtml" />				
+	</ui:insert> 
+	<!-- final insert coluna -->
   </div>
 </div>
 <!-- ####################################################################################################### -->

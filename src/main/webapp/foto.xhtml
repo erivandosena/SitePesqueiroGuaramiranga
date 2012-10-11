@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+      
+<h:head>
+<title>#{siteBean.carregarDados.web_titulo}</title>
+</h:head>
+    <h:body style="color: #333333;">
+ 	<p:dialog widgetVar="dlg" header="#{galeriaBean.fotoGaleria.fot_descricao}" showHeader="#{true}" showEffect="drop" hideEffect="slide" modal="#{true}" width="665" >
+ 	<p:graphicImage value="/upload/galeria/#{galeriaBean.fotoGaleria.galeria.gal_cod}/#{galeriaBean.fotoGaleria.fot_foto}" />
+ 	<br />
+ 	<p:commandButton type="button" value="Voltar" onclick="dlg.hide();window.history.back();" />
+ 	</p:dialog>
+
+ 	<script type="text/javascript">
+            jQuery(document).ready(function(){
+            	dlg.show();
+            }); 
+   </script>
+   </h:body>
+</html>

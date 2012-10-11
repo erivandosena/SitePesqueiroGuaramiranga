@@ -1,0 +1,68 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.3" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.3
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
+
+   <!-- Begin Example RewriteRules 
+   
+      // These are custom rewrite-rules, and are probably not necessary for your application.
+
+      <rewrite match="^/old-url/(\w+)/$" substitute="/new_url/$1/" redirect="301" />
+
+   -->
+   
+   <!-- Begin UrlMappings 
+      // These are examples of URL mappings, and should be customized for your application.
+   -->
+
+      <url-mapping id="inicial"> 
+          <pattern value="/" /> 
+          <view-id value="/index.jsf" />
+      </url-mapping> 
+      
+      <url-mapping id="evento"> 
+          <pattern value="/eventos/" /> 
+          <view-id value="/eventos.jsf" />
+      </url-mapping> 
+      
+      <url-mapping id="galeria"> 
+          <pattern value="/galerias/" /> 
+          <view-id value="/galerias.jsf" />
+      </url-mapping> 
+      
+      <url-mapping id="contato"> 
+          <pattern value="/fale-conosco/" /> 
+          <view-id value="/contato.jsf" />
+      </url-mapping> 
+      
+      <url-mapping id="login"> 
+          <pattern value="/login/" /> 
+          <view-id value="/login.jsf" />
+      </url-mapping> 
+      
+      <url-mapping id="sair"> 
+          <pattern value="/logout/" /> 
+          <view-id value="/j_spring_security_logout" />
+      </url-mapping> 
+      
+      <url-mapping id="administrativo"> 
+          <pattern value="/admin/" /> 
+          <view-id value="/admin/index.jsf" />
+      </url-mapping> 
+  
+      <url-mapping id="conteudo">
+		  <pattern value="/conteudo/#{cod : paginaBean.pag_cod}/#{tit}/" />
+	      <view-id value="/paginas.jsf" />
+      </url-mapping>
+      
+      <url-mapping id="galeria">
+		  <pattern value="/galeria/#{cod : galeriaBean.gal_cod}/#{tit}/" />
+	      <view-id value="/galerias.jsf" />
+      </url-mapping>
+      
+      <url-mapping id="foto">
+		  <pattern value="/foto/#{cod : galeriaBean.fot_cod}/" />
+	      <view-id value="/foto.jsf" />
+      </url-mapping>
+
+</pretty-config>

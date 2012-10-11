@@ -32,6 +32,14 @@ public class GaleriaServico extends DAOGenerico<Serializable>{
 		dao.remover(galeria);
 	}
 	
+	public Galeria selecionarGaleria(int codigo) {
+		return dao.obterEntidade(Galeria.class, "SELECT g FROM Galeria g WHERE g.gal_cod = ?1", codigo);
+	}
+	
+	public List<Galeria> listarGaleria(int codigo) {
+		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g WHERE g.gal_cod = ?1", codigo);
+	}
+	
 	public List<Galeria> listarGalerias(String nome) {
 		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g WHERE lower(g.gal_titulo) like ?1", "%"+nome.toLowerCase()+"%");
 	}
@@ -40,7 +48,8 @@ public class GaleriaServico extends DAOGenerico<Serializable>{
 		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_cod ASC");
 	}
 	
-	public List<Galeria> listarGaleria(int codigo) {
-		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g WHERE g.gal_cod = ?1", codigo);
+	public List<Galeria> listar6Galerias() {
+		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_cod DESC LIMIT 6");
 	}
+
 }

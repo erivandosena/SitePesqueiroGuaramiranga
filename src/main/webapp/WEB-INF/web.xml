@@ -71,11 +71,19 @@
 	<!-- Primefaces -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>none</param-value>
+		<param-value>afterwork</param-value>
 	</context-param>
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
 		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+		<init-param>
+		<param-name>thresholdSize</param-name>
+		<param-value>131072</param-value>
+		</init-param>
+		<init-param>
+		<param-name>uploadDirectory</param-name>
+		<param-value>java.io.tmpdir</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
@@ -89,6 +97,25 @@
 		<servlet-name>Resource Servlet</servlet-name>
 		<url-pattern>/primefaces_resource/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- PrettyFaces -->
+	<filter>
+		<filter-name>Pretty Filter</filter-name>
+		<filter-class>com.ocpsoft.pretty.PrettyFilter</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>Pretty Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	<context-param>
+  		<param-name>com.ocpsoft.pretty.DEVELOPMENT</param-name>
+  		<param-value>true</param-value>
+	</context-param>
 	
 	<!-- Log4J -->
 	<context-param>

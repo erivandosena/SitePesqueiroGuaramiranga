@@ -31,9 +31,9 @@ public class FotoServico extends DAOGenerico<Serializable> {
 	public void excluirFoto(Foto foto) {
 		dao.remover(foto);
 	}
-
-	public List<Foto> listarFotos(String nome) {
-		return dao.obterLista(Foto.class,"SELECT f FROM Foto f WHERE lower(f.fot_descricao) like ?1","%" + nome.toLowerCase() + "%");
+	
+	public Foto selecionarFoto(int codigo) {
+		return dao.obterEntidade(Foto.class, codigo);
 	}
 
 	public List<Foto> listarFotos() {

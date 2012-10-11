@@ -1,7 +1,7 @@
 package br.net.rwd.website.util;
 
 public enum EnumPosicaoMenu {
-	T("Topo"), R("Rodapé"), D("Destaque");
+	T("Topo"), L("Lateral"), R("Rodapé");
 
 	private String posicao;
 
