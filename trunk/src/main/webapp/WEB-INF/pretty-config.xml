@@ -15,54 +15,69 @@
       // These are examples of URL mappings, and should be customized for your application.
    -->
 
-      <url-mapping id="inicial"> 
+      <url-mapping id="seo1"> 
           <pattern value="/" /> 
           <view-id value="/index.jsf" />
       </url-mapping> 
       
-      <url-mapping id="evento"> 
+      <url-mapping id="seo2"> 
           <pattern value="/eventos/" /> 
           <view-id value="/eventos.jsf" />
       </url-mapping> 
       
-      <url-mapping id="galeria"> 
+      <url-mapping id="seo3"> 
           <pattern value="/galerias/" /> 
           <view-id value="/galerias.jsf" />
       </url-mapping> 
       
-      <url-mapping id="contato"> 
+      <url-mapping id="seo4"> 
           <pattern value="/fale-conosco/" /> 
           <view-id value="/contato.jsf" />
       </url-mapping> 
       
-      <url-mapping id="login"> 
+      <url-mapping id="seo5"> 
           <pattern value="/login/" /> 
           <view-id value="/login.jsf" />
       </url-mapping> 
       
-      <url-mapping id="sair"> 
+      <url-mapping id="seo6"> 
           <pattern value="/logout/" /> 
           <view-id value="/j_spring_security_logout" />
       </url-mapping> 
       
-      <url-mapping id="administrativo"> 
+      <url-mapping id="seo7"> 
           <pattern value="/admin/" /> 
           <view-id value="/admin/index.jsf" />
       </url-mapping> 
   
-      <url-mapping id="conteudo">
+      <url-mapping id="seo8">
 		  <pattern value="/conteudo/#{cod : paginaBean.pag_cod}/#{tit}/" />
 	      <view-id value="/paginas.jsf" />
       </url-mapping>
       
-      <url-mapping id="galeria">
+      <url-mapping id="seo9">
+		  <pattern value="/evento/#{cod : eventoBean.pub_cod}/#{tit}/" />
+	      <view-id value="/eventos.jsf" />
+      </url-mapping>
+      
+      <url-mapping id="seo10">
+		  <pattern value="/evento/#{cod : eventoBean.pub_cod}/" />
+	      <view-id value="/eventos.jsf" />
+      </url-mapping>
+      
+      <url-mapping id="seo11">
 		  <pattern value="/galeria/#{cod : galeriaBean.gal_cod}/#{tit}/" />
 	      <view-id value="/galerias.jsf" />
       </url-mapping>
-      
-      <url-mapping id="foto">
+
+      <url-mapping id="seo12">
 		  <pattern value="/foto/#{cod : galeriaBean.fot_cod}/" />
 	      <view-id value="/foto.jsf" />
+      </url-mapping>
+
+      <url-mapping id="seo14">
+		  <pattern value="/galeria/#{cod : galeriaBean.gal_cod}/" />
+	      <view-id value="/galerias.jsf" />
       </url-mapping>
 
 </pretty-config>

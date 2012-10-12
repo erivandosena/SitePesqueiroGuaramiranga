@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
@@ -47,14 +47,11 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{linkBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="codigo" value="Código" rendered="#{!empty linkBean.link.lin_cod}" size="10"/>
-			<h:inputText id="codigo" value="#{linkBean.link.lin_cod}" rendered="#{!empty linkBean.link.lin_cod}" readonly="#{!empty linkBean.link.lin_cod}" size="10" />
-			
 			<h:outputLabel for="nome" value="Nome" />
 			<h:inputText id="nome" value="#{linkBean.link.lin_nome}" size="50" maxlength="40" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
-			<h:outputLabel for="url" value="URL do link" />
+			<h:outputLabel for="url" value="URL do link (sempre iniciado com http://)" />
 			<h:inputText id="url" value="#{linkBean.link.lin_url}" size="99" maxlength="250" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="url" styleClass="msg_erro" />
 

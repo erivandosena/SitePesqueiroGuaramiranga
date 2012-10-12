@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import br.net.rwd.website.util.NormalizaString;
 
 @Entity
 @Table(name = "publicacoes")
@@ -36,6 +39,11 @@ public class Evento implements Serializable {
 	@OneToMany(mappedBy="evento")
     private List<Imagem> imagens = new LinkedList<Imagem>();
 
+	@Transient
+	public String getTitulo_normalizado() {
+		return NormalizaString.normalizar(this.pub_titulo);
+	}
+	
 	public Integer getPub_cod() {
 		return pub_cod;
 	}

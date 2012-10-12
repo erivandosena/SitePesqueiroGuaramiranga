@@ -54,15 +54,12 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{galeriaBean.modoEdicaoGaleria}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="codigo" value="Código" rendered="#{!empty galeriaBean.galeria.gal_cod}" />
-			<h:inputText id="codigo" value="#{galeriaBean.galeria.gal_cod}" rendered="#{!empty galeriaBean.galeria.gal_cod}" readonly="#{!empty galeriaBean.galeria.gal_cod}" size="10" />
-			
 			<h:outputLabel for="nome" value="Título" />
-			<h:inputText id="nome" value="#{galeriaBean.galeria.gal_titulo}" size="99" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
+			<h:inputText id="nome" value="#{galeriaBean.galeria.gal_titulo}" size="79" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
-			<h:outputLabel for="sumario" value="Descrição da galeria" />
-			<h:inputTextarea id="sumario" rows="5" cols="96" value="#{galeriaBean.galeria.gal_descricao}" />	
+			<h:outputLabel for="sumario" value="Descrição resumida" />
+			<p:editor id="sumario" controls="bold italic underline alignleft center alignright justify font size color link" height="100" value="#{galeriaBean.galeria.gal_descricao}" />
 		</h:panelGrid> 
 		
         <h:commandButton value="Salvar" actionListener="#{galeriaBean.salvar}"/>
@@ -72,11 +69,11 @@
       <br />
 
       <h:form id="formFoto" rendered="#{galeriaBean.modoEdicaoFoto}" prependId="false">
-      <h:outputText value="Galeria selecionada: #{galeriaBean.galeria.gal_titulo}" />
+      <strong><h:outputText value="Galeria selecionada: #{galeriaBean.galeria.gal_titulo}" /></strong>
       <h:panelGrid columns="1" border="0" >
       
-      <h:outputLabel for="descricao" value="Descrição da foto" />
-	  <h:inputText id="descricao" value="#{galeriaBean.foto.fot_descricao}" size="110" maxlength="150" />
+      <h:outputLabel for="descricao" value="Descrição resumida sobre a foto" />
+	  <h:inputTextarea id="descricao" rows="2" cols="100" maxlength="255" value="#{galeriaBean.foto.fot_descricao}" />
 	  
 	  <h:outputLabel for="upload" value="Foto da galeria"/>
       <p:fileUpload id="upload" 

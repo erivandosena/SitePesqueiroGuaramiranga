@@ -32,20 +32,8 @@ public class PaginaServico extends DAOGenerico<Serializable> {
 		dao.remover(pagina);
 	}
 
-	public Pagina selecionarPagina(String nome) {
-		return dao.obterEntidade(Pagina.class, "SELECT p FROM Pagina p WHERE p.pag_titulo = ?1", nome);
-	}
-	
 	public Pagina selecionarPagina(int codigo) {
 		return dao.obterEntidade(Pagina.class, "SELECT p FROM Pagina p WHERE p.pag_cod = ?1", codigo);
-	}
-	
-	public Pagina selecionarPagina() {
-		return dao.obterEntidade(Pagina.class, "SELECT p FROM Pagina p");
-	}
-	
-	public List<Pagina> listarPagina(int codigo) {
-		return dao.obterLista(Pagina.class, "SELECT p FROM Pagina p WHERE p.pag_cod = ?1", codigo);
 	}
 	
 	public List<Pagina> listarPagina(String nome) {

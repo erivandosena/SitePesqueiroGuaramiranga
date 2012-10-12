@@ -33,13 +33,9 @@ public class GaleriaServico extends DAOGenerico<Serializable>{
 	}
 	
 	public Galeria selecionarGaleria(int codigo) {
-		return dao.obterEntidade(Galeria.class, "SELECT g FROM Galeria g WHERE g.gal_cod = ?1", codigo);
+		return dao.obterEntidade(Galeria.class, codigo);
 	}
-	
-	public List<Galeria> listarGaleria(int codigo) {
-		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g WHERE g.gal_cod = ?1", codigo);
-	}
-	
+
 	public List<Galeria> listarGalerias(String nome) {
 		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g WHERE lower(g.gal_titulo) like ?1", "%"+nome.toLowerCase()+"%");
 	}

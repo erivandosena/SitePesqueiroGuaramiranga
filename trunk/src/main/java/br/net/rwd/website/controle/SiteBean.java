@@ -49,8 +49,6 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	private String web_skype;
 	private String web_logomarca;
 
-	/* ------------------------------------------------- */
-
 	public SiteServico getModel() {
 		return model;
 	}

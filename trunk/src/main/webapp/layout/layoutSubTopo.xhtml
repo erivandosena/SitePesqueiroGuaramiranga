@@ -12,17 +12,23 @@
       <ul>
       <ui:repeat value="#{eventoBean.eventos}" var="item">
       <li>
-      <h:graphicImage value="/upload/#{item.pub_cod}/#{item.pub_imagem}" width="380" alt="#{item.pub_titulo}" />
+      <h:graphicImage value="/upload/#{item.pub_cod}/#{item.pub_imagem}" width="380" alt="#{item.pub_titulo}" title="#{item.pub_titulo}"/>
       <div class="floater">
       <h2>#{item.pub_titulo}</h2>
       <p class="italico"><h:outputText value="#{item.pub_sumario}" escape="false"/></p>
-      <p class="readmore"><a href="#">Mais informações &#187;</a></p>
+      <p class="readmore">
+      <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="Clique aqui!">
+      <f:param name="tit" value="#{item.titulo_normalizado}" />
+	  <f:param name="cod" value="#{item.pub_cod}" />
+      Mais informações &#187;
+      </h:link>
+      </p>
       </div>
       </li>
       </ui:repeat>
       </ul>
       
     </div>
-    <a href="javascript:void(0);" id="featured-item-prev"><h:graphicImage library="images" name="prev.png" alt=""/></a> <a href="javascript:void(0);" id="featured-item-next"><h:graphicImage library="images" name="next.png" alt=""/></a>
+    <a href="javascript:void(0);" id="featured-item-prev"><h:graphicImage library="images" name="prev.png" alt="Anterior" title="Anterior"/></a> <a href="javascript:void(0);" id="featured-item-next"><h:graphicImage library="images" name="next.png" alt="Próximo" title="Próximo"/></a>
 	</div>	
 </ui:composition>

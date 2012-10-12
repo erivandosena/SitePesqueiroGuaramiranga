@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.net.rwd.website.dao.DAOGenerico;
 import br.net.rwd.website.dao.ImagemDAO;
-import br.net.rwd.website.entidade.Evento;
 import br.net.rwd.website.entidade.Imagem;
 
 @Service("imagemServico")
@@ -33,19 +32,12 @@ public class ImagemServico extends DAOGenerico<Serializable> {
 		dao.remover(imagem);
 	}
 	
-	public List<Imagem> listarImagem(String nome) {
-		return dao.obterLista(Imagem.class, "SELECT i FROM Imagem i WHERE lower(i.ima_descricao) like ?1", "%"+nome.toLowerCase()+"%");
+	public Imagem selecionarImagem(int codigo) {
+		return dao.obterEntidade(Imagem.class, codigo);
 	}
-	
-	public List<Imagem> listarImagem() {
-		return dao.obterLista(Imagem.class, "SELECT i FROM Imagem i ORDER BY i.ima_cod ASC");
-	}
-	
+
 	public List<Imagem> listarImagemPorEvento(int codigo) {
 		return dao.obterLista(Imagem.class, "SELECT i FROM Imagem i WHERE i.evento.pub_cod = ?1", codigo);
 	}
-	
-	public List<Imagem> listarImagemPorEvento(Evento evento) {
-		return dao.obterLista(Imagem.class, "SELECT i FROM Imagem i WHERE i.evento.pub_cod = ?1", evento.getPub_cod());
-	}
+
 }

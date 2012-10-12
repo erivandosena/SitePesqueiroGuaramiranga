@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
@@ -51,7 +51,7 @@
           <h:inputText id="slogan" value="#{siteBean.site.web_slogan}" size="50" maxlength="50" styleClass="" />
           
           <h:outputLabel for="descricao" value="Sobre o site ou Informações" styleClass="" />
-          <h:inputTextarea id="descricao" rows="25" cols="100" value="#{siteBean.site.web_descricao}" styleClass="" />
+          <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link" height="150" value="#{siteBean.site.web_descricao}" />
           
           <h:outputLabel for="proprietario" value="Nome do responsável" styleClass="" />
           <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" styleClass="" />
@@ -80,7 +80,7 @@
           <h:outputLabel for="site" value="Site" styleClass="" />
           <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" styleClass="" />
           
-          <h:outputLabel for="blog" value="Blog" styleClass="" />
+          <h:outputLabel for="blog" value="Blog (sempre iniciado com http://)" styleClass="" />
           <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" styleClass="" />
           
           <h:outputLabel for="email" value="E-mail" styleClass="" />
@@ -93,16 +93,16 @@
           <h:outputLabel for="skype" value="Skype" styleClass="" />          
           <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" styleClass="" />
 
-          <h:outputLabel for="facebook" value="Facebook" styleClass="" />
+          <h:outputLabel for="facebook" value="Facebook (sempre iniciado com http://)" styleClass="" />
           <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" styleClass="" />
 
-		  <h:outputLabel for="twitter" value="Twitter" styleClass="" />
+		  <h:outputLabel for="twitter" value="Twitter (sempre iniciado com http://)" styleClass="" />
 	      <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
 	      
-          <h:outputLabel for="orkut" value="Orkut" styleClass="" />          
+          <h:outputLabel for="orkut" value="Orkut (sempre iniciado com http://)" styleClass="" />          
           <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" styleClass="" />
 
-          <h:outputLabel for="youtube" value="Canal do Youtube" styleClass="" />          
+          <h:outputLabel for="youtube" value="Canal do Youtube (sempre iniciado com http://)" styleClass="" />          
           <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" styleClass="" />
 
         </h:panelGrid>

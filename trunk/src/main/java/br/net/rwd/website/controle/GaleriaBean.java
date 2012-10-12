@@ -11,10 +11,11 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.FileUploadEvent;
 
@@ -27,7 +28,7 @@ import br.net.rwd.website.util.FileParaBytes;
 import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "galeriaBean")
-@SessionScoped
+@ViewScoped
 public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 	// galeria
@@ -58,6 +59,8 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	//
 
 	// variaveis e constantes auxiliares
+	private HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
 	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 	private static final String PATH = extContext.getRealPath("/upload/galeria/");
 	private byte[] bytesFoto;
@@ -395,7 +398,10 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	
 	public Galeria getConteudoGaleria() throws IOException {
 		if (gal_cod != null)
-			return modelgaleria.selecionarGaleria(gal_cod);
+			if (gal_cod == 0)
+				return null;
+			else
+				return modelgaleria.selecionarGaleria(gal_cod);
 		else
 			return null;
 	}
@@ -422,4 +428,9 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 		return galerias = modelgaleria.listar6Galerias();
 	}
 
+	public String getUrlGaleria() {
+		String cod = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cod");
+		String tit = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("tit");
+		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/galeria/"+cod+"/"+tit+"/";
+	}
 }
