@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
@@ -14,12 +14,8 @@
  	<fieldset>
  	
       <legend>Cadastro de Evento</legend>
-      
-     <!--  <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" /> -->
-     
-     <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
-      
       <h:form id="formDados" rendered="#{!eventoBean.modoEdicao}" prependId="false">
+      <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
 		<h:panelGrid columns="1">
 			<h:panelGroup>
 				<h:outputText value="Pesquisa " />
@@ -57,39 +53,41 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{eventoBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="codigo" value="Código" rendered="#{!empty eventoBean.evento.pub_cod}" />
-			<h:inputText id="codigo" value="#{eventoBean.evento.pub_cod}" rendered="#{!empty eventoBean.evento.pub_cod}" readonly="#{!empty eventoBean.evento.pub_cod}" size="10" />
-			
 			<h:outputLabel for="nome" value="Título" />
-			<h:inputText id="nome" value="#{eventoBean.evento.pub_titulo}" size="99" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
+			<h:inputText id="nome" value="#{eventoBean.evento.pub_titulo}" size="79" maxlength="100" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
-			<h:outputLabel for="sumario" value="Resumo do conteúdo" />
-			<h:inputTextarea id="sumario" rows="5" cols="96" value="#{eventoBean.evento.pub_sumario}" />
+			<h:outputLabel for="sumario" value="Resumo" />
+			<p:editor id="sumario" controls="bold italic underline alignleft center alignright justify font size color link" height="100" value="#{eventoBean.evento.pub_sumario}" />
 
-			<h:outputLabel for="conteudo" value="Conteúdo" />
-			<h:inputTextarea id="conteudo" rows="30" cols="96" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
+			<h:outputLabel for="conteudo" value="Descrição" />
+			<p:editor id="conteudo" controls="bold italic underline alignleft center alignright justify font size color link" height="400" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="conteudo" styleClass="msg_erro" />
-				
 		</h:panelGrid> 
 		
         <h:commandButton value="Salvar" actionListener="#{eventoBean.salvar}"/>
         <h:commandButton value="Cancelar" action="#{eventoBean.retornar}" immediate="true" />
-
       </h:form>
       <br />
 
       <h:form id="formImagem" rendered="#{eventoBean.modoEdicaoImagem}" prependId="false">
-      
-      <h:outputText value="Evento selecionado: #{eventoBean.evento.pub_titulo}" />
+      <strong><h:outputText value="Evento selecionado: #{eventoBean.evento.pub_titulo}"/></strong>
       <h:panelGrid columns="1" border="0" >
-      
-      <h:outputLabel for="descricao" value="Descrição da imagem" />
-	  <h:inputText id="descricao" value="#{eventoBean.imagem.ima_descricao}" size="150" maxlength="150" />
-	  
-	  <h:outputLabel for="upload" value="Imagem do evento"/>
-      <p:fileUpload id="upload" sizeLimit="52428800" auto="true" widgetVar="uploader" label="Localizar..." fileUploadListener="#{eventoBean.handleFileUpload}" allowTypes="*.jpg" description="Arquivos de imagens *.jpg" update="mensagens,btSalvar,imagem" multiple="false" customUI="true" />
 
+      <h:outputLabel for="descricao" value="Descrição resumida da imagem" />
+	  <h:inputTextarea id="descricao" rows="2" cols="100" maxlength="255" value="#{eventoBean.imagem.ima_descricao}" />
+
+	  <h:outputLabel for="upload" value="Imagem do evento"/>
+      <p:fileUpload id="upload" 
+                    fileUploadListener="#{galeriaBean.handleFileUpload}" 
+      				sizeLimit="52428800" 
+      				auto="true" 
+      				label="Localizar..." 
+     	 			allowTypes="/(\.|\/)(jpe?g)$/" 
+     	 			multiple="false" 
+      				description="Imagens .JPG" 
+      				update="listagemImagem,btSalvar" 
+      				/>
 	  </h:panelGrid>
 	  
 	  <h:dataTable value="#{eventoBean.imagens}" var="imagem" id="listagemImagem" border="0" width="620" >
@@ -115,15 +113,15 @@
 
       <h:commandButton id="btSalvar" value="Salvar" actionListener="#{eventoBean.salvarImagem}" disabled="#{eventoBean.bytesImagem eq null}"/>
       <h:commandButton value="Cancelar" action="#{eventoBean.retornar}" immediate="true" />
-      
       </h:form>
 
     </fieldset>
-	
 	</ui:define>
 	
-	<ui:define name="column"></ui:define>
+	<ui:define name="column">
+	</ui:define>
 	
-	<ui:define name="footer"></ui:define>
+	<ui:define name="footer">
+	</ui:define>
   
 </ui:composition>

@@ -32,22 +32,6 @@ public class SiteServico extends DAOGenerico<Serializable> {
 		dao.remover(site);
 	}
 
-	public Site selecionarSite(String nome) {
-		return dao.obterEntidade(Site.class, "SELECT s FROM Site s WHERE s.web_titulo = ?1", nome);
-	}
-	
-	public Site selecionarSite(int codigo) {
-		return dao.obterEntidade(Site.class, "SELECT s FROM Site s WHERE s.web_cod = ?1", codigo);
-	}
-	
-	public Site selecionarSite() {
-		return dao.obterEntidade(Site.class, "SELECT s FROM Site s");
-	}
-	
-	public List<Site> listarSite(int codigo) {
-		return dao.obterLista(Site.class, "SELECT s FROM Site s WHERE s.web_cod = ?1", codigo);
-	}
-	
 	public List<Site> listarSite(String nome) {
 		return dao.obterLista(Site.class, "SELECT s FROM Site s WHERE s.web_titulo = ?1", nome);
 	}

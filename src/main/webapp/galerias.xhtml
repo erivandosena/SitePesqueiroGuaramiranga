@@ -10,11 +10,11 @@
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>
-      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li><h:link value="Inicial" outcome="/index.jsp" title="Inicial"/></li>
       <li>&#187;</li>
       <li class="first">Você está aqui</li>
       <li>&#187;</li>
-      <li class="current"><a href="#">#{galeriaBean.conteudoGaleria.gal_titulo}</a></li>
+      <li class="current"><strong><h:outputText value="Galerias" rendered="#{galeriaBean.conteudoGaleria.gal_cod eq null}"/>#{galeriaBean.conteudoGaleria.gal_titulo}</strong></li>
     </ul>
   	</div>
 	</ui:define>
@@ -22,52 +22,55 @@
 	<ui:define name="content">
 
 	<div id="content">
+	<h:panelGroup rendered="#{galeriaBean.conteudoGaleria.gal_cod eq null}">
+    <h3>Galerias em destaque</h3>	
+    	<p:galleria value="#{galeriaBean.galeriasNovas}" var="item" panelWidth="600" panelHeight="320" showOverlays="true" frameWidth="100" frameHeight="53" filmstripPosition="top">
+            <h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
+			<f:param name="tit" value="#{item.titulo_normalizado}" />
+			<f:param name="cod" value="#{item.gal_cod}" />
+            <h:graphicImage value="/upload/galeria/#{item.gal_cod}/#{item.gal_foto}" alt="#{item.gal_titulo}" title="#{item.gal_titulo}"/>
+            </h:link>
+            <p:galleriaOverlay>
+            <h:outputText value="Clique na foto e veja +" styleClass="titulo"/><h:outputText value="#{item.gal_data}" styleClass="data">
+			<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="'Publicado em' dd 'de' MMMM 'de' yyyy"/>
+		    </h:outputText>
+			<h:outputText value="#{item.gal_descricao}" escape="false"/>
+    		</p:galleriaOverlay>
+    	</p:galleria>		
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{galeriaBean.conteudoGaleria ne null}">
 	<h3>Galeria: #{galeriaBean.conteudoGaleria.gal_titulo}</h3>
 	<p>
 	<h:outputText value="#{galeriaBean.conteudoGaleria.gal_descricao}" escape="false" />
 	</p>
+	<p>
+	<iframe src='http://www.facebook.com/plugins/like.php?href=#{galeriaBean.urlGaleria}&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:500px;height:30px;' allowtransparency='true'></iframe>
+	</p>
 
-	<p:galleria value="#{galeriaBean.fotosGaleria}"
-            var="item" effect="fade" effectSpeed="1000"
-            panelWidth="600" panelHeight="450" frameWidth="160" frameHeight="70"  
-            filmstripPosition="bottom" showCaptions="true" showOverlays="true">
-    
-    <h:link outcome="/foto.jsf" target="_self">
-    <p:graphicImage value="/upload/galeria/#{galeriaBean.conteudoGaleria.gal_cod}/#{item.fot_foto}" alt="#{item.fot_descricao}"/>
+	<p:galleria value="#{galeriaBean.fotosGaleria}" var="item" effect="fade" effectSpeed="1000" panelWidth="600" frameWidth="150" frameHeight="80" filmstripPosition="bottom" showOverlays="true">
+    <h:link outcome="/foto.jsf" target="_self" title="Ampliar foto">
+    <h:graphicImage value="/upload/galeria/#{galeriaBean.conteudoGaleria.gal_cod}/#{item.fot_foto}" alt="#{item.fot_descricao}" title="#{item.fot_descricao}"/>
 	<f:param name="cod" value="#{item.fot_cod}" />
 	</h:link>
 
-    <p:galleriaOverlay title="#{item.fot_descricao}" >
-    <h:outputText value="#{galeriaBean.conteudoGaleria.gal_titulo}" escape="false" />
+    <p:galleriaOverlay>
+    <h:outputText value="#{galeriaBean.conteudoGaleria.gal_titulo}" styleClass="data"/>
+    <h:outputText value="#{item.fot_descricao}" />
     </p:galleriaOverlay>
 
 	</p:galleria>
+	</h:panelGroup>
 	</div>
-
 	</ui:define>
 	
-	<ui:define name="column">
-    <div id="column">
-      <div class="subnav">
-      	<h:panelGroup rendered="#{galeriaBean.galerias ne null}">
-      	<h2>Galerias</h2>
-		<ul>
-			<ui:repeat value="#{galeriaBean.galerias}" var="item">
-			<li>
-		  	<h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
-				<f:param name="tit" value="#{item.titulo_normalizado}" />
-				<f:param name="cod" value="#{item.gal_cod}" />
-				#{item.gal_titulo}
-		  	</h:link>
-			</li>
-			</ui:repeat>
-		</ul>
-		</h:panelGroup>
-	  </div>
-      </div>
-   
-    <br class="clear" />
+	<ui:define name="columnConteudo">
+	</ui:define>
+	
+	<ui:define name="columnParceria">
 	</ui:define>
 
+	<ui:define name="columnEvento">
+	</ui:define>
 
 </ui:composition>

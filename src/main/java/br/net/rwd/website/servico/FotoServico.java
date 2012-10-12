@@ -36,10 +36,6 @@ public class FotoServico extends DAOGenerico<Serializable> {
 		return dao.obterEntidade(Foto.class, codigo);
 	}
 
-	public List<Foto> listarFotos() {
-		return dao.obterLista(Foto.class,"SELECT f FROM Foto f ORDER BY f.fot_cod ASC");
-	}
-
 	public List<Foto> listarFotosPorGaleria(int codigo) {
 		return dao.obterLista(Foto.class,"SELECT f FROM Foto f WHERE f.galeria.gal_cod = ?1", codigo);
 	}

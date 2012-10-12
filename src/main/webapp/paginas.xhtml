@@ -9,20 +9,19 @@
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>
-      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li><h:link value="Inicial" outcome="/index.jsp" title="Inicial"/></li>
       <li>&#187;</li>
       <li class="first">Você está aqui</li>
       <li>&#187;</li>
-      <li class="current"><a href="#">#{paginaBean.conteudoPagina.pag_titulo}</a></li>
+      <li class="current"><strong>#{paginaBean.conteudoPagina.pag_titulo}</strong></li>
     </ul>
   	</div>
 	</ui:define>
 	
 	<ui:define name="content">
 	<div id="content">
-	    conteudo pagina
   		<h:outputText value="#{paginaBean.conteudoPagina.pag_conteudo}" escape="false"/>
-  		<br /><br />
+  		<br /><br /><br />
   		<h:outputText value="#{paginaBean.conteudoPagina.pag_extra}" escape="false"/>
 	</div>
 	</ui:define>

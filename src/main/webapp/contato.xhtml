@@ -9,20 +9,40 @@
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>
-      <li><h:link value="Inicial" outcome="/index.jsp"/></li>
+      <li><h:link value="Inicial" outcome="/index.jsp" title="Inicial"/></li>
       <li>&#187;</li>
       <li class="first">Você está aqui</li>
       <li>&#187;</li>
-      <li class="current"><a href="#">Contato</a></li>
+      <li class="current"><strong>Contato</strong></li>
     </ul>
   	</div>
 	</ui:define>
 	
 	<ui:define name="content">
 	<div id="content">
-	pagina contato
+	<h2>Contato &amp; Feedback</h2>
+	<div id="respond">
+	<form action="#" method="post">
+	<pre>
+<label for="name">Nome</label>
+<input type="text" name="name" id="name" value="" size="60" />
+ 
+<label for="email">E-mail</label>
+<input type="text" name="email" id="email" value="" size="60" />
+
+<label for="comment">Comentário</label>
+<textarea name="comment" id="comment" cols="100%" rows="10"></textarea>
+<input name="submit" type="submit" id="submit" value="Enviar" />
+	</pre>
+	</form>
+	</div>
 	</div>
 	</ui:define>
-
+	
+	<ui:define name="columnEvento">
+	</ui:define>
+	
+	<ui:define name="columnGaleria">
+	</ui:define>
 
 </ui:composition>

@@ -6,14 +6,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div class="box1">
-      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_descricao}">
-      <h2>Saíba mais</h2>
-      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_logomarca}">
-      <h1><a href="index.jsf">#{siteBean.carregarDados.web_titulo}</a></h1>
-      <p class="slogan-rodape">#{siteBean.carregarDados.web_slogan}</p>
-      </h:panelGroup>
-      <p><h:outputText value="#{siteBean.carregarDados.web_descricao}" escape="false"/></p>
-      </h:panelGroup>
+     <h:panelGroup rendered="#{linkBean.links ne null}">
+        <h2>Links Úteis</h2>
+        <ul>
+          <ui:repeat value="#{linkBean.links}" var="item">
+          <h:panelGroup rendered="#{item.lin_posicao eq 'R'}">
+          <li><a href="#{item.lin_url}" title="#{item.lin_nome}" target="_blank">#{item.lin_nome}</a></li>
+          </h:panelGroup>
+          </ui:repeat>
+        </ul>
+    </h:panelGroup>
     </div>
     <div class="box contactdetails">
       <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco}">

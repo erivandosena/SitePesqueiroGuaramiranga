@@ -4,7 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
@@ -49,9 +48,6 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{usuarioBean.modoEdicao}" prependId="false">
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="codigo" value="Código" rendered="#{!empty usuarioBean.usuario.usu_cod}" styleClass=""/>
-			<h:inputText id="codigo" value="#{usuarioBean.usuario.usu_cod}" rendered="#{!empty usuarioBean.usuario.usu_cod}" readonly="#{!empty usuarioBean.usuario.usu_cod}" size="10" styleClass=""/>
-			
 			<h:outputLabel for="nome" value="Nome" styleClass=""/>
 			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Campo obrigatório." styleClass="" />
 			<h:message for="nome" styleClass="msg_erro" />
@@ -65,9 +61,9 @@
 			<h:message for="senha" styleClass="msg_erro" />
 			
 			<h:outputLabel for="perfil" value="Perfil" styleClass=""/>
-			<h:selectOneMenu id="perfil" value="#{perfilBean.perfil.per_cod}" disabled="#{loginBean.usuarioEmSessao == 'ROLE_USER'}" required="false" requiredMessage="Campo obrigatório." styleClass="">
-				<f:selectItem itemValue="" itemLabel="Selecione" /> 
-				<f:selectItems value="#{perfilBean.perfis}"/>
+			<h:selectOneMenu id="perfil" value="#{perfilBean.perfil.per_nome}" onchange="#{perfilBean.perfil.per_nome}" disabled="#{loginBean.usuarioEmSessao == 'ROLE_USUARIO'}" required="false" requiredMessage="Campo obrigatório.">
+				<f:selectItem itemValue="" itemLabel="Selecione" />
+				<f:selectItems value="#{perfilBean.perfilUsuario}"/>
 			</h:selectOneMenu>
 			
 		</h:panelGrid> 

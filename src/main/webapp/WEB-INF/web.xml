@@ -82,7 +82,7 @@
 		</init-param>
 		<init-param>
 		<param-name>uploadDirectory</param-name>
-		<param-value>java.io.tmpdir</param-value>
+		<param-value>${java.io.tmpdir}</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.FileUploadEvent;
 
@@ -24,6 +25,7 @@ import br.net.rwd.website.servico.EventoServico;
 import br.net.rwd.website.servico.ImagemServico;
 import br.net.rwd.website.util.Criptografia;
 import br.net.rwd.website.util.FileParaBytes;
+import br.net.rwd.website.util.NormalizaString;
 import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "eventoBean")
@@ -54,6 +56,12 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	private String ima_mini;	
 	private boolean modoEdicaoImagem;
 
+	/* ------------------------------------------------- */
+	
+	private HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+	/* ------------------------------------------------- */
+	
 	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 	private static final String PATH = extContext.getRealPath("/upload/");
 	private byte[] bytesImagem;
@@ -410,8 +418,49 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 		return retorno;
 	}
 	
+	public Evento getConteudoEvento() throws IOException {
+		if (pub_cod != null)
+			if (pub_cod == 0)
+				return null;
+			else
+				return model.selecionarEvento(pub_cod);
+		else
+			return null;
+	}
+	
+	public List<Imagem> getImagensEvento() {
+		if (pub_cod != null) {
+		List<Imagem> lista = modelimagem.listarImagemPorEvento(pub_cod);
+		if (lista.isEmpty())
+			return null;
+		else
+			return lista;
+		}
+		return null;
+	}
+
+	public Imagem getImagemEvento() {
+		if (ima_cod != null)
+			return modelimagem.selecionarImagem(ima_cod);
+		else
+			return null;
+	}
+	
 	public List<Evento> getEventosNovos() {
 		return eventos = model.listar4Eventos();
 	}
+	
+	public List<Evento> getEventosDestaque() {
+		return eventos = model.listar40Eventos();
+	}
     
+	public String getNormalizarTitulo() {
+		return NormalizaString.normalizar(pub_titulo);
+	}
+	
+	public String getUrlEvento() {
+		String cod = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cod");
+		String tit = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("tit");
+		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/evento/"+cod+"/"+tit+"/";
+	}
 }

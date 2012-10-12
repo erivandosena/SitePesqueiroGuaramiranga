@@ -57,7 +57,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 .col1{color:#CCCCCC; background-color:#000000;}
 .col2, .col2 a{color:#FFFFFF; background-color:#B2C629;}
 .col3{color:#777777; background-color:#FFFFFF;}
-.col3 a{color:#95AD19; background-color:#FFFFFF;}
+.col3 a{color:#B2C629;}
 .col4{color:#FFFFFF; background-color:#000000;}
 .col4 a{color:#95AD19; background-color:#000000;}
 .col5, .col5 a{color:#333333; background-color:#95AD19;}
@@ -99,7 +99,6 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #header h1 a{
 	color:#B2C629;
-	background-color:#000000;
 	}
 
 /* ----------------------------------------------BreadCrumb-------------------------------------*/
@@ -159,10 +158,13 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	width:100%;
 	height:70px;
 	margin:0;
-	padding:15px 0 8px 0;
+	padding:15px 0 5px 0;
 	font-weight:normal;
 	line-height:normal;
 	border-bottom:1px dotted #999999;
+	font-size: 9pt;
+	font-variant: small-caps;
+	font-weight: bold;
 	}
 
 .homepage li h2 img{
@@ -173,7 +175,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	}
 
 .homepage p{
-	margin:0 0 10px 0;
+	margin:-10px 0 20px 0;
 	padding:0;
 	line-height:1.2em;
 	}
@@ -216,7 +218,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 #comments .commentlist li.comment_even a{color:#95AD19; background-color:#E8E8E8;}
 
 #comments .commentlist .author .name{font-weight:bold;}
-#comments .commentlist .submitdate{font-size:smaller;}
+#comments .commentlist .submitdate{font-size:smaller; color: #919191;}
 
 #comments .commentlist p{margin:10px 5px 10px 0; padding:0; font-weight: normal;text-transform: none;}
 
@@ -308,7 +310,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	display:block;
 	float:left;
 	width:400px;
-	line-height:1.1em;
+	line-height:1.6em;
 	overflow: hidden;
 	}
 
@@ -741,5 +743,29 @@ input, textarea, select{font-size:12px; font-family:Verdana, Arial, Helvetica, s
 	}
 .slogan-rodape {
 	margin-top: 0px;
+	}
+.data {
+	font-size: 8pt;
+	margin-top: -20px;
+	padding-bottom: 5px;
+	clear: both;
+	position: absolute;
+	color: #919191;
+	}
+	
+.titulo {
+	margin-top: -45px;
+	padding-bottom: 5px;
+	clear: both;
+	position: absolute;
+	font-weight:bold;
+	font-size: 14pt;
+	}
+
+.destaque{
+	font-variant: small-caps;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-weight: bold;
 	}
 /* ----------------------------------------------Fim-------------------------------------*/

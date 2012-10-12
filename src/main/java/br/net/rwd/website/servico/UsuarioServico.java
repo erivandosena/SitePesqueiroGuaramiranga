@@ -31,33 +31,13 @@ public class UsuarioServico extends DAOGenerico<Serializable> {
 	public void excluirUsuario(Usuario usuario) {
 		dao.remover(usuario);
 	}
-	
-	public Usuario selecionarUsuarios() {
-		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u");
-	}
-	
-	public Usuario selecionarUsuario(int codigo) {
-		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_cod = ?1", codigo);
-	}
-	
-	public Usuario selecionarUsuario(String nome) {
-		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome = ?1", nome);
-	}
-	
+
 	public Usuario selecionarUsuarioLogin(String login) {
 		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_email = ?1", login);
 	}
 	
 	public List<Usuario> listarUsuarios() {
 		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u ORDER BY u.usu_cod ASC");
-	}
-	
-	public List<Usuario> listarUsuario(int codigo) {
-		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_cod = ?1", codigo);
-	}
-	
-	public List<Usuario> listarUsuario(String nome) {
-		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome = ?1", nome);
 	}
 	
 	public List<Usuario> listarLikeUsuario(String nome) {

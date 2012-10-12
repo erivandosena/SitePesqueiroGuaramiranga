@@ -52,11 +52,32 @@
 	</ui:insert> 
 	<!-- final insert conteudo -->
 	
-	<!-- inicio insert coluna -->
-	<ui:insert name="column">	
+	<div id="column">
+	<!-- inicio insert coluna conteudo -->
+	<ui:insert name="columnConteudo">	
 		<ui:include src="/layout/layoutConteudoColuna.xhtml" />				
 	</ui:insert> 
-	<!-- final insert coluna -->
+	<!-- final insert coluna conteudo -->
+	
+	<!-- inicio insert coluna parceria -->
+	<ui:insert name="columnParceria">	
+		<ui:include src="/layout/layoutParceriasColuna.xhtml" />				
+	</ui:insert> 
+	<!-- final insert coluna parceria -->
+	
+	<!-- inicio insert coluna evento -->
+	<ui:insert name="columnEvento">	
+		<ui:include src="/layout/layoutEventosColuna.xhtml" />				
+	</ui:insert> 
+	<!-- final insert coluna evento -->
+	
+	<!-- inicio insert coluna galeria -->
+	<ui:insert name="columnGaleria">	
+		<ui:include src="/layout/layoutGaleriasColuna.xhtml" />				
+	</ui:insert> 
+	<!-- final insert coluna galeria -->
+	</div>
+	<br class="clear" />
   </div>
 </div>
 <!-- ####################################################################################################### -->

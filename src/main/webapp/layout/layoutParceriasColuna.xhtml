@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+     <div class="subnav">
+      	<h:panelGroup rendered="#{linkBean.links ne null}">
+        <h2>Parcerias</h2>
+        <ul>
+          <ui:repeat value="#{linkBean.links}" var="item">
+          <h:panelGroup rendered="#{item.lin_posicao eq 'L'}">
+          <li><a href="#{item.lin_url}" title="#{item.lin_nome}" target="_blank">#{item.lin_nome}</a></li>
+          </h:panelGroup>
+          </ui:repeat>
+        </ul>
+        </h:panelGroup>
+      </div>
+
+</ui:composition>
