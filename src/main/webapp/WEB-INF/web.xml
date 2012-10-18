@@ -199,8 +199,10 @@
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	
+
 	<!-- Remove atributo autocomplete para validacao W3C -->
 	<context-param>
 		<param-name>com.sun.faces.autoCompleteOffOnViewState</param-name>

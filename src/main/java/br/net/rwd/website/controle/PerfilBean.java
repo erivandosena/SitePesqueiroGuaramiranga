@@ -1,8 +1,6 @@
 package br.net.rwd.website.controle;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,7 +9,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 
 import br.net.rwd.website.entidade.Perfil;
 import br.net.rwd.website.servico.PerfilServico;
-import br.net.rwd.website.util.EnumPerfis;
 
 @ManagedBean(name = "perfilBean")
 @ViewScoped
@@ -137,12 +134,5 @@ public class PerfilBean extends UtilBean implements CrudBeans<Object> {
         perfis = model.listarPerfis();
         return "perfil";
 	}
-	
-	public Map<EnumPerfis, String> getPerfilUsuario() {
-		Map<EnumPerfis, String> mapParam = new HashMap<EnumPerfis, String>();
-		for (EnumPerfis type : EnumPerfis.values()) {
-			mapParam.put(type, type.name());
-		}
-		return mapParam;
-	} 
+	 
 }

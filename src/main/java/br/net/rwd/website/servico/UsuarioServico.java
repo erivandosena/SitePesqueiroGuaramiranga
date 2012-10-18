@@ -36,12 +36,19 @@ public class UsuarioServico extends DAOGenerico<Serializable> {
 		return dao.obterEntidade(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_email = ?1", login);
 	}
 	
+	public boolean selecionarUsuarioExistente(String login) {
+		if(selecionarUsuarioLogin(login) != null)
+			return true;
+		else
+			return false;
+	}
+	
 	public List<Usuario> listarUsuarios() {
 		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u ORDER BY u.usu_cod ASC");
 	}
 	
 	public List<Usuario> listarLikeUsuario(String nome) {
-		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE u.usu_nome like ?1", nome);
+		return dao.obterLista(Usuario.class, "SELECT u FROM Usuario u WHERE lower(u.usu_nome) like ?1", "%"+ nome.toLowerCase() + "%");
 	}
 	
 }

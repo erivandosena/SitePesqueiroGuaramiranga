@@ -26,15 +26,16 @@ public class Perfil implements Serializable, GrantedAuthority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer per_cod;
+	private String per_role;
 	private String per_nome;
 	
 	@ManyToMany(targetEntity=Usuario.class,fetch=FetchType.EAGER)
-	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
+	@JoinTable(name = "perfis", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 	
 	@Transient
 	public String getAuthority() {
-		return this.per_nome;
+		return this.per_role;
 	}
 
 	@Transient
@@ -52,6 +53,14 @@ public class Perfil implements Serializable, GrantedAuthority {
 
 	public void setPer_cod(Integer per_cod) {
 		this.per_cod = per_cod;
+	}
+	
+	public String getPer_role() {
+		return per_role;
+	}
+
+	public void setPer_role(String per_role) {
+		this.per_role = per_role;
 	}
 
 	public String getPer_nome() {

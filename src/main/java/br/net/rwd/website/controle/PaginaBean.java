@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import br.net.rwd.website.entidade.Pagina;
@@ -15,7 +15,7 @@ import br.net.rwd.website.servico.PaginaServico;
 import br.net.rwd.website.util.EnumPosicaoMenu;
 
 @ManagedBean(name = "paginaBean")
-@RequestScoped
+@ViewScoped
 public class PaginaBean extends UtilBean implements CrudBeans<Object> {
 
 	@ManagedProperty("#{paginaServico}")

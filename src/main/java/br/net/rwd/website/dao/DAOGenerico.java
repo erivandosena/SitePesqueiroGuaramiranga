@@ -72,7 +72,7 @@ public class DAOGenerico<T extends Serializable> {
 				entidade = (T) consulta.getSingleResult();
 			}
 		} catch (NoResultException nre) {
-			log4j.error(nre);
+			log4j.warn(nre + "\n Excecao tratada para evitar um NPE ao retornar null fazendo um cast.\nQuando a consulta retorna vazio.");
 		}
 		return entidade;
 	}

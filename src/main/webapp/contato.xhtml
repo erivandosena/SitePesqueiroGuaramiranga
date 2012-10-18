@@ -4,6 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<ui:define name="featured_slide">
@@ -21,21 +22,32 @@
 	<ui:define name="content">
 	<div id="content">
 	<h2>Contato &amp; Feedback</h2>
+	<h:form id="formContato" acceptcharset="utf-8" lang="pt" prependId="false">
+	<p:messages showSummary="#{true}" />
 	<div id="respond">
-	<form action="#" method="post">
-	<pre>
-<label for="name">Nome</label>
-<input type="text" name="name" id="name" value="" size="60" />
+	<h:panelGrid columns="1">
+	
+	<h:outputLabel for="name" value="Nome"/>
+	<h:inputText type="text" name="name" id="name" value="#{contatoBean.nome}" size="40" required="true" requiredMessage="Nome obrigatório." />
  
-<label for="email">E-mail</label>
-<input type="text" name="email" id="email" value="" size="60" />
+	<h:outputLabel for="email" value="E-mail"/>
+	<h:inputText name="email" id="email" value="#{contatoBean.email}" size="40" required="true" requiredMessage="E-mail obrigatório." />
 
-<label for="comment">Comentário</label>
-<textarea name="comment" id="comment" cols="100%" rows="10"></textarea>
-<input name="submit" type="submit" id="submit" value="Enviar" />
-	</pre>
-	</form>
+	<h:outputLabel for="assunto" value="Assunto"/>
+	<h:selectOneMenu id="assunto" value="#{contatoBean.assunto}" required="true" requiredMessage="Assunto obrigatório.">
+			<f:selectItem itemValue="" itemLabel=""  />
+			<f:selectItem itemValue="Contato" itemLabel="Contato"  />
+			<f:selectItem itemValue="Feedback" itemLabel="Feedback" />
+	</h:selectOneMenu>
+
+	<h:outputLabel for="comment" value="Mensagem"/>
+	<p:editor id="comment" style="visibility:visible;!important;" controls="bold italic underline justify color" height="150"  value="#{contatoBean.mensagem}" required="true" requiredMessage="Mensagem obrigatória." />
+
+	</h:panelGrid>
+	<h:inputHidden id="remetente" value="#{siteBean.carregarDados.web_email}" />
+	<h:commandButton value="Enviar" type="submit" id="submit" action="#{contatoBean.envia}" />
 	</div>
+	</h:form>
 	</div>
 	</ui:define>
 	

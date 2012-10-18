@@ -12,6 +12,7 @@
 <title><ui:insert name="titulo"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Administrativo</ui:insert></title>
 <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
 <h:outputStylesheet library="css" name="layout.css" target="body" />
+<ui:insert name="head"></ui:insert>
 </h:head>
 
 <h:body>
@@ -24,6 +25,8 @@
     <div id="logo">
       <h1><a href="index.jsf">Administrativo</a></h1>
       <p id="admin">Visualizar <h:link value="Website" outcome="/index.jsp"/></p>
+      <br /><br />
+      <span>#{siteBean.saldacao} <strong>#{usuarioBean.usuarioLogado}</strong></span>
     </div>
     <div id="topnav">
       <ul>
