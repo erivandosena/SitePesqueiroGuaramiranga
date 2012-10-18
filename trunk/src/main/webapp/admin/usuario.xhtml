@@ -4,15 +4,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
   
 	<ui:define name="featured_slide"></ui:define>
 	
 	<ui:define name="content">
+	
     <fieldset>
+    
       <legend>Cadastro do usuário</legend>
-      <h:messages styleClass="msg_ok" showSummary="#{true}" infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" globalOnly="true" />
       <h:form id="formDados" rendered="#{!usuarioBean.modoEdicao}" prependId="false">
+      <p:messages id="mensagens" showSummary="#{true}" /> 
 		<h:panelGrid columns="1">
 			<h:panelGroup>
 				<h:outputText value="Pesquisa " />
@@ -32,51 +35,49 @@
           </h:column>
           <h:column>
             <f:facet name="header"></f:facet>
-            <h:commandLink value="Alterar" action="#{usuarioBean.atualizar}" >
+            <h:commandLink value="Alterar" action="#{usuarioBean.atualizar}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}">
               <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
             </h:commandLink>
           </h:column>
           <h:column>
             <f:facet name="header"></f:facet>
-            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{usuarioBean.excluir}">
+            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{usuarioBean.excluir}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}">
               <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
             </h:commandLink>
           </h:column>
         </h:dataTable>
-        <h:commandButton value="Cadastrar" actionListener="#{usuarioBean.incluir}" />
+        <h:commandButton value="Cadastrar" actionListener="#{usuarioBean.incluir}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}"/>
         <h:commandButton value="Atualizar" action="#{usuarioBean.retornar}" immediate="true" />
       </h:form>
       <h:form id="formEdicao" rendered="#{usuarioBean.modoEdicao}" prependId="false">
+      <p:messages id="mensagensEdicao" showSummary="#{true}" /> 
         <h:panelGrid columns="1" border="0" >
-			<h:outputLabel for="nome" value="Nome" styleClass=""/>
-			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Campo obrigatório." styleClass="" />
-			<h:message for="nome" styleClass="msg_erro" />
+			<h:outputLabel for="nome" value="Nome" />
+			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Nome obrigatório."  />
 			
-			<h:outputLabel for="email" value="E-mail" styleClass=""/>
-			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass=""/>
-			<h:message for="email" styleClass="msg_erro" />
+			<h:outputLabel for="email" value="E-mail" />
+			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="E-mail obrigatório." />
 			
-			<h:outputLabel for="senha" value="Senha" styleClass=""/>
-			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" required="true" requiredMessage="Campo obrigatório." styleClass=""/>
-			<h:message for="senha" styleClass="msg_erro" />
+			<h:outputLabel for="senha" value="Senha" />
+			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" required="false" requiredMessage="Senha obrigatória." />
 			
-			<h:outputLabel for="perfil" value="Perfil" styleClass=""/>
-			<h:selectOneMenu id="perfil" value="#{perfilBean.perfil.per_nome}" onchange="#{perfilBean.perfil.per_nome}" disabled="#{loginBean.usuarioEmSessao == 'ROLE_USUARIO'}" required="false" requiredMessage="Campo obrigatório.">
-				<f:selectItem itemValue="" itemLabel="Selecione" />
-				<f:selectItems value="#{perfilBean.perfilUsuario}"/>
-			</h:selectOneMenu>
-			
+			<h:outputLabel for="confirma" value="Confirma senha" />
+			<h:inputSecret id="confirma" value="#{usuarioBean.confirmaSenha}" size="25" maxlength="25" required="false" requiredMessage="Confirme a senha." />
+
 		</h:panelGrid> 
 		
-        <h:commandButton value="Salvar" actionListener="#{usuarioBean.salvar}"/>
+		<h:inputHidden id="remetente" value="#{siteBean.carregarDados.web_email}" />
+        <h:commandButton id="btSalvar" value="Salvar" actionListener="#{usuarioBean.salvar}"/>
         <h:commandButton value="Cancelar" action="#{usuarioBean.retornar}" immediate="true" />
-
       </h:form>
+      
     </fieldset>
 	</ui:define>
 	
-	<ui:define name="column"></ui:define>
+	<ui:define name="column">
+	</ui:define>
 	
-	<ui:define name="footer"></ui:define>
+	<ui:define name="footer">
+	</ui:define>
   
 </ui:composition>

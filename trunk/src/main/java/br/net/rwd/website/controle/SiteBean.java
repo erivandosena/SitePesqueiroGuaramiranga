@@ -20,9 +20,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	@ManagedProperty("#{siteServico}")
 	private SiteServico model;
 	private Site site;
+	private Site siteDados;
 	private List<Site> sites;
 	private boolean modoEdicao;
-
+	
 	/* ------------------------------------------------- */
 
 	private Integer web_cod;
@@ -48,6 +49,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	private String web_messenger;
 	private String web_skype;
 	private String web_logomarca;
+	private String web_smtp;
+	private String web_porta;
+	private String web_conta;
+	private String web_senha;
 
 	public SiteServico getModel() {
 		return model;
@@ -272,6 +277,38 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	public void setWeb_logomarca(String web_logomarca) {
 		this.web_logomarca = web_logomarca;
 	}
+
+	public String getWeb_smtp() {
+		return web_smtp;
+	}
+
+	public void setWeb_smtp(String web_smtp) {
+		this.web_smtp = web_smtp;
+	}
+
+	public String getWeb_porta() {
+		return web_porta;
+	}
+
+	public void setWeb_porta(String web_porta) {
+		this.web_porta = web_porta;
+	}
+
+	public String getWeb_conta() {
+		return web_conta;
+	}
+
+	public void setWeb_conta(String web_conta) {
+		this.web_conta = web_conta;
+	}
+
+	public String getWeb_senha() {
+		return web_senha;
+	}
+
+	public void setWeb_senha(String web_senha) {
+		this.web_senha = web_senha;
+	}
 	
 	/* ------------------------------------------------- */
 
@@ -308,11 +345,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 
 	@Override
 	public void filtrar(AjaxBehaviorEvent event) {
-        if (web_titulo != null && !web_titulo.isEmpty()) {
-            sites = model.listarSite(web_titulo);
-        } else {
-            sites = model.listarSite();
-        }
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
@@ -325,11 +358,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	/* ------------------------------------------------- */
 	
 	public Site getCarregarDados() {
-		List<Site> lista = model.listarSite();
-		if (lista.isEmpty())
-			return null;
-		else
-			return (Site) lista.set(0, null);
+		if(siteDados == null) {
+			siteDados = model.selecionarSite();
+		}
+		return siteDados;
 	}
 
 	public String getSaldacao() {

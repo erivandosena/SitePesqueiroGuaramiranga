@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
 	
     <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Login</ui:define>
@@ -23,7 +23,8 @@
 	</ui:define>
 	
 	<ui:define name="content">
-
+	<div id="content">
+	<h2>Área restrita</h2>
 	<h:form id="formLogin" prependId="false">
 	<div id="respond">
 
@@ -49,10 +50,14 @@
 
 	</div>
 	
-
 	</h:form>
+	</div>
 	</ui:define>
 	
-	<ui:define name="column"></ui:define>
+	<ui:define name="columnEvento">
+	</ui:define>
+	
+	<ui:define name="columnGaleria">
+	</ui:define>
 	
 </ui:composition>

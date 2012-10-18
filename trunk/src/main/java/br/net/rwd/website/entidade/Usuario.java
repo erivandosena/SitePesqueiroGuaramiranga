@@ -47,7 +47,7 @@ public class Usuario implements Serializable, UserDetails {
 	private Date usu_alteracao;
 
 	@ManyToMany(targetEntity=Perfil.class,fetch=FetchType.EAGER)
-	@JoinTable(name = "usuariosperfis", joinColumns = @JoinColumn(name = "usu_cod"), inverseJoinColumns = @JoinColumn(name = "per_cod"))
+	@JoinTable(name = "perfis", joinColumns = @JoinColumn(name = "usu_cod"), inverseJoinColumns = @JoinColumn(name = "per_cod"))
 	private List<Perfil> perfis = new ArrayList<Perfil>();
 
 	@Transient

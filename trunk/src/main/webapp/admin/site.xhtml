@@ -104,8 +104,36 @@
 
           <h:outputLabel for="youtube" value="Canal do Youtube (sempre iniciado com http://)" styleClass="" />          
           <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" styleClass="" />
+		  </h:panelGrid>
 
-        </h:panelGrid>
+	      <fieldset><legend>Informações de webmail</legend>
+	      <h:panelGrid columns="1" border="0" >
+		  <h:outputLabel for="servidor" value="Servidor SMTP" />
+          <h:inputText id="servidor" value="#{siteBean.site.web_smtp}" size="50" maxlength="100" />
+          
+		  <h:outputLabel for="porta" value="Porta" />
+          <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
+          
+          <h:outputLabel for="ssl" value="Conexão segura" />
+          <h:selectOneRadio id="ssl" value ="#{siteBean.site.web_ssl}" onchange="submit()" style="width:179px;"> 
+  			<f:selectItem itemValue="#{false}" itemLabel="Não" /> 
+  			<f:selectItem itemValue="#{true}" itemLabel="Sim"/> 
+			<f:ajax event="click" render="painelPortaSsl" />
+		  </h:selectOneRadio> 
+		  
+		  <h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
+		  <h:outputLabel for="portasll" value="Porta SSL" /><br />
+          <h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
+		  </h:panelGroup>
+
+		  <h:outputLabel for="conta" value="Conta" styleClass="" />
+          <h:inputText id="conta" value="#{siteBean.site.web_conta}" size="25" maxlength="50" />
+          
+		  <h:outputLabel for="senha" value="Senha" styleClass="" />
+          <h:inputSecret id="senha" redisplay="true" value="#{siteBean.site.web_senha}" size="25" maxlength="50" />
+          </h:panelGrid>
+          </fieldset>
+
         <h:commandButton value="Salvar" actionListener="#{siteBean.salvar}" />
         <h:commandButton value="Cancelar" action="#{siteBean.retornar}" immediate="true" />
       </h:form>

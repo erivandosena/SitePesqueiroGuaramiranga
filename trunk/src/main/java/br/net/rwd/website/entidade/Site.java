@@ -43,6 +43,12 @@ public class Site implements Serializable {
 	private String web_messenger;
 	private String web_skype;
 	private String web_logomarca;
+	private String web_smtp;
+	private Integer web_porta;
+	private boolean web_ssl;
+	private Integer web_portassl;
+	private String web_conta;
+	private String web_senha;
 
 	public Integer getWeb_cod() {
 		return web_cod;
@@ -226,6 +232,54 @@ public class Site implements Serializable {
 
 	public void setWeb_logomarca(String web_logomarca) {
 		this.web_logomarca = web_logomarca;
+	}
+
+	public String getWeb_smtp() {
+		return web_smtp;
+	}
+
+	public void setWeb_smtp(String web_smtp) {
+		this.web_smtp = web_smtp;
+	}
+
+	public Integer getWeb_porta() {
+		return web_porta;
+	}
+
+	public void setWeb_porta(Integer web_porta) {
+		this.web_porta = web_porta;
+	}
+
+	public boolean isWeb_ssl() {
+		return web_ssl;
+	}
+
+	public void setWeb_ssl(boolean web_ssl) {
+		this.web_ssl = web_ssl;
+	}
+
+	public Integer getWeb_portassl() {
+		return web_portassl;
+	}
+
+	public void setWeb_portassl(Integer web_portassl) {
+		this.web_portassl = web_portassl;
+	}
+
+	public String getWeb_conta() {
+		return web_conta;
+	}
+
+	public void setWeb_conta(String web_conta) {
+		this.web_conta = web_conta;
+	}
+
+	public String getWeb_senha() {
+		return web_senha;
+	}
+
+	public void setWeb_senha(String web_senha) {
+		this.web_senha = web_senha;
 	}
 
 	@Override
