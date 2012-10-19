@@ -12,110 +12,111 @@
 	<ui:define name="content">
 	
  <fieldset>
-      <legend>Cadastro do site</legend>
-      <h:messages globalOnly="#{true}" showSummary="#{true}" styleClass="msg_aviso"  infoClass="msg_ok" warnClass="msg_aviso" errorClass="msg_erro" />
-      <h:form id="formDados" rendered="#{!siteBean.modoEdicao}" prependId="false">
-        <h:dataTable value="#{siteBean.sites}" var="site" id="listagem" border="0" width="620">
-          <h:column>
-            <f:facet name="header">Título</f:facet>
-            <h:outputText value="#{site.web_titulo}" />
-          </h:column>
-          <h:column>
-            <f:facet name="header"></f:facet>
-            <h:commandLink value="Alterar" action="#{siteBean.atualizar}">
-              <f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
-            </h:commandLink>
-          </h:column>
-          <h:column>
-            <f:facet name="header"></f:facet>
-            <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{siteBean.excluir}">
-              <f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
-            </h:commandLink>
-          </h:column>
-        </h:dataTable>
-        <h:commandButton value="Cadastrar" actionListener="#{siteBean.incluir}" rendered="#{siteBean.carregarDados eq null}"/>
-        <ui:remove>
-        <h:commandButton value="Atualizar" action="#{siteBean.retornar}" />
-        </ui:remove>
-      </h:form>
-      <h:form id="formEdicao" rendered="#{siteBean.modoEdicao}" prependId="false">
-        <h:panelGrid columns="1" border="0" >
-          <h:outputLabel for="codigo" value="Código" rendered="#{!empty siteBean.site.web_cod}" styleClass="" />
-          <h:inputText id="codigo" value="#{siteBean.site.web_cod}" rendered="#{!empty siteBean.site.web_cod}" readonly="#{!empty siteBean.site.web_cod}" size="10" styleClass="" />
-          
-          <h:outputLabel for="titulo" value="Título" styleClass="" />
-          <h:inputText id="titulo" value="#{siteBean.site.web_titulo}" required="true" requiredMessage="Campo obrigatório." size="50" maxlength="100" styleClass="" />
-          <h:message for="titulo" styleClass="msg_erro" />
-          
-          <h:outputLabel for="slogan" value="Slogan" styleClass="" />
-          <h:inputText id="slogan" value="#{siteBean.site.web_slogan}" size="50" maxlength="50" styleClass="" />
-          
-          <h:outputLabel for="descricao" value="Sobre o site ou Informações" styleClass="" />
-          <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link" height="150" value="#{siteBean.site.web_descricao}" />
-          
-          <h:outputLabel for="proprietario" value="Nome do responsável" styleClass="" />
-          <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" styleClass="" />
-          
-          <h:outputLabel for="endereco" value="Endereço" styleClass="" />
-          <h:inputText id="endereco" value="#{siteBean.site.web_endereco}" size="50" maxlength="100" styleClass="" />
-          
-          <h:outputLabel for="numero" value="Número" styleClass="" />
-          <h:inputText id="numero" value="#{siteBean.site.web_numero}" size="10" maxlength="10" styleClass="" />
-          
-          <h:outputLabel for="bairro" value="Bairro" styleClass="" />
-          <h:inputText id="bairro" value="#{siteBean.site.web_bairro}" size="25" maxlength="40" styleClass="" />
-          
-          <h:outputLabel for="cep" value="CEP" styleClass="" />
-          <h:inputText id="cep" value="#{siteBean.site.web_cep}" size="10" maxlength="10" styleClass="" />
-          
-          <h:outputLabel for="cidade" value="Cidade" styleClass="" />
-          <h:inputText id="cidade" value="#{siteBean.site.web_cidade}" size="25" maxlength="40" styleClass="" />
-          
-          <h:outputLabel for="ufestado" value="UF do Estado" styleClass="" />
-          <h:inputText id="ufestado" value="#{siteBean.site.web_estado}" size="10" maxlength="2" styleClass="" />
+  <legend>Cadastro do site</legend>
+  <p:messages id="mensagens" showSummary="#{true}" autoUpdate="#{true}" /> 
+  <h:form id="formDados" rendered="#{!siteBean.modoEdicao}" prependId="false">
+    <h:dataTable value="#{siteBean.sites}" var="site" id="listagem" border="0" width="620">
+    <h:column>
+    <f:facet name="header">Título</f:facet>
+    <h:outputText value="#{site.web_titulo}" />
+    </h:column>
+    <h:column>
+    <f:facet name="header"></f:facet>
+    <h:commandLink value="Alterar" action="#{siteBean.atualizar}">
+      <f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
+    </h:commandLink>
+    </h:column>
+    <h:column>
+    <f:facet name="header"></f:facet>
+    <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{siteBean.excluir}">
+      <f:setPropertyActionListener target="#{siteBean.site}" value="#{site}" />
+    </h:commandLink>
+    </h:column>
+    </h:dataTable>
+    <h:commandButton value="Cadastrar" actionListener="#{siteBean.incluir}" rendered="#{siteBean.carregarDados eq null}"/>
+    <ui:remove>
+    <h:commandButton value="Atualizar" action="#{siteBean.retornar}" />
+    </ui:remove>
+  </h:form>
+  <h:form id="formEdicao" rendered="#{siteBean.modoEdicao}" prependId="false">
+    <h:panelGrid columns="1" border="0" >
+    <h:outputLabel for="titulo" value="Título" />
+    <h:inputText id="titulo" value="#{siteBean.site.web_titulo}" required="true" requiredMessage="Campo obrigatório." size="50" maxlength="100" />
+    <h:message for="titulo" styleClass="msg_erro" />
+    
+    <h:outputLabel for="slogan" value="Slogan" />
+    <h:inputText id="slogan" value="#{siteBean.site.web_slogan}" size="50" maxlength="50" />
+    
+    <h:outputLabel for="descricao" value="Sobre o site ou Informações" />
+    <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link" height="150" value="#{siteBean.site.web_descricao}" />
+    
+    <h:outputLabel for="proprietario" value="Nome do responsável" />
+    <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" />
+    
+    <h:outputLabel for="endereco" value="Endereço" />
+    <h:inputText id="endereco" value="#{siteBean.site.web_endereco}" size="50" maxlength="100" />
+    
+    <h:outputLabel for="numero" value="Número" />
+    <h:inputText id="numero" value="#{siteBean.site.web_numero}" size="10" maxlength="10" />
+    
+    <h:outputLabel for="bairro" value="Bairro" />
+    <h:inputText id="bairro" value="#{siteBean.site.web_bairro}" size="25" maxlength="40" />
+    
+    <h:outputLabel for="cep" value="CEP" />
+    <h:inputText id="cep" value="#{siteBean.site.web_cep}" size="10" maxlength="10" />
+    
+    <h:outputLabel for="cidade" value="Cidade" />
+    <h:inputText id="cidade" value="#{siteBean.site.web_cidade}" size="25" maxlength="40" />
+    
+    <h:outputLabel for="ufestado" value="UF do Estado" />
+    <h:inputText id="ufestado" value="#{siteBean.site.web_estado}" size="10" maxlength="2" />
 
-          <h:outputLabel for="telefone" value="Telefone" styleClass="" />
-          <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="25" maxlength="15" styleClass="" />
-          
-          <h:outputLabel for="site" value="Site" styleClass="" />
-          <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" styleClass="" />
-          
-          <h:outputLabel for="blog" value="Blog (sempre iniciado com http://)" styleClass="" />
-          <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" styleClass="" />
-          
-          <h:outputLabel for="email" value="E-mail" styleClass="" />
-          <h:inputText id="email" value="#{siteBean.site.web_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="Campo obrigatório." styleClass="" />
-          <h:message for="email" styleClass="msg_erro" />
+    <h:outputLabel for="telefone" value="Telefone" />
+    <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="25" maxlength="15" />
+    
+    <h:outputLabel for="site" value="Site" />
+    <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" />
+    
+    <h:outputLabel for="blog" value="Blog (sempre iniciado com http://)" />
+    <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" />
+    
+    <h:outputLabel for="email" value="E-mail" />
+    <h:inputText id="email" value="#{siteBean.site.web_email}" size="50" maxlength="100" required="true" requiredMessage="Campo obrigatório." validatorMessage="E-mail inválido.">
+		<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
+	</h:inputText>
+    <h:message for="email" styleClass="msg_erro" />
  
-          <h:outputLabel for="messenger" value="Messenger" styleClass="" />
-          <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="50" maxlength="100" styleClass="" />
-          
-          <h:outputLabel for="skype" value="Skype" styleClass="" />          
-          <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" styleClass="" />
+    <h:outputLabel for="messenger" value="Messenger" />
+    <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="50" maxlength="100" validatorMessage="E-mail inválido.">
+		<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
+	</h:inputText>
+    
+    <h:outputLabel for="skype" value="Skype" />    
+    <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" />
 
-          <h:outputLabel for="facebook" value="Facebook (sempre iniciado com http://)" styleClass="" />
-          <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" styleClass="" />
+    <h:outputLabel for="facebook" value="Facebook (sempre iniciado com http://)" />
+    <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" />
 
-		  <h:outputLabel for="twitter" value="Twitter (sempre iniciado com http://)" styleClass="" />
-	      <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
-	      
-          <h:outputLabel for="orkut" value="Orkut (sempre iniciado com http://)" styleClass="" />          
-          <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" styleClass="" />
+		  <h:outputLabel for="twitter" value="Twitter (sempre iniciado com http://)" />
+	  <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
+	  
+    <h:outputLabel for="orkut" value="Orkut (sempre iniciado com http://)" />    
+    <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" />
 
-          <h:outputLabel for="youtube" value="Canal do Youtube (sempre iniciado com http://)" styleClass="" />          
-          <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" styleClass="" />
+    <h:outputLabel for="youtube" value="Canal do Youtube (sempre iniciado com http://)" />    
+    <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" />
 		  </h:panelGrid>
 
-	      <fieldset><legend>Informações de webmail</legend>
-	      <h:panelGrid columns="1" border="0" >
+	  <fieldset><legend>Informações de webmail</legend>
+	  <h:panelGrid columns="1" border="0" >
 		  <h:outputLabel for="servidor" value="Servidor SMTP" />
-          <h:inputText id="servidor" value="#{siteBean.site.web_smtp}" size="50" maxlength="100" />
-          
+    <h:inputText id="servidor" value="#{siteBean.site.web_smtp}" size="50" maxlength="100" />
+    
 		  <h:outputLabel for="porta" value="Porta" />
-          <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
-          
-          <h:outputLabel for="ssl" value="Conexão segura" />
-          <h:selectOneRadio id="ssl" value ="#{siteBean.site.web_ssl}" onchange="submit()" style="width:179px;"> 
+    <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
+    
+    <h:outputLabel for="ssl" value="Conexão segura" />
+    <h:selectOneRadio id="ssl" value ="#{siteBean.site.web_ssl}" onchange="submit()" style="width:179px;"> 
   			<f:selectItem itemValue="#{false}" itemLabel="Não" /> 
   			<f:selectItem itemValue="#{true}" itemLabel="Sim"/> 
 			<f:ajax event="click" render="painelPortaSsl" />
@@ -123,21 +124,38 @@
 		  
 		  <h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
 		  <h:outputLabel for="portasll" value="Porta SSL" /><br />
-          <h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
+    <h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
 		  </h:panelGroup>
 
-		  <h:outputLabel for="conta" value="Conta" styleClass="" />
-          <h:inputText id="conta" value="#{siteBean.site.web_conta}" size="25" maxlength="50" />
-          
-		  <h:outputLabel for="senha" value="Senha" styleClass="" />
-          <h:inputSecret id="senha" redisplay="true" value="#{siteBean.site.web_senha}" size="25" maxlength="50" />
-          </h:panelGrid>
-          </fieldset>
-
-        <h:commandButton value="Salvar" actionListener="#{siteBean.salvar}" />
-        <h:commandButton value="Cancelar" action="#{siteBean.retornar}" immediate="true" />
-      </h:form>
+		  <h:outputLabel for="conta" value="Conta" />
+    <h:inputText id="conta" value="#{siteBean.site.web_conta}" size="25" maxlength="50" />
+    
+		  <h:outputLabel for="senha" value="Senha" />
+    <h:inputSecret id="senha" redisplay="true" value="#{siteBean.site.web_senha}" size="25" maxlength="50" />
+    </h:panelGrid>
     </fieldset>
+    
+    <fieldset><legend>Imagem da logomarca</legend>
+	  <h:panelGrid columns="1" border="0" >
+  	  <p:fileUpload id="upload" fileUploadListener="#{siteBean.handleFileUpload}" 
+  				sizeLimit="52428800" 
+  				auto="true" 
+  				label="Localizar..." 
+   	 			allowTypes="/(\.|\/)(png?g)$/" 
+   	 			multiple="false" 
+  				description="Imagem PNG" 
+  				update="logomarca,btSalvar" 
+  				/>		
+		 <h:graphicImage id="logomarca" library="images" name="logo.png" alt="Logomarca" rendered="#{!empty siteBean.site.web_logomarca}" />
+
+		 <h:commandButton id="btExcluir" value="Excluir" actionListener="#{siteBean.excluirImagem}" disabled="#{empty siteBean.site.web_logomarca}"/>	
+    </h:panelGrid>
+    </fieldset>
+
+    <h:commandButton id="btSalvar" value="Salvar" actionListener="#{siteBean.salvar}" />
+    <h:commandButton value="Cancelar" action="#{siteBean.retornar}" immediate="true" />
+  </h:form>
+  </fieldset>
 	
 	</ui:define>
 	

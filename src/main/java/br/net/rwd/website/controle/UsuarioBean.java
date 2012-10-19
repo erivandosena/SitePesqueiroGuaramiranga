@@ -1,8 +1,6 @@
 package br.net.rwd.website.controle;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -17,8 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,13 +24,13 @@ import br.net.rwd.website.entidade.Usuario;
 import br.net.rwd.website.servico.PerfilServico;
 import br.net.rwd.website.servico.SiteServico;
 import br.net.rwd.website.servico.UsuarioServico;
+import br.net.rwd.website.util.CommonsMailUtil;
 import br.net.rwd.website.util.Criptografia;
+import br.net.rwd.website.util.Uteis;
 
 @ManagedBean(name = "usuarioBean")
 @ViewScoped
 public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
-
-	private static final long serialVersionUID = 1L;
 	
 	@ManagedProperty("#{usuarioServico}")
 	private UsuarioServico model;
@@ -58,7 +54,8 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	private boolean usu_situacao = true;
 	
 	private String confirmaSenha;
-	private String loginAnterior;
+	private String loginExistente;
+	private String senhaExistente;
 	
 	/* ------------------------------------------------- */
 	
@@ -268,7 +265,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	@Override
 	public void salvar() {
 		// senha automatica
-		String senha = getGeraSenha();
+		String senhaAuto = getGeraSenha();
 
 		// compara as senhas digitadas
 		if (!usuario.getUsu_senha().equals(this.getConfirmaSenha())) {
@@ -278,14 +275,32 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 			String emailUsuario = usuario.getUsu_email().trim().toLowerCase();
 			usuario.setUsu_email(emailUsuario);
 
-			// criptografa a senha
-			if (usuario.getUsu_senha() == null) {
-				usuario.setUsu_senha(Criptografia.criptografarMD5(senha));
+			// criptografia da senha
+			if (usuario.getUsu_cod() == null || usuario.getUsu_cod().intValue() == 0) {
+				// quando inserindo
+				if (usuario.getUsu_senha().trim().isEmpty()) {
+					usuario.setUsu_senha(Criptografia.criptografarMD5(senhaAuto));
+				} else {
+					senhaAuto = usuario.getUsu_senha();
+					usuario.setUsu_senha(Criptografia.criptografarMD5(senhaAuto));
+				}
 			} else {
-				senha = usuario.getUsu_senha();
-				usuario.setUsu_senha(Criptografia.criptografarMD5(usuario.getUsu_senha()));
+				// quando atualizando
+				if (usuario.getUsu_senha().trim().isEmpty()) {
+					// se for administrador gera nova senha
+					if (getPerfilUsuarioLogado() == "ROLE_ADMINISTRADOR") {
+						usuario.setUsu_senha(Criptografia.criptografarMD5(senhaAuto));
+					} else {
+						senhaAuto = "***** (Sem alteração.)";
+						usuario.setUsu_senha(senhaExistente);
+					}
+				} else {
+					senhaAuto = usuario.getUsu_senha();
+					usuario.setUsu_senha(Criptografia.criptografarMD5(senhaAuto));
+				}
 			}
 
+			// Verifica se é um insert
 			if (usuario.getUsu_cod() == null || usuario.getUsu_cod().intValue() == 0) {
 				/*---- NOVO ----*/
 				// verifica se ja existe
@@ -293,9 +308,9 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 					addErroMensagem("Usuário existente! Informe outro e-mail.");
 				} else {
 					// envia email
-					envia(usuario.getUsu_nome(), usuario.getUsu_email(),"Seus dados para acesso", senha);
-					
-					//inclui
+					envia(usuario.getUsu_nome(), usuario.getUsu_email(), senhaAuto, "Seu cadastro para acesso foi criado");
+
+					// inclui
 					usuario = model.incluirUsuario(usuario);
 					usuario = new Usuario();
 					addInfoMensagem("Usuário criado com sucesso.");
@@ -304,38 +319,37 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 			} else {
 				/*---- ATUALIZA ----*/
 				// verifica se o email foi alterado
-				if (!usuario.getUsu_email().equals(loginAnterior)) {
+				if (!usuario.getUsu_email().equals(loginExistente)) {
 					// verifica se ja existe
 					if (model.selecionarUsuarioExistente(emailUsuario)) {
 						addErroMensagem("Usuário existente! Informe outro e-mail.");
 					} else {
 						// envia email
-						envia(usuario.getUsu_nome(), usuario.getUsu_email(), "Novo e-mail para acesso", senha);
-						
-						//atualiza com login novo
+						envia(usuario.getUsu_nome(), usuario.getUsu_email(), senhaAuto, "Seu e-mail do cadastro foi alterado");
+
+						// atualiza com login novo
 						model.alterarUsuario(usuario);
 						addInfoMensagem("Usuário alterado com sucesso.");
 						retornar();
 					}
 				} else {
 					// envia email
-					envia(usuario.getUsu_nome(), usuario.getUsu_email(),"Conta para acesso foi alterada", senha);
+					envia(usuario.getUsu_nome(), usuario.getUsu_email(), senhaAuto, "Seu cadastro foi alterado");
 					
-					//atualiza com login antigo
+					// atualiza com login antigo
 					model.alterarUsuario(usuario);
 					addInfoMensagem("Usuário alterado com sucesso.");
 					retornar();
 				}
-
 			}
 		}
 	}
 
 	@Override
 	public void atualizar() {
-		loginAnterior = usuario.getUsu_email();
+		loginExistente = usuario.getUsu_email();
+		senhaExistente = usuario.getUsu_senha();
 		this.modoEdicao = true;
-		addAvisoMensagem("A senha é obrigatória. Caso não seja informada o sistema irá gerá-la automaticamente!");
 	}
 
 	@Override
@@ -424,17 +438,15 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	/* 						E-MAIL						 */
 	/* ------------------------------------------------- */
 	
-	public void envia(String nome, String email, String assunto, String senha) {
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-		String numIp = request.getRemoteHost();
-		
-		//String emailRemetente = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("remetente");
-
+	public void envia(String nome, String email, final String senha, String assunto) {
+		CommonsMailUtil mail = new CommonsMailUtil();
 		Site site = modelsite.selecionarSite();
-
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		
-    	CommonsMailBean mail = new CommonsMailBean();
+		String numIp = request.getRemoteHost();
+		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
+		String urlImagem = urlSite+"/resources/images/"+site.getWeb_logomarca();
+
     	mail.setObj(site);
     	mail.setDe(site.getWeb_email());
     	mail.setDeNome(site.getWeb_titulo());
@@ -443,61 +455,42 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
     	mail.setDestinatariosNormais(null);
     	mail.setDestinatariosOcultos(null);
     	mail.setAssunto(assunto);
-    	
-		// incorporar a imagem e obter o ID de conteudo
-    	HtmlEmail htmlemail = new HtmlEmail();
-		URL url = null;
-		String cid = null;
-		try {
-			url = new URL(urlSite+"/resources/images/logo.png");
-			cid = htmlemail.embed(url, "Clique aqui!");
-		} catch (MalformedURLException me) {
-			me.printStackTrace();
-		}  catch (EmailException ee) {
-			ee.printStackTrace();
-		}
-		//ex: <html>The apache logo - <img src=\"cid:"+cid+"\"></html>
-    	
-    	mail.setMensagem(mensagemHtml(nome, email, senha, cid, urlSite, numIp));
-    	String texto = "\nParabéns! "+nome.toUpperCase()+"\n\nVocê já pode acessar a área administrativa do site "+ urlSite.substring(7, urlSite.length()) +"/admin/, para fazer seu login utilize as informações atualizadas de acesso abaixo:\n\nNome de usuário: "+ email +"\nSenha: "+ senha +"\n\nIP: "+ numIp + "\n\n\n(c) "+ urlSite.substring(7, urlSite.length()) +" - Produzido por RWD (www.rwd.net.br)\n";
-    	mail.setMensagemAlternativa(texto);
-    	
+    	mail.setMensagem(mensagemHtml(nome, email, senha, urlSite, urlImagem, numIp));
+    	mail.setMensagemAlternativa(Uteis.html2text(mail.getMensagem()));
+    	mail.setAnexo(null);
     	mail.enviarEmailHtml();
-    	
-    	
+
+    	addInfoMensagem("As informações de acesso foram envidas para o e-mail: " + email);
     }  
     
-	public String mensagemHtml(String nome, String login, String senha, String cidImagem, String url, String ip) {
-		//HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		//String site = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-		
-		//final String IMAGEM = "/resources/images/logo.png";
-		
+	private String mensagemHtml(String nome, String login, final String senha, String urlSite, String urlImagem, String numIp) {
 		String html = "<html><head><title>Mensagem</title>" +
-		"<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' />" +
+		"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
 	    "</head>" +
 	    "<body lang='PT-BR' link='blue' vlink='purple'>" +
 	    "<div align='center'>" +
-	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='0' " +
+	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='10' " +
 	    "bordercolor='#CCCCCC' style='font-family:Tahoma, Geneva, sans-serif;font-size:small;'>" +
 	    "<tr>" +
 	    "<td bgcolor='#000000' valign='top' style='border:0'>" +
-	    "<table width='600' border='0' cellspacing='10' cellpadding='0' align='left'>" +
+	    "<table width='100%' border='0' cellspacing='10' cellpadding='0' align='center'>" +
 	    "<tr>" +
-	    "<td align='left'>" +
-	    "<a href='" + url + "' target='_blank'>" +
-	    "<img src='cid:"+cidImagem+"' border='0' align='middle' /></a>" +
+	    "<td align='center'>" +
+	    "<a href='" + urlSite + "' target='_blank'>" +
+	    "<img src='"+urlImagem+"' border='0' align='middle' /></a>" +
 	    "</td>" +
-	    "<td align='center' style='color:#FFFFFF;text-transform:uppercase;'><strong>Conta de USUÁRIO</strong></td>" +
+	    "<td align='center' style='color:#FFFFFF;text-transform:uppercase;'><strong>CONTA DE USUÁRIO</strong></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
 	    "</tr>" +
 	    "<tr>" +
 	    "<td bgcolor='#F9F9F9' valign='top' style='border:0;'>" +
-	    "<table border='0' cellspacing='10' cellpadding='0'>" +
+	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
 	    "<tr>" +
-	    "<td colspan='2' align='left'>Parabéns! <strong>"+nome.toUpperCase()+"</strong> <p> Você já pode acessar a área administrativa do site <a href='" + url + "/admin/' target='_blank'>" + url.substring(7, url.length()) +"</a>, para fazer seu login utilize as informações atualizadas de acesso abaixo:</p> </td>" +
+	    "<td colspan='2' align='left'><p align='left'>Parabéns! <strong>"+nome.toUpperCase()+"</strong></p><p align='justify'> " +
+	    "Você já pode acessar a área administrativa do site <a href='" + urlSite + "/admin/' target='_blank'>" + urlSite.substring(7, urlSite.length()) +"</a>, " +
+	    "para fazer seu login utilize as informações atualizadas de acesso abaixo:</p></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
@@ -507,7 +500,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "</tr>" +
 	    "<tr>" +
 	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
-	    "<table border='0' cellspacing='10' cellpadding='0'>" +
+	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
 	    "<tr>" +
 	    "<td align='left'>Nome de usuário:</td>" +
 	    "<td align='left'><strong>" + login + "</strong></td>" +
@@ -516,26 +509,32 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td align='left'><strong>" + senha + "</strong></td>" +
 	    "</tr>" +
 	    "</table>" +
-	    "</td>" +
-	    "</tr>" +
-	    "<tr>" +
-	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
-	    "<table border='0' cellspacing='10' cellpadding='0'>" +
-	    "<tr>" +
-	    "<td align='left'>IP:</td>" +
-	    "<td align='left'>" + ip + "</td>" +
-	    "</tr>" +
-	    "</table>" +
-	    "</td>" +
+        "</td>" +
 	    "</tr>" +
 	    "<tr>" +
 	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0;font-size:smaller' align='center'>&copy; " +
-	    "<a href='" + url + "' target='_blank'>" + url.substring(7, url.length()) +
-	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a>" +
-	    "</td>" +
+	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
+	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
+	    "<tr>" +
+	    "<td align='left'>IP:</td>" +
+	    "<td align='left'><strong>" + numIp + "</strong></td>" +
+	    "</tr>" +
+	    "</table>" +
+        "</td>" +
+	    "</tr>" +
+	    "<tr>" +
+	    "<td style='border:0'></td>" +
+	    "</tr>" +
+	    "<tr>" +
+	    "<td style='border:0;font-size:smaller' align='center'>" +
+	    "<p align='center'><a href='" + urlSite + "' target='_blank'>" + urlSite.substring(7, urlSite.length()) +
+	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a></p>" +
+        "</td>" +
+	    "</tr>" +
+	    "<tr>" +
+	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</div>" +

@@ -41,10 +41,9 @@
 	</h:selectOneMenu>
 
 	<h:outputLabel for="comment" value="Mensagem"/>
-	<p:editor id="comment" style="visibility:visible;!important;" controls="bold italic underline justify color" height="150"  value="#{contatoBean.mensagem}" required="true" requiredMessage="Mensagem obrigatória." />
-
+	<p:editor id="comment" style="visibility:visible;!important;" controls="bold italic underline justify color" height="150" value="#{contatoBean.mensagem}" required="true" requiredMessage="Mensagem obrigatória." />
+	
 	</h:panelGrid>
-	<h:inputHidden id="remetente" value="#{siteBean.carregarDados.web_email}" />
 	<h:commandButton value="Enviar" type="submit" id="submit" action="#{contatoBean.envia}" />
 	</div>
 	</h:form>

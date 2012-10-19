@@ -1,21 +1,30 @@
 package br.net.rwd.website.controle;
 
-import java.io.Serializable;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+
+import org.primefaces.event.FileUploadEvent;
 
 import br.net.rwd.website.entidade.Site;
 import br.net.rwd.website.servico.SiteServico;
+import br.net.rwd.website.util.FileParaBytes;
+import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object> {
-	private static final long serialVersionUID = 1L;
+public class SiteBean extends UtilBean implements CrudBeans<Object> {
 
 	@ManagedProperty("#{siteServico}")
 	private SiteServico model;
@@ -53,6 +62,12 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	private String web_porta;
 	private String web_conta;
 	private String web_senha;
+	
+	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+	private static final String PATH = extContext.getRealPath("/resources/images/");
+	private byte[] bytesImagem;
+	String nomeArquivo = null;
+	File arquivo = null;
 
 	public SiteServico getModel() {
 		return model;
@@ -310,6 +325,14 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 		this.web_senha = web_senha;
 	}
 	
+	public byte[] getBytesImagem() {
+		return bytesImagem;
+	}
+
+	public void setBytesImagem(byte[] bytesImagem) {
+		this.bytesImagem = bytesImagem;
+	}
+	
 	/* ------------------------------------------------- */
 
 	@Override
@@ -321,11 +344,19 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	@Override
 	public void salvar() {
         if (site.getWeb_cod() == null || site.getWeb_cod().intValue() == 0) {
+        	
+        	//inclui a imagem upada
+        	salvarImagem();
+
             site = model.incluirSite(site);
             site = new Site();
             addInfoMensagem("Site criado com sucesso.");
             retornar();
         } else {
+        	
+        	//altera a imagem upada
+        	salvarImagem();
+        	
             model.alterarSite(site);
             addInfoMensagem("Site alterado com sucesso.");
             retornar();
@@ -334,11 +365,13 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 
 	@Override
 	public void atualizar() {
+		atualizarImagem();
 		this.modoEdicao = true;
 	}
 
 	@Override
 	public void excluir() {
+		excluirImagem();
 		model.excluirSite(site);
 		retornar();
 	}
@@ -397,5 +430,105 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 		}
 		return texto;
 	}
+	
+	/* ----------------------UPLOAD--------------------- */
+
+	public void handleFileUpload(FileUploadEvent event) {
+		nomeArquivo = "logo.".concat( event.getFile().getFileName() .substring( event.getFile().getFileName() .lastIndexOf('.') + 1));
+		arquivo = new File(PATH + "\\"+nomeArquivo);
+		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),286);
+
+		if (new File(arquivo.getPath()+ "\\" + nomeArquivo).exists())
+			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
+		addAvisoMensagem("O arquivo " + event.getFile().getFileName() + " foi carregado. \nUse o botão salvar para completar a operação!");
+	}
+	
+	private void salvarImagem() {
+		if (bytesImagem != null) {
+			//addInfoMensagem("É preciso carregar uma imagem antes de salvar!");
+		if (site.getWeb_logomarca() == null) {
+			if (salvaArquivo()) {
+				bytesImagem = null;
+				addInfoMensagem("Imagem incluída com sucesso.");
+			} else {
+				addErroMensagem("Inclusão de imagem não realizada!");
+			}
+
+		} else {
+
+			File arquivoAnterior = new File(PATH + "\\" + site.getWeb_logomarca());
+			if (nomeArquivo != site.getWeb_logomarca()) {
+				// exclui o arquivo existente
+				if (arquivoAnterior.exists())
+					arquivoAnterior.delete();
+
+				if (!salvaArquivo())
+					addErroMensagem("Alteração da imagem não realizada!");
+			}
+			bytesImagem = null;
+			addInfoMensagem("Imagem alterada com sucesso.");
+		}
+		}
+	}
+	
+	private boolean salvaArquivo() {
+		boolean retorno = false;
+		// se a pasta não existir cria
+		File pasta = new File(PATH);
+		if (!pasta.exists())
+			pasta.mkdirs();
+
+		// se o arquivo ja existe exclui
+		if (arquivo.exists()) {
+			arquivo.delete();
+			addAvisoMensagem("O arquivo da imagem existente foi excluído.");
+		}
+
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(arquivo);
+			byte[] buffer = new byte[bytesImagem.length];
+			int bulk;
+			InputStream inputStream = new ByteArrayInputStream(bytesImagem);
+			while (true) {
+				bulk = inputStream.read(buffer);
+				if (bulk < 0) {
+					break;
+				}
+				fileOutputStream.write(buffer, 0, bulk);
+				fileOutputStream.flush();
+
+				// faz outras coisas aqui
+				site.setWeb_logomarca(arquivo.getName());
+			}
+
+			fileOutputStream.close();
+			inputStream.close();
+			addInfoMensagem("O arquivo da imagem foi enviado.");
+			retorno = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			addErroMensagem("O arquivo da imagem não foi enviado, tente novamente!");
+			retorno = false;
+		}
+		return retorno;
+	}
+	
+	private void atualizarImagem() {
+		nomeArquivo = site.getWeb_logomarca();
+		arquivo = new File(PATH + "\\" + site.getWeb_logomarca());
+		if(arquivo.exists()) 
+		bytesImagem = FileParaBytes.getFileBytes(arquivo);
+		else
+			addErroMensagem("O arquivo de imagem da logomarca não foi encontrado! Carregue uma nova imagem.");
+	}
+	
+	public void excluirImagem() {
+		File arquivo = new File(PATH + "\\" + site.getWeb_logomarca());
+		if (arquivo.exists())
+			arquivo.delete();
+		addInfoMensagem("Imagem excluída com sucesso.");
+	}
+	
+	/* ----------------------UPLOAD--------------------- */
 
 }

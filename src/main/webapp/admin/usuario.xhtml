@@ -25,26 +25,31 @@
 			</h:panelGroup>
 		</h:panelGrid>
         <h:dataTable value="#{usuarioBean.usuarios}" var="usuario" id="listagem" border="0" width="620" >
+          
           <h:column>
             <f:facet name="header">Nome</f:facet>
             <h:outputText value="#{usuario.usu_nome}" />
           </h:column>
+          
           <h:column>
             <f:facet name="header">E-mail</f:facet>
             <h:outputText value="#{usuario.usu_email}" />
           </h:column>
+          
           <h:column>
             <f:facet name="header"></f:facet>
             <h:commandLink value="Alterar" action="#{usuarioBean.atualizar}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}">
               <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
             </h:commandLink>
           </h:column>
+          
           <h:column>
             <f:facet name="header"></f:facet>
             <h:commandLink id="lnkDelete" value="Excluir" onclick="if (!confirm('Tem certeza que deseja excluir este registro?')) return false" action="#{usuarioBean.excluir}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}">
               <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
             </h:commandLink>
           </h:column>
+          
         </h:dataTable>
         <h:commandButton value="Cadastrar" actionListener="#{usuarioBean.incluir}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}"/>
         <h:commandButton value="Atualizar" action="#{usuarioBean.retornar}" immediate="true" />
@@ -56,7 +61,9 @@
 			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Nome obrigatório."  />
 			
 			<h:outputLabel for="email" value="E-mail" />
-			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="50" maxlength="100" required="true" validator="#{uteis.validaEmail}" requiredMessage="E-mail obrigatório." />
+			<h:inputText id="email" value="#{usuarioBean.usuario.usu_email}" size="50" maxlength="100" required="true" requiredMessage="E-mail obrigatório." validatorMessage="E-mail inválido.">
+			<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
+			</h:inputText>
 			
 			<h:outputLabel for="senha" value="Senha" />
 			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" required="false" requiredMessage="Senha obrigatória." />
@@ -65,8 +72,6 @@
 			<h:inputSecret id="confirma" value="#{usuarioBean.confirmaSenha}" size="25" maxlength="25" required="false" requiredMessage="Confirme a senha." />
 
 		</h:panelGrid> 
-		
-		<h:inputHidden id="remetente" value="#{siteBean.carregarDados.web_email}" />
         <h:commandButton id="btSalvar" value="Salvar" actionListener="#{usuarioBean.salvar}"/>
         <h:commandButton value="Cancelar" action="#{usuarioBean.retornar}" immediate="true" />
       </h:form>

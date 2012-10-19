@@ -14,8 +14,6 @@ import br.net.rwd.website.servico.PerfilServico;
 @ViewScoped
 public class PerfilBean extends UtilBean implements CrudBeans<Object> {
 
-	private static final long serialVersionUID = 1L;
-	
 	@ManagedProperty("#{perfilServico}")
 	private PerfilServico model;
 	private Perfil perfil;

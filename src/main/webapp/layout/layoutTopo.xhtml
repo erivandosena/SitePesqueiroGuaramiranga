@@ -37,6 +37,17 @@
           </ul>
         </h:panelGroup>
         </li>
+        <ui:repeat value="#{paginaBean.paginas}" var="item">
+		<h:panelGroup rendered="#{item.pag_posicao eq 'T'}">
+		  <li>
+			<h:link outcome="/paginas.jsf" title="#{item.pag_titulo}" >
+				<f:param name="cod" value="#{item.pag_cod}" />
+				<f:param name="tit" value="#{item.titulo_normalizado}" />
+				#{item.pag_titulo}
+			</h:link>
+		 </li>
+		</h:panelGroup>
+		</ui:repeat>
       </ul>
     </div>
     <br class="clear" />
