@@ -6,19 +6,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div class="box1">
-     <h:panelGroup rendered="#{linkBean.links ne null}">
+     <h:panelGroup rendered="#{!empty linkBean.linksMenuRodape}">
         <h2>Links Úteis</h2>
         <ul>
-          <ui:repeat value="#{linkBean.links}" var="item">
-          <h:panelGroup rendered="#{item.lin_posicao eq 'R'}">
+          <ui:repeat value="#{linkBean.linksMenuRodape}" var="item">
           <li><a href="#{item.lin_url}" title="#{item.lin_nome}" target="_blank">#{item.lin_nome}</a></li>
-          </h:panelGroup>
           </ui:repeat>
         </ul>
     </h:panelGroup>
     </div>
     <div class="box contactdetails">
-      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco}">
+      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco or !empty siteBean.carregarDados.web_telefone or !empty siteBean.carregarDados.web_email}">
       <h2>Contatos</h2>
       <ul>
         <li><h:outputText value="#{siteBean.carregarDados.web_endereco}" rendered="#{!empty siteBean.carregarDados.web_endereco}" />
@@ -36,7 +34,7 @@
       </h:panelGroup>
     </div>
     <div class="box flickrbox">
-      <h:panelGroup rendered="#{siteBean.carregarDados ne null}">
+      <h:panelGroup rendered="#{!empty siteBean.carregarDados}">
       <h2>Rede social</h2>
       <div class="wrap">
         <div class="fix"></div>

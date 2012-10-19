@@ -36,6 +36,10 @@ public class PaginaServico extends DAOGenerico<Serializable> {
 		return dao.obterEntidade(Pagina.class, "SELECT p FROM Pagina p WHERE p.pag_cod = ?1", codigo);
 	}
 	
+	public List<Pagina> listaPaginasMenu(String nome) {
+		return dao.obterLista(Pagina.class, "SELECT p FROM Pagina p WHERE p.pag_posicao = ?1 ORDER BY p.pag_cod DESC", nome);
+	}
+	
 	public List<Pagina> listarPagina(String nome) {
 		return dao.obterLista(Pagina.class, "SELECT p FROM Pagina p WHERE lower(p.pag_titulo) like ?1", "%"+ nome.toLowerCase() + "%");
 	}

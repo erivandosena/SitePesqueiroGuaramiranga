@@ -6,16 +6,18 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
+	  <h:panelGroup rendered="#{!empty galeriaBean.galerias}">
       <div class="subnav">
-      	<h:panelGroup rendered="#{galeriaBean.galerias ne null}">
       	<h2>Galerias</h2>
 		<ul>
+		    <h:panelGroup rendered="#{!empty galeriaBean.galeriasNovas}">
 			<li>
 			<h:link outcome="/galerias.jsf" title="Galerias">
       		<f:param name="cod" value="#{0}" />
       		<span class="destaque">Galerias em Destaque</span>
       		</h:link>
 			</li>
+			</h:panelGroup>
 			<ui:repeat value="#{galeriaBean.galerias}" var="item">
 			<li>
 		  	<h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}" title="#{item.gal_titulo}">
@@ -28,7 +30,7 @@
 			</li>
 			</ui:repeat>
 		</ul>
-		</h:panelGroup>
 	  </div>
+	  </h:panelGroup>
 		
 </ui:composition>
