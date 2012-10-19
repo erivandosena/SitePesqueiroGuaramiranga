@@ -186,5 +186,13 @@ public class PaginaBean extends UtilBean implements CrudBeans<Object> {
 			return null;
 		}
 	}
+	
+	public List<Pagina> getPaginasMenuTopo() {
+		return model.listaPaginasMenu("T");
+	}
+	
+	public List<Pagina> getPaginasMenuLateral() {
+		return model.listaPaginasMenu("L");
+	}
 
 }

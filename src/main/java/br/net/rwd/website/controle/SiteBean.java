@@ -466,7 +466,7 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
 					addErroMensagem("Alteração da imagem não realizada!");
 			}
 			bytesImagem = null;
-			addInfoMensagem("Imagem alterada com sucesso.");
+			//addInfoMensagem("Imagem alterada com sucesso.");
 		}
 		}
 	}

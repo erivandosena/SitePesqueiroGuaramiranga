@@ -2,6 +2,7 @@ package br.net.rwd.website.entidade;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "website")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable(value=true)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Site implements Serializable {
 
 	private static final long serialVersionUID = 1L;

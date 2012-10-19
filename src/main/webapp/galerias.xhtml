@@ -22,7 +22,7 @@
 	<ui:define name="content">
 
 	<div id="content">
-	<h:panelGroup rendered="#{galeriaBean.conteudoGaleria.gal_cod eq null}">
+	<h:panelGroup rendered="#{!empty galeriaBean.galeriasNovas}">
     <h3>Galerias em destaque</h3>	
     	<p:galleria value="#{galeriaBean.galeriasNovas}" var="item" panelWidth="600" panelHeight="320" showOverlays="true" frameWidth="100" frameHeight="53" filmstripPosition="top">
             <h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
@@ -39,7 +39,7 @@
     	</p:galleria>		
 	</h:panelGroup>
 
-	<h:panelGroup rendered="#{galeriaBean.conteudoGaleria ne null}">
+	<h:panelGroup rendered="#{!empty galeriaBean.conteudoGaleria}">
 	<h3>Galeria: #{galeriaBean.conteudoGaleria.gal_titulo}</h3>
 	<p>
 	<h:outputText value="#{galeriaBean.conteudoGaleria.gal_descricao}" escape="false" />

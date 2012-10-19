@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+
+	<diskStore path="java.io.tmpdir" />
+
+	<defaultCache maxElementsInMemory="10000" 
+		overflowToDisk="true"
+		eternal="false"
+		timeToIdleSeconds="120" 
+		timeToLiveSeconds="180" 
+		maxElementsOnDisk="10000000" 
+		diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" 
+		memoryStoreEvictionPolicy="LRU" />
+
+	<cache name="org.hibernate.cache.UpdateTimestampsCache" 
+		maxElementsInMemory="1000" 
+		overflowToDisk="true" 
+		eternal="false"
+		 />
+
+	<cache name="org.hibernate.cache.StandardQueryCache"
+		maxElementsInMemory="1000" 
+		overflowToDisk="true"
+		eternal="false" 
+		timeToLiveSeconds="300"
+		 />
+
+	<cache name="br.net.rwd.website.entidade.Site"
+		maxElementsInMemory="500" 
+		overflowToDisk="true"
+		eternal="false" 
+		timeToIdleSeconds="300"
+		timeToLiveSeconds="600" 
+		 />
+
+</ehcache>

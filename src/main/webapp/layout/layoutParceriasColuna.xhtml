@@ -6,17 +6,16 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
+	 <h:panelGroup rendered="#{!empty linkBean.linksMenuLateral}">
      <div class="subnav">
-      	<h:panelGroup rendered="#{linkBean.links ne null}">
+      	
         <h2>Parcerias</h2>
         <ul>
-          <ui:repeat value="#{linkBean.links}" var="item">
-          <h:panelGroup rendered="#{item.lin_posicao eq 'L'}">
+          <ui:repeat value="#{linkBean.linksMenuLateral}" var="item">
           <li><a href="#{item.lin_url}" title="#{item.lin_nome}" target="_blank">#{item.lin_nome}</a></li>
-          </h:panelGroup>
           </ui:repeat>
         </ul>
-        </h:panelGroup>
       </div>
+      </h:panelGroup>
 
 </ui:composition>

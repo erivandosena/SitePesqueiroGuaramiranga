@@ -6,16 +6,18 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
+	  <h:panelGroup rendered="#{!empty eventoBean.eventos}">
       <div class="subnav">
-      	<h:panelGroup rendered="#{eventoBean.eventos ne null}">
       	<h2>Eventos</h2>
-		<ul>
+		<ul> 
+			<h:panelGroup rendered="#{!empty eventoBean.eventosNovos}">
 			<li>
 			<h:link outcome="/eventos.jsf" title="Eventos">
       		<f:param name="cod" value="#{0}" />
       		<span class="destaque">Últimos Eventos</span>
       		</h:link>
 			</li>
+			</h:panelGroup>
 			<ui:repeat value="#{eventoBean.eventos}" var="item">
 			<li>
 		  	<h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="#{item.pub_titulo}">
@@ -28,7 +30,7 @@
 			</li>
 			</ui:repeat>
 		</ul>
-		</h:panelGroup>
 	  </div>
+	  </h:panelGroup>
 		
 </ui:composition>

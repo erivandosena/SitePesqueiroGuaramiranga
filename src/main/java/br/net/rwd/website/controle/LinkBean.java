@@ -159,5 +159,13 @@ public class LinkBean extends UtilBean implements CrudBeans<Object> {
 		return mapParam;
 	}  
 	
+	public List<Link> getLinksMenuLateral() {
+		return model.listarLinksMenu("L");
+	}
+	
+	public List<Link> getLinksMenuRodape() {
+		return model.listarLinksMenu("R");
+	}
+	
 	/* ------------------------------------------------- */
 }

@@ -22,7 +22,7 @@
 	<ui:define name="content">
 
 	<div id="content">
-	<h:panelGroup rendered="#{eventoBean.conteudoEvento.pub_cod eq null}">
+	<h:panelGroup rendered="#{!empty eventoBean.conteudoEvento.eventosNovos}">
 	<h3>Últimos eventos</h3>
     	<p:galleria value="#{eventoBean.eventosNovos}" var="item" panelWidth="600" panelHeight="320" showOverlays="true" frameWidth="100" frameHeight="53" showFilmstrip="false" filmstripPosition="top">
             <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}">
@@ -39,7 +39,7 @@
     	</p:galleria>		
 	</h:panelGroup>
 
-	<h:panelGroup rendered="#{eventoBean.conteudoEvento ne null}">
+	<h:panelGroup rendered="#{!empty eventoBean.conteudoEvento}">
 	<h3>#{eventoBean.conteudoEvento.pub_titulo}</h3>
     
     <h:outputText value="#{eventoBean.conteudoEvento.pub_data}" style="font-style: italic;font-size: 10pt;">

@@ -24,15 +24,20 @@
 	
 	<!-- Configuracao do Banco de Dados -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> 
-  <!--  <property name="url" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/camaramulungu" />
-        <property name="username" value="camaramulungu" />
-		<property name="password" value="33281120" /> -->
-		
   		<!-- Connection properties --> 
   		<property name="driverClass" value="org.postgresql.Driver" /> 
+  		
+  		<!-- Em desenvolvimento 
   		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/pesqueiro" /> 
   		<property name="user" value="postgres" /> 
   		<property name="password" value="postgres" /> 
+  		-->
+  		
+  		<!-- Em producao -->
+  		<property name="jdbcUrl" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/pesqueiroguaramiranga" /> 
+  		<property name="user" value="guaramiranga" /> 
+  		<property name="password" value="pesq12" /> 
+
   		<!-- Pool properties --> 
   		<property name="initialPoolSize" value="2" />
   		<property name="minPoolSize" value="2" /> 
@@ -60,18 +65,17 @@
     <property name="jpaProperties"> 
         <props>  
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> 
+            <prop key="hibernate.connection.show_sql">false</prop> 
             <prop key="hibernate.format_sql">false</prop>     
 			<prop key="hibernate.use_sql_comments">false</prop> 
-			<prop key="hibernate.generate_statistics">true</prop>
+			<prop key="hibernate.generate_statistics">false</prop>
 			<prop key="hibernate.hbm2ddl.auto">validate</prop>
        		<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop> 
-       		<prop key="net.sf.ehcache.configurationResourceName">ehcache.xml</prop> 
+			<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
 			<prop key="hibernate.cache.use_second_level_cache">true</prop>
 			<prop key="hibernate.cache.use_query_cache">true</prop>
-           	<prop key="hibernate.cache.use_second_level_cache">true</prop> 
            	<prop key="hibernate.cache.use_structured_entries">true</prop> 
-           	<prop key="hibernate.cache.use_query_cache">true</prop> 
-           	<prop key="hibernate.connection.show_sql">false</prop> 
+           	<prop key="net.sf.ehcache.configurationResourceName">/ehcache/ehcache.xml</prop>
            	<prop key="hibernate.use_outer_join">true</prop> 
            	<prop key="hibernate.default_batch_fetch_size">500</prop> 
            	<prop key="hibernate.max_fetch_depth">5</prop> 

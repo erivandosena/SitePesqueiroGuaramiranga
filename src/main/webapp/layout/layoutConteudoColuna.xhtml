@@ -6,12 +6,11 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
+	 <h:panelGroup rendered="#{!empty paginaBean.paginasMenuLateral}">
       <div class="subnav">
-      	<h:panelGroup rendered="#{paginaBean.paginas ne null}">
       	<h2>Conteúdo</h2>
 		<ul>
-			<ui:repeat value="#{paginaBean.paginas}" var="item">
-			<h:panelGroup rendered="#{item.pag_posicao eq 'L'}">
+			<ui:repeat value="#{paginaBean.paginasMenuLateral}" var="item">
 			<li>
 			<h:link outcome="/paginas.jsf" title="#{item.pag_titulo}" >
 				<f:param name="cod" value="#{item.pag_cod}" />
@@ -19,10 +18,9 @@
 				#{item.pag_titulo}
 			</h:link>
 			</li>
-			</h:panelGroup>
 			</ui:repeat>
 		</ul>
-		</h:panelGroup>
 	  </div>
+	  </h:panelGroup>
 		
 </ui:composition>

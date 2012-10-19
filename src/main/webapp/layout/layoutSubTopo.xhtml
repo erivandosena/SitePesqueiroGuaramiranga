@@ -7,10 +7,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div id="featured_slide">
+    <h:panelGroup rendered="#{!empty eventoBean.eventosDestaque}">
     <div id="featured_content">
     
       <ul>
-      <ui:repeat value="#{eventoBean.eventos}" var="item">
+      <ui:repeat value="#{eventoBean.eventosDestaque}" var="item">
       <li>
       <h:graphicImage value="/upload/#{item.pub_cod}/#{item.pub_imagem}" width="380" alt="#{item.pub_titulo}" title="#{item.pub_titulo}"/>
       <div class="floater">
@@ -30,5 +31,6 @@
       
     </div>
     <a href="javascript:void(0);" id="featured-item-prev"><h:graphicImage library="images" name="prev.png" alt="Anterior" title="Anterior"/></a> <a href="javascript:void(0);" id="featured-item-next"><h:graphicImage library="images" name="next.png" alt="Próximo" title="Próximo"/></a>
+	</h:panelGroup>
 	</div>	
 </ui:composition>

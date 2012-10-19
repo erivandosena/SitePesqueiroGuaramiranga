@@ -31,6 +31,10 @@ public class LinkServico extends DAOGenerico<Serializable> {
 	public void excluirLink(Link link) {
 		dao.remover(link);
 	}
+	
+	public List<Link> listarLinksMenu(String nome) {
+		return dao.obterLista(Link.class, "SELECT l FROM Link l WHERE l.lin_posicao = ?1 ORDER BY l.lin_cod DESC", nome);
+	}
 
 	public List<Link> listarLinks(String nome) {
 		return dao.obterLista(Link.class,"SELECT l FROM Link l WHERE lower(l.lin_nome) like ?1", "%"+ nome.toLowerCase() + "%");
