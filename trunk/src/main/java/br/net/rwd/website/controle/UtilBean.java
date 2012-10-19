@@ -24,17 +24,7 @@ public class UtilBean  {
     public static void addErroMensagem(String msg) {
         addMessage(null,msg,FacesMessage.SEVERITY_ERROR);
     }
-    
-    /*
-    protected void addInfoMessage(String componentId, String infoMessage) {
-		addMessage(componentId, infoMessage, FacesMessage.SEVERITY_INFO);
-	}
 
-	protected void addInfoMessage(String infoMessage) {
-		addInfoMessage(null, infoMessage);
-	}
-	*/
-	
 	/*
 	 * 
 	 * Login / Utilitario JSF
@@ -46,42 +36,4 @@ public class UtilBean  {
 		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 	}
 	
-    /*
-	public static String getRequestParameter(String name) {
-		return (String)FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(name);
-	}
-
-	public static void exibirMensagemSucesso(String mensagem) {
-		exibirMensagem(FacesMessage.SEVERITY_INFO, mensagem);
-	}
-
-	public static void exibirMensagemAlerta(String mensagem) {
-		exibirMensagem(FacesMessage.SEVERITY_WARN, mensagem);
-	}
-	
-	public static void exibirMensagemErro(String mensagem) {
-		exibirMensagem(FacesMessage.SEVERITY_ERROR, mensagem);
-	}
-	
-	private static void exibirMensagem(FacesMessage.Severity severity, String mensagem) {
-		FacesMessage facesMessage = new FacesMessage(severity, "", mensagem);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}
-
-	public static ExternalContext getExternalContext() {
-		return FacesContext.getCurrentInstance().getExternalContext();
-	}
-
-	public static ServletContext getServletContext() {
-		return (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
-	}
-	
-	public static HttpServletRequest getServletRequest() {
-		return (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	}
-	
-	public static HttpServletResponse getServletResponse() {
-		return (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-	}
-	*/
 }
