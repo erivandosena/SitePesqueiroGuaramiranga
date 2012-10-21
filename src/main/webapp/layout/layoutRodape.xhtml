@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
@@ -10,31 +11,80 @@
         <h2>Links Úteis</h2>
         <ul>
           <ui:repeat value="#{linkBean.linksMenuRodape}" var="item">
-          <li><a href="#{item.lin_url}" title="#{item.lin_nome}" target="_blank">#{item.lin_nome}</a></li>
+          <li>
+          <h:graphicImage library="images" name="hyperlink.png" alt="#{item.lin_nome}" title="#{item.lin_url}"/>
+          <a href="#{item.lin_url}" title="Hyperlink útil" target="_blank">#{item.lin_nome}</a>
+          </li>
           </ui:repeat>
         </ul>
     </h:panelGroup>
     </div>
     <div class="box contactdetails">
-      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco or !empty siteBean.carregarDados.web_telefone or !empty siteBean.carregarDados.web_email}">
+      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco or !empty siteBean.carregarDados.web_cidade or !empty siteBean.carregarDados.web_estado or !empty siteBean.carregarDados.web_telefone or !empty siteBean.carregarDados.web_blog or !empty siteBean.carregarDados.web_email or !empty siteBean.carregarDados.web_messenger or !empty siteBean.carregarDados.web_skype}">
       <h2>Contatos</h2>
       <ul>
-        <li><h:outputText value="#{siteBean.carregarDados.web_endereco}" rendered="#{!empty siteBean.carregarDados.web_endereco}" />
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_endereco or !empty siteBean.carregarDados.web_numero}">
+        <li>
+        <h:outputText value="#{siteBean.carregarDados.web_endereco}" rendered="#{!empty siteBean.carregarDados.web_endereco}" />
         <h:outputText value=", #{siteBean.carregarDados.web_numero}" rendered="#{!empty siteBean.carregarDados.web_numero}" />
         </li>
-        <li><h:outputText value="#{siteBean.carregarDados.web_bairro}" rendered="#{!empty siteBean.carregarDados.web_bairro}" /> 
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_bairro or !empty siteBean.carregarDados.web_cep}">
+        <li>
+        <h:outputText value="#{siteBean.carregarDados.web_bairro}" rendered="#{!empty siteBean.carregarDados.web_bairro}" /> 
         <h:outputText value=" CEP: #{siteBean.carregarDados.web_cep}" rendered="#{!empty siteBean.carregarDados.web_cep}" />
         </li>
-        <li><h:outputText value="#{siteBean.carregarDados.web_cidade}" rendered="#{!empty siteBean.carregarDados.web_cidade}" />
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_cidade or !empty siteBean.carregarDados.web_estado}">
+        <li>
+        <h:outputText value="#{siteBean.carregarDados.web_cidade}" rendered="#{!empty siteBean.carregarDados.web_cidade}" />
         <h:outputText value=" - #{siteBean.carregarDados.web_estado}" rendered="#{!empty siteBean.carregarDados.web_estado}" />
         </li>
-        <li><h:outputText value="Telefone: #{siteBean.carregarDados.web_telefone}" rendered="#{!empty siteBean.carregarDados.web_telefone}" styleClass="cor-padrao"/></li>
-        <li><h:outputText value="E-mail: #{siteBean.carregarDados.web_email}" rendered="#{!empty siteBean.carregarDados.web_email}" styleClass="cor-padrao"/></li>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_telefone}">
+        <li>
+        <h:graphicImage library="images" name="telefone.png" alt="Telefone" title="#{siteBean.carregarDados.web_telefone}"/>
+        <a href="#" title="Telefone">#{siteBean.carregarDados.web_telefone}</a>
+        </li>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_blog}">
+        <li>
+        <h:graphicImage library="images" name="blog.png" alt="Blog" title="#{siteBean.carregarDados.web_blog}"/>
+        <a href="#{siteBean.carregarDados.web_blog}" title="Blog" target="_blank">#{fn:substring( siteBean.carregarDados.web_blog, 7, fn:length(siteBean.carregarDados.web_blog) )}</a>
+        </li>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_email}">
+        <li>
+        <h:graphicImage library="images" name="email.png" alt="E-mail" title="#{siteBean.carregarDados.web_email}"/>
+        <a href="mailto:#{siteBean.carregarDados.web_email}" title="E-mail" target="_blank">#{siteBean.carregarDados.web_email}</a>
+        </li>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_messenger}">
+        <li>
+        <h:graphicImage library="images" name="msn.png" alt="Live Messenger" title="#{siteBean.carregarDados.web_messenger}"/>
+        <a href="mailto:#{siteBean.carregarDados.web_messenger}" title="Live Messenger" target="_blank">#{siteBean.carregarDados.web_messenger}</a>
+        </li>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_skype}"> 
+        <li>
+        <h:graphicImage library="images" name="skype.png" alt="Skype" title="#{siteBean.carregarDados.web_skype}"/>
+        <a href="callto:#{siteBean.carregarDados.web_skype}" title="Skype" target="_blank">#{siteBean.carregarDados.web_skype}</a>
+        </li>
+        </h:panelGroup>
+
       </ul>
       </h:panelGroup>
+      
     </div>
     <div class="box flickrbox">
-      <h:panelGroup rendered="#{!empty siteBean.carregarDados}">
+      <h:panelGroup rendered="#{!empty siteBean.carregarDados.web_facebook or !empty siteBean.carregarDados.web_twitter or !empty siteBean.carregarDados.web_orkut or !empty siteBean.carregarDados.web_youtube}">
       <h2>Rede social</h2>
       <div class="wrap">
         <div class="fix"></div>

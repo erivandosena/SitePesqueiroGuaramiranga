@@ -50,7 +50,7 @@
     <h:outputLabel for="descricao" value="Sobre o site ou Informações" />
     <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link" height="150" value="#{siteBean.site.web_descricao}" />
     
-    <h:outputLabel for="proprietario" value="Nome do responsável" />
+    <h:outputLabel for="proprietario" value="Nome do administrador" />
     <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" />
     
     <h:outputLabel for="endereco" value="Endereço" />
@@ -74,10 +74,10 @@
     <h:outputLabel for="telefone" value="Telefone" />
     <h:inputText id="telefone" value="#{siteBean.site.web_telefone}" size="25" maxlength="15" />
     
-    <h:outputLabel for="site" value="Site" />
+    <h:outputLabel for="site" value="Site (iniciando com www)" />
     <h:inputText id="site" value="#{siteBean.site.web_site}" size="50" maxlength="50" />
     
-    <h:outputLabel for="blog" value="Blog (sempre iniciado com http://)" />
+    <h:outputLabel for="blog" value="Blog (iniciando com http://)" />
     <h:inputText id="blog" value="#{siteBean.site.web_blog}" size="50" maxlength="250" />
     
     <h:outputLabel for="email" value="E-mail" />
@@ -87,23 +87,21 @@
     <h:message for="email" styleClass="msg_erro" />
  
     <h:outputLabel for="messenger" value="Messenger" />
-    <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="50" maxlength="100" validatorMessage="E-mail inválido.">
-		<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
-	</h:inputText>
+    <h:inputText id="messenger" value="#{siteBean.site.web_messenger}" size="50" maxlength="100" />
     
     <h:outputLabel for="skype" value="Skype" />    
     <h:inputText id="skype" value="#{siteBean.site.web_skype}" size="50" maxlength="50" />
 
-    <h:outputLabel for="facebook" value="Facebook (sempre iniciado com http://)" />
+    <h:outputLabel for="facebook" value="Facebook (iniciando com http://)" />
     <h:inputText id="facebook" value="#{siteBean.site.web_facebook}" size="50" maxlength="250" />
 
-		  <h:outputLabel for="twitter" value="Twitter (sempre iniciado com http://)" />
-	  <h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
+	<h:outputLabel for="twitter" value="Twitter (iniciando com http://)" />
+	<h:inputText id="twitter" value="#{siteBean.site.web_twitter}" size="50" maxlength="250" styleClass="edit" />
 	  
-    <h:outputLabel for="orkut" value="Orkut (sempre iniciado com http://)" />    
+    <h:outputLabel for="orkut" value="Orkut (iniciando com http://)" />    
     <h:inputText id="orkut" value="#{siteBean.site.web_orkut}" size="50" maxlength="250" />
 
-    <h:outputLabel for="youtube" value="Canal do Youtube (sempre iniciado com http://)" />    
+    <h:outputLabel for="youtube" value="Canal do Youtube (iniciando com http://)" />    
     <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" />
 		  </h:panelGrid>
 
@@ -120,7 +118,7 @@
   			<f:selectItem itemValue="#{false}" itemLabel="Não" /> 
   			<f:selectItem itemValue="#{true}" itemLabel="Sim"/> 
 			<f:ajax event="click" render="painelPortaSsl" />
-		  </h:selectOneRadio> 
+	</h:selectOneRadio> 
 		  
 		  <h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
 		  <h:outputLabel for="portasll" value="Porta SSL" /><br />

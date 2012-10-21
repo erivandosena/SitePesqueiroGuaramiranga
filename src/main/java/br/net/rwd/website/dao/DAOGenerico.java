@@ -12,11 +12,10 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DAOGenerico<T extends Serializable> {
+	private Logger log4j = Logger.getLogger(Class.class.getName());
 
 	@PersistenceContext
 	protected EntityManager entityManager;
-
-	private Logger log4j = Logger.getLogger(Class.class.getName());
 
 	protected void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -82,6 +81,19 @@ public class DAOGenerico<T extends Serializable> {
 	public <T> T obterEntidade(Class<T> classe, Integer chave) {
 		T entidade = entityManager.find(classe, chave);
 		return entidade;
+	}
+	
+	/*
+	@Transactional
+	public void detach(Object entity) {
+		org.hibernate.Session session = (Session) entityManager.getDelegate();
+		session.evict(entity);
+	}
+	*/
+	
+	@Transactional
+	public void separar(Object obj) {
+		entityManager.detach(obj);
 	}
 
 }

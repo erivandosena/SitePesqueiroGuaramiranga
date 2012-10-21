@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition template="/layout/layoutPrincipalAdmin.xhtml"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -37,6 +38,21 @@
           </h:column>
           
           <h:column>
+            <f:facet name="header">Perfil</f:facet>
+            <h:outputText value="#{(usuario.per_roles eq '[ROLE_ADMINISTRADOR]')?'Administrador':'Usuário'}" />
+          </h:column>
+          
+          <h:column>
+			<f:facet name="header">Gerenciamento</f:facet>
+			<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMINISTRADOR')}" title="Perfil Administrador">
+				<h:graphicImage library="images" name="ROLE_ADMINISTRADOR_#{usuario.per_roles.contains('ROLE_ADMINISTRADOR')}.png" style="border:0"/>
+			</h:commandLink>
+			<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USUARIO')}" title="Perfil Usuário">
+				<h:graphicImage library="images" name="ROLE_USUARIO_VIP_#{usuario.per_roles.contains('ROLE_USUARIO')}.png" style="border:0"/>
+			</h:commandLink>
+		  </h:column>
+          
+          <h:column>
             <f:facet name="header"></f:facet>
             <h:commandLink value="Alterar" action="#{usuarioBean.atualizar}" disabled="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR'}">
               <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}" />
@@ -56,7 +72,7 @@
       </h:form>
       <h:form id="formEdicao" rendered="#{usuarioBean.modoEdicao}" prependId="false">
       <p:messages id="mensagensEdicao" showSummary="#{true}" /> 
-        <h:panelGrid columns="1" border="0" >
+        <h:panelGrid id="usuarios" columns="1" border="0" >
 			<h:outputLabel for="nome" value="Nome" />
 			<h:inputText id="nome" value="#{usuarioBean.usuario.usu_nome}" size="50" maxlength="50" required="true" requiredMessage="Nome obrigatório."  />
 			
@@ -66,11 +82,17 @@
 			</h:inputText>
 			
 			<h:outputLabel for="senha" value="Senha" />
-			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" required="false" requiredMessage="Senha obrigatória." />
+			<h:inputSecret id="senha" value="#{usuarioBean.usuario.usu_senha}" size="25" maxlength="25" />
 			
 			<h:outputLabel for="confirma" value="Confirma senha" />
-			<h:inputSecret id="confirma" value="#{usuarioBean.confirmaSenha}" size="25" maxlength="25" required="false" requiredMessage="Confirme a senha." />
+			<h:inputSecret id="confirma" value="#{usuarioBean.confirmaSenha}" size="25" maxlength="25" />
 
+			<h:outputLabel for="perfil" value="Perfil" />
+    		<h:selectOneRadio id="perfil" value ="#{usuarioBean.perfilUsuario}" style="width:177px;" required="true" requiredMessage="Perfil obrigatório."> 
+  				<f:selectItem itemValue="[ROLE_ADMINISTRADOR]" itemLabel="Administrador" /> 
+  				<f:selectItem itemValue="[ROLE_USUARIO]" itemLabel="Usuário"/> 
+				<f:ajax event="click" render="perfil" />
+			</h:selectOneRadio> 
 		</h:panelGrid> 
         <h:commandButton id="btSalvar" value="Salvar" actionListener="#{usuarioBean.salvar}"/>
         <h:commandButton value="Cancelar" action="#{usuarioBean.retornar}" immediate="true" />

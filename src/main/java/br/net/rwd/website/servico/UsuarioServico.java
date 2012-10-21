@@ -25,11 +25,23 @@ public class UsuarioServico extends DAOGenerico<Serializable> {
 	}
 	
 	public void alterarUsuario(Usuario usuario) {
+		//referente edicao do usuario
+		if(usuario.getPer_roles() == null || usuario.getPer_roles().size() == 0) {
+			Usuario usuarioPerfil = this.selecionarUsuario(usuario.getUsu_cod());
+			usuario.setPer_roles(usuarioPerfil.getPer_roles());
+			//remove objeto do contexto de persistencia
+			this.dao.separar(usuarioPerfil);
+		}
+		//
 		dao.atualizar(usuario);
 	}
 	
 	public void excluirUsuario(Usuario usuario) {
 		dao.remover(usuario);
+	}
+	
+	public Usuario selecionarUsuario(Integer codigo) {
+		return dao.obterEntidade(Usuario.class, codigo);
 	}
 
 	public Usuario selecionarUsuarioLogin(String login) {

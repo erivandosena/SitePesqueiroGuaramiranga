@@ -75,9 +75,19 @@
 	      <view-id value="/foto.jsf" />
       </url-mapping>
 
-      <url-mapping id="seo14">
+      <url-mapping id="seo13">
 		  <pattern value="/galeria/#{cod : galeriaBean.gal_cod}/" />
 	      <view-id value="/galerias.jsf" />
       </url-mapping>
+      
+      <url-mapping id="seo14"> 
+          <pattern value="/home/" /> 
+          <view-id value="http://www.pesqueiroguaramiranga.com.br:12180" />
+      </url-mapping> 
+      
+      <url-mapping id="seo15"> 
+          <pattern value="/portal/" /> 
+          <view-id value=":12180" />
+      </url-mapping> 
 
 </pretty-config>

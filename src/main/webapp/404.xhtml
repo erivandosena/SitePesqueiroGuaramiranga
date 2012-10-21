@@ -5,23 +5,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Ops! Erro</title>
 <meta name="robots" content="noindex, nofollow" />
-<meta http-equiv="refresh" content="10; URL=index.jsf" />
-<link rel="shortcut icon" type="image/x-icon"
-	href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
+<meta http-equiv="refresh" content="10; URL=#{facesContext.externalContext.request.contextPath}/" />
+<link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
 </head>
-<body>
-<div align="center"> <br />
+<body style="color: #333333; font-size: 8pt; font-family: Tahoma;">
+<div align="center"> 
   <br />
   <br />
   <br />
   <br />
   <br />
-  <p align="center"> <font face="Tahoma" size="2"> <img src="#{facesContext.externalContext.request.contextPath}/resources/images/erro.gif" border="0" />  <br /><strong>Não encontrado.</strong><br />
+  <br />
+  <p align="center"><img src="#{facesContext.externalContext.request.contextPath}/resources/images/erro.gif" border="0" /> 
+  	<br /><strong>Não encontrado.</strong><br />
     <br />
-    Em 10 segundos será redirecionado para página inicial. <br />
-    </font> </p>
-  <p align="center"> <b><font face="Tahoma" size="2"><font color="#2749B0">[ </font><a href="index.jsf" style="text-decoration: none"><font color="#2749B0">Ou clique aqui para ser redirecionado!</font> </a><font color="#2749B0"> ]</font> </font> </b> </p>
-  <p>&nbsp;</p>
+    Em 10 segundos será redirecionado para página inicial.
+    <br />
+    <br />
+  </p>
+  <p align="center">
+  	[&nbsp;<a href="#{facesContext.externalContext.request.contextPath}/" style="text-decoration: none; color:#B2C629; font-weight: bold;">Redirecionar agora!</a>&nbsp;] 
+  </p>
 </div>
 </body>
 </html>
