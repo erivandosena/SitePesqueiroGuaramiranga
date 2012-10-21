@@ -316,12 +316,28 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #footer .box1 .imgl{border:1px solid #CCCCCC; padding:5px; color:#FFFFFF; background-color:#000000;}
 
+#footer .box1 li img{
+	 padding-right: 4px;
+}
+
+#footer .box1 li a{
+	 margin-top: -2px;
+	 position: absolute;
+}
+
 #footer .contactdetails {
 	margin:0 0 0 60px;
 	}
 #footer .contactdetails li{
 	margin:0 0 8px 0;
 	width:290px;
+	}
+#footer .contactdetails li img{
+padding-right: 4px;
+	}
+#footer .contactdetails li a{
+ margin-top: -3px;
+ position: absolute;
 	}
 
 #footer .flickrbox, #footer .flickrbox .wrap{display:block; width:180px;}
@@ -738,9 +754,6 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 .msg_erro {
 	color: red;
 	}
-.cor-padrao {
-	color:#B2C629;
-	}
 .slogan-rodape {
 	margin-top: 0px;
 	}
@@ -768,5 +781,4 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 	font-size: 14px;
 	font-weight: bold;
 	}
-	
 /* ----------------------------------------------Fim-------------------------------------*/

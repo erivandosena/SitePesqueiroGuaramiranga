@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -24,8 +25,10 @@ import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends UtilBean implements CrudBeans<Object> {
+public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object> {
 
+	private static final long serialVersionUID = 1L;
+	
 	@ManagedProperty("#{siteServico}")
 	private SiteServico model;
 	private Site site;
@@ -348,6 +351,12 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
         	//inclui a imagem upada
         	salvarImagem();
 
+        	//se não for informado os valores para as portas
+        	if (site.getWeb_porta().intValue() == 0)
+        		site.setWeb_porta(25);
+        	if (site.getWeb_portassl().intValue() == 0)
+        		site.setWeb_portassl(465);
+        	
             site = model.incluirSite(site);
             site = new Site();
             addInfoMensagem("Site criado com sucesso.");

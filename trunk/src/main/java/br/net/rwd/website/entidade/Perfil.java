@@ -1,17 +1,11 @@
 package br.net.rwd.website.entidade;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,12 +21,7 @@ public class Perfil implements Serializable, GrantedAuthority {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer per_cod;
 	private String per_role;
-	private String per_nome;
-	
-	@ManyToMany(targetEntity=Usuario.class,fetch=FetchType.EAGER)
-	@JoinTable(name = "perfis", joinColumns = @JoinColumn(name = "per_cod"), inverseJoinColumns = @JoinColumn(name = "usu_cod"))
-	private List<Usuario> usuarios = new ArrayList<Usuario>();
-	
+
 	@Transient
 	public String getAuthority() {
 		return this.per_role;
@@ -63,22 +52,6 @@ public class Perfil implements Serializable, GrantedAuthority {
 		this.per_role = per_role;
 	}
 
-	public String getPer_nome() {
-		return per_nome;
-	}
-
-	public void setPer_nome(String per_nome) {
-		this.per_nome = per_nome;
-	}
-
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -104,11 +77,5 @@ public class Perfil implements Serializable, GrantedAuthority {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return this.per_nome;
-	}
-	
-	
 
 }

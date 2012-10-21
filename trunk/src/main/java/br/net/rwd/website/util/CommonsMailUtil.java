@@ -9,11 +9,14 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.log4j.Logger;
 
 import br.net.rwd.website.controle.UtilBean;
 import br.net.rwd.website.entidade.Site;
 
 public class CommonsMailUtil extends UtilBean {
+	
+	private Logger log4j = Logger.getLogger(Class.class.getName());
 
 	private Site obj;
 	private String de;
@@ -118,8 +121,7 @@ public class CommonsMailUtil extends UtilBean {
 	public void enviarEmailHtml() {
 		try {
 				// Cria a mensagem de e-mail
-				// Cria o e-mail preparado para os anexos
-				//MultiPartEmail email = new MultiPartEmail();
+				//MultiPartEmail email = new MultiPartEmail(); // Cria o e-mail preparado para os anexos
 				HtmlEmail email = new HtmlEmail();
 
 				// informacoes do servidor
@@ -127,9 +129,14 @@ public class CommonsMailUtil extends UtilBean {
 				email.setSmtpPort(this.obj.getWeb_porta());
 
 				// Autenticar no servidor
+				if(this.obj.getWeb_conta() != null && this.obj.getWeb_senha() != null) {
 				email.setAuthentication(this.obj.getWeb_conta(), this.obj.getWeb_senha());
+				}
+				
+				if(this.obj.isWeb_ssl()) {
 				email.setSSL(this.obj.isWeb_ssl());
 				email.setSslSmtpPort(this.obj.getWeb_portassl().toString());
+				}
 
 				// montando o e-mail
 				if (this.de != null) {
@@ -173,6 +180,10 @@ public class CommonsMailUtil extends UtilBean {
 			addErroMensagem("Erro ao enviar e-mail. Verifique informações sobre SMTP.");
 			return;
 		} catch (AddressException ae) {
+			addErroMensagem("Erro ao enviar e-mail. Verifique endereços de e-mail.");
+			return;
+		} catch (Exception e) {
+			log4j.error(e);
 			addErroMensagem("Erro ao enviar e-mail. Verifique endereços de e-mail.");
 			return;
 		}

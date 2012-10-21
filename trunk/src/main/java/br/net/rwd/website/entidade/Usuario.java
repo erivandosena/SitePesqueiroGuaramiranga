@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,7 +22,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,6 +39,7 @@ public class Usuario implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer usu_cod;
 	private String usu_nome;
+	@NaturalId
 	private String usu_email;
 	private String usu_senha;
 	private String usu_endereco;
@@ -45,6 +51,11 @@ public class Usuario implements Serializable, UserDetails {
 	@Temporal(TemporalType.DATE)
 	@Column(columnDefinition = "date")
 	private Date usu_alteracao;
+
+	@ElementCollection(targetClass=String.class,fetch=FetchType.EAGER)
+	@JoinTable(name="perfis",uniqueConstraints={@UniqueConstraint(columnNames={"usu_cod","per_role"})},joinColumns=@JoinColumn(name="usu_cod"))
+	@Column(name="per_role",length=25)
+	private Set<String> per_roles = new LinkedHashSet<String>();
 
 	@ManyToMany(targetEntity=Perfil.class,fetch=FetchType.EAGER)
 	@JoinTable(name = "perfis", joinColumns = @JoinColumn(name = "usu_cod"), inverseJoinColumns = @JoinColumn(name = "per_cod"))
@@ -58,7 +69,7 @@ public class Usuario implements Serializable, UserDetails {
 		}
 		return lista;
 	}
-
+	
 	@Transient
 	public String getPassword() {
 		return this.usu_senha;
@@ -87,6 +98,10 @@ public class Usuario implements Serializable, UserDetails {
 	@Transient
 	public boolean isEnabled() {
 		return this.usu_situacao;
+	}
+	
+	public Usuario() {
+		super();
 	}
 
 	public Integer getUsu_cod() {
@@ -177,16 +192,20 @@ public class Usuario implements Serializable, UserDetails {
 		this.usu_alteracao = usu_alteracao;
 	}
 
+	public Set<String> getPer_roles() {
+		return per_roles;
+	}
+
+	public void setPer_roles(Set<String> per_roles) {
+		this.per_roles = per_roles;
+	}
+
 	public List<Perfil> getPerfis() {
 		return perfis;
 	}
 
 	public void setPerfis(List<Perfil> perfis) {
 		this.perfis = perfis;
-	}
-
-	public Usuario() {
-		super();
 	}
 
 	@Override
