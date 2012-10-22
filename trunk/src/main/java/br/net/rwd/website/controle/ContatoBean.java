@@ -71,6 +71,8 @@ public class ContatoBean extends UtilBean {
 		String numIp = request.getRemoteHost();
 		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
 		String urlImagem = urlSite+"/resources/images/"+site.getWeb_logomarca();
+		if(site.getWeb_logomarca() == null)
+			urlImagem = urlSite+"/resources/images/nulo.png";
 
     	mail.setObj(site);
     	mail.setDe(email);
@@ -80,7 +82,7 @@ public class ContatoBean extends UtilBean {
     	mail.setDestinatariosNormais(null);
     	mail.setDestinatariosOcultos(email);
     	mail.setAssunto(assunto);
-    	mail.setMensagem(mensagemHtml(urlSite, urlImagem, numIp));
+    	mail.setMensagem(mensagemHtml(site.getWeb_titulo(), urlSite, urlImagem, numIp));
     	mail.setMensagemAlternativa(Uteis.html2text(mail.getMensagem()));
     	mail.setAnexo(null);
     	mail.enviarEmailHtml();
@@ -89,7 +91,7 @@ public class ContatoBean extends UtilBean {
         return "contato"; 
     }  
 	
-	public String mensagemHtml(String urlSite, String urlImagem, String numIp) {
+	public String mensagemHtml(String tituloSite, String urlSite, String urlImagem, String numIp) {
 		String html = "<html><head><title>Mensagem</title>" +
 		"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
 	    "</head>" +
@@ -101,11 +103,11 @@ public class ContatoBean extends UtilBean {
 	    "<td bgcolor='#000000' valign='top' style='border:0'>" +
 	    "<table width='100%' border='0' cellspacing='10' cellpadding='0' align='center'>" +
 	    "<tr>" +
-	    "<td align='center'>" +
+	    "<td align='center' valign='middle'>" +
 	    "<a href='" + urlSite + "' target='_blank'>" +
-	    "<img src='"+urlImagem+"' border='0' align='middle' /></a>" +
+	    "<img src='"+urlImagem+"' border='0' align='middle' width='286'/></a>" +
 	    "</td>" +
-	    "<td align='center' style='color:#FFFFFF;text-transform:uppercase;'><strong>FORMULÁRIO DE "+assunto+"</strong></td>" +
+	    "<td align='center' valign='middle' style='color:#FFFFFF;text-transform:uppercase;'><strong>FORMULÁRIO DE "+assunto+"</strong></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
@@ -145,17 +147,17 @@ public class ContatoBean extends UtilBean {
         "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
         "<tr>" +
         "<td align='left'>IP:</td>" +
-        "<td align='left'><strong>" + numIp + "</strong></td>" +
+        "<td align='left'>" + numIp + "</td>" +
         "</tr>" +
         "</table>" +
         "</td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0'></td>" +
+	    "<td style='border:0'><hr /></td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0;font-size:smaller' align='center'>" +
-	    "<p align='center'><a href='" + urlSite + "' target='_blank'>" + urlSite.substring(7, urlSite.length()) +
+	    "<td style='border:0;font-size:smaller' align='center' valign='middle'>" +
+	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank'>" + tituloSite +
 	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a></p>" +
         "</td>" +
 	    "</tr>" +

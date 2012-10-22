@@ -89,5 +89,20 @@
           <pattern value="/portal/" /> 
           <view-id value=":12180" />
       </url-mapping> 
+      
+      <url-mapping id="seo16"> 
+          <pattern value="/portal2/" /> 
+          <view-id value="12180" />
+      </url-mapping> 
+      
+      <url-mapping id="seo17"> 
+          <pattern value="/portal3/" /> 
+          <view-id value=":12180/" />
+      </url-mapping>
+      
+      <url-mapping id="seo18"> 
+          <pattern value="www.pesqueiroguaramiranga.com.br/inicial/" /> 
+          <view-id value="http://www.pesqueiroguaramiranga.com.br:12180" />
+      </url-mapping>
 
 </pretty-config>

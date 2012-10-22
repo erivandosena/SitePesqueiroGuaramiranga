@@ -41,6 +41,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	private Usuario usuario;
 	private List<Usuario> usuarios;
 	private boolean modoEdicao;
+	private boolean modoEdicaoPerfil;
 
 	private Integer usu_cod;
 	private String usu_nome;
@@ -54,11 +55,10 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	private boolean usu_situacao = true;
 	
 	private String confirmaSenha;
-	private String perfilUsuario;
 	private String loginExistente;
 	
+	/* ------------------------------------------------- */
 	private String senhaExistente;
-
 	/* ------------------------------------------------- */
 
 	public UsuarioServico getModel() {
@@ -105,6 +105,14 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 
 	public void setModoEdicao(boolean modoEdicao) {
 		this.modoEdicao = modoEdicao;
+	}
+	
+	public boolean isModoEdicaoPerfil() {
+		return modoEdicaoPerfil;
+	}
+
+	public void setModoEdicaoPerfil(boolean modoEdicaoPerfil) {
+		this.modoEdicaoPerfil = modoEdicaoPerfil;
 	}
 	
 	/* ------------------------------------------------- */
@@ -196,29 +204,18 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
 	}
-
-	public String getPerfilUsuario() {
-		return perfilUsuario;
-	}
-
-	public void setPerfilUsuario(String perfilUsuario) {
-		this.perfilUsuario = perfilUsuario;
-	}
-
+	
 	public String getLoginExistente() {
 		return loginExistente;
 	}
 
-	public void setLoginExistente(String loginExistente) {
-		this.loginExistente = loginExistente;
-	}
-	
 	/* ------------------------------------------------- */
 
 	@Override
 	public void incluir() {
         this.usuario = new Usuario();
         this.modoEdicao = true;
+        this.modoEdicaoPerfil = true;
         addAvisoMensagem("A senha é obrigatória. Caso não seja informada o sistema irá gerá-la automaticamente!");
 	}
 
@@ -267,17 +264,28 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 				if (model.selecionarUsuarioExistente(emailUsuario)) {
 					addErroMensagem("Usuário existente! Informe outro e-mail.");
 				} else {
-					// envia email
-					envia(usuario.getUsu_nome(), usuario.getUsu_email(), senhaAuto, "Seu cadastro para acesso foi criado");
-
-					//inclui perfil do usuario
-					usuario.getPer_roles().add(this.perfilUsuario.substring(1, this.perfilUsuario.length()-1));
 					
-					// inclui
-					usuario = model.incluirUsuario(usuario);
-					usuario = new Usuario();
-					addInfoMensagem("Usuário criado com sucesso.");
-					retornar();
+					System.out.println(this.usuario.getPer_roles());
+					System.out.println(this.usuario.getPer_roles().toString());
+					System.out.println(usuario.getPer_roles());
+					System.out.println(usuario.getPer_roles().toString());
+					
+					if (this.usuario.getPer_roles().toString() == "[]") {
+						addErroMensagem("Selecione o perfil.");
+					} else {			
+						// inclui perfil do usuario
+						usuario.getPer_roles().add(this.usuario.getPer_roles().toString());
+
+						// inclui
+						usuario = model.incluirUsuario(usuario);
+
+						// envia email
+						envia(usuario.getUsu_nome(), usuario.getUsu_email(), senhaAuto,"Seu cadastro para acesso foi criado");
+
+						usuario = new Usuario();
+						addInfoMensagem("Usuário criado com sucesso.");
+						retornar();
+					}
 				}
 			} else {
 				/*---- ATUALIZA ----*/
@@ -314,11 +322,8 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	public void atualizar() {
 		loginExistente = usuario.getUsu_email();
 		senhaExistente = usuario.getUsu_senha();
-		perfilUsuario = usuario.getPer_roles().toString();
-		System.out.println(this.perfilUsuario.substring(1, this.perfilUsuario.length()-1));
-		System.out.println(usuario.getPer_roles());
-		System.out.println(usuario.getPer_roles().toString());
 		this.modoEdicao = true;
+		this.modoEdicaoPerfil = false;
 	}
 
 	@Override
@@ -428,12 +433,8 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 		String numIp = request.getRemoteHost();
 		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
 		String urlImagem = urlSite+"/resources/images/"+site.getWeb_logomarca();
-		
-		String adminSite = null;
-		if(site.getWeb_proprietario() == null)
-			adminSite = "Equipe,";
-		else
-			adminSite = site.getWeb_proprietario();
+		if(site.getWeb_logomarca() == null)
+			urlImagem = urlSite+"/resources/images/nulo.png";
 		
     	mail.setObj(site);
     	mail.setDe(site.getWeb_email());
@@ -443,7 +444,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
     	mail.setDestinatariosNormais(null);
     	mail.setDestinatariosOcultos(null);
     	mail.setAssunto(assunto);
-    	mail.setMensagem(mensagemHtml(nome, email, senha, urlSite, urlImagem, numIp, adminSite, site.getWeb_titulo(), site.getWeb_slogan(), site.getWeb_site()));
+    	mail.setMensagem(mensagemHtml(nome, email, senha, urlSite, urlImagem, numIp, site.getWeb_proprietario(), site.getWeb_titulo(), site.getWeb_slogan(), site.getWeb_site()));
     	mail.setMensagemAlternativa(Uteis.html2text(mail.getMensagem()));
     	mail.setAnexo(null);
     	mail.enviarEmailHtml();
@@ -463,11 +464,11 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td bgcolor='#000000' valign='top' style='border:0'>" +
 	    "<table width='100%' border='0' cellspacing='10' cellpadding='0' align='center'>" +
 	    "<tr>" +
-	    "<td align='center'>" +
+	    "<td align='center' valign='middle'>" +
 	    "<a href='" + urlSite + "' target='_blank'>" +
-	    "<img src='"+urlImagem+"' border='0' align='middle' /></a>" +
+	    "<img src='"+urlImagem+"' border='0' width='286' align='middle'/></a>" +
 	    "</td>" +
-	    "<td align='center' style='color:#FFFFFF;text-transform:uppercase;'><strong>CONTA DE USUÁRIO</strong></td>" +
+	    "<td align='center' valign='middle' style='color:#FFFFFF;text-transform:uppercase;'><strong>CONTA DE USUÁRIO</strong></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
@@ -519,7 +520,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td align='left' style='border:0'>" +
         
         "<p>"+adminSite+"</p>"+
-        "<p><strong>"+tituloSite+"</strong><br />"+sloganSite+"<br /><a href='http://"+nomeSite.toLowerCase()+"'>"+nomeSite.toLowerCase()+"</a></p>" +
+        "<p><strong>"+tituloSite+"</strong><br />"+sloganSite+"<br /><a href='"+urlSite+"'>"+nomeSite.toLowerCase()+"</a></p>" +
         
         "</td>" +
 	    "</tr>" +
@@ -527,7 +528,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td style='border:0'><hr /></td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0;font-size:smaller' align='center'>" +
+	    "<td style='border:0;font-size:smaller' align='center' valign='middle'>" +
 	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank'>" + tituloSite +
 	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a></p>" +
         "</td>" +
