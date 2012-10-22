@@ -33,7 +33,7 @@ public class PerfilServico extends DAOGenerico<Serializable> {
 	}
 
 	public List<Perfil> listarPerfis() {
-		return dao.obterLista(Perfil.class, "SELECT p FROM Perfil p ORDER BY p.per_cod ASC");
+		return dao.obterLista(Perfil.class, "SELECT DISTINCT p.per_role FROM Perfil p");
 	}
 
 	public List<Perfil> listarPerfil(String nome) {

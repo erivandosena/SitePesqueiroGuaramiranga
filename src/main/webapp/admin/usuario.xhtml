@@ -36,20 +36,11 @@
             <f:facet name="header">E-mail</f:facet>
             <h:outputText value="#{usuario.usu_email}" />
           </h:column>
-          
+
           <h:column>
-            <f:facet name="header">Perfil</f:facet>
-            <h:outputText value="#{(usuario.per_roles eq '[ROLE_ADMINISTRADOR]')?'Administrador':'Usuário'}" />
-          </h:column>
-          
-          <h:column>
-			<f:facet name="header">Gerenciamento</f:facet>
-			<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMINISTRADOR')}" title="Perfil Administrador">
-				<h:graphicImage library="images" name="ROLE_ADMINISTRADOR_#{usuario.per_roles.contains('ROLE_ADMINISTRADOR')}.png" style="border:0"/>
-			</h:commandLink>
-			<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USUARIO')}" title="Perfil Usuário">
-				<h:graphicImage library="images" name="ROLE_USUARIO_VIP_#{usuario.per_roles.contains('ROLE_USUARIO')}.png" style="border:0"/>
-			</h:commandLink>
+			<f:facet name="header">Perfis</f:facet>
+				<h:graphicImage library="images" name="ROLE_ADMINISTRADOR_#{usuario.per_roles.contains('ROLE_ADMINISTRADOR')}.png" alt="Administrador" title="Administrador" />
+				<h:graphicImage library="images" name="ROLE_USUARIO_#{usuario.per_roles.contains('ROLE_USUARIO')}.png" alt="Usuário" title="Usuário" />
 		  </h:column>
           
           <h:column>
@@ -86,14 +77,29 @@
 			
 			<h:outputLabel for="confirma" value="Confirma senha" />
 			<h:inputSecret id="confirma" value="#{usuarioBean.confirmaSenha}" size="25" maxlength="25" />
+	
+			<h:outputLabel for="perfil" value="Perfil" />	
+    		<h:selectManyCheckbox id="perfil" value="#{usuarioBean.usuario.per_roles}" rendered="#{usuarioBean.modoEdicaoPerfil}" layout="lineDirection" style="width:175px;border:none;" required="#{true}" requiredMessage="Perfil obrigatório.">
+    			<f:selectItem id="p1" itemValue="ROLE_ADMINISTRADOR" itemLabel="Administrador" />
+    			<f:selectItem id="p2" itemValue="ROLE_USUARIO" itemLabel="Usuário" />
+    		</h:selectManyCheckbox>
 
-			<h:outputLabel for="perfil" value="Perfil" />
-    		<h:selectOneRadio id="perfil" value ="#{usuarioBean.perfilUsuario}" style="width:177px;" required="true" requiredMessage="Perfil obrigatório."> 
-  				<f:selectItem itemValue="[ROLE_ADMINISTRADOR]" itemLabel="Administrador" /> 
-  				<f:selectItem itemValue="[ROLE_USUARIO]" itemLabel="Usuário"/> 
-				<f:ajax event="click" render="perfil" />
-			</h:selectOneRadio> 
+			<h:panelGroup rendered="#{!usuarioBean.modoEdicaoPerfil}" style="width:175px;">
+    		<h:dataTable value="#{usuarioBean.usuario}" var="usuario" rules="rows" border="0" style="width:320px;border:none;">
+    			<h:column>
+    				<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_ADMINISTRADOR')}" title="Perfil de administrador" rendered="#{usuarioBean.loginUsuarioLogado ne usuario.usu_email and usuarioBean.perfilUsuarioLogado ne 'ROLE_ADMINISTRADOR' or usuarioBean.loginUsuarioLogado eq usuario.usu_email and usuarioBean.perfilUsuarioLogado eq 'ROLE_USUARIO' or usuarioBean.perfilUsuarioLogado eq 'ROLE_ADMINISTRADOR'}">
+						<h:graphicImage library="images" name="ROLE_ADMINISTRADOR_#{usuario.per_roles.contains('ROLE_ADMINISTRADOR')}.png" style="border:0" />
+					</h:commandLink>
+
+					<h:commandLink action="#{usuarioBean.atribuiPermissao(usuario, 'ROLE_USUARIO')}" title="Perfil de usuário">
+					    <h:graphicImage library="images" name="ROLE_USUARIO_#{usuario.per_roles.contains('ROLE_USUARIO')}.png" style="border:0"/>
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+			</h:panelGroup>
+			
 		</h:panelGrid> 
+		
         <h:commandButton id="btSalvar" value="Salvar" actionListener="#{usuarioBean.salvar}"/>
         <h:commandButton value="Cancelar" action="#{usuarioBean.retornar}" immediate="true" />
       </h:form>

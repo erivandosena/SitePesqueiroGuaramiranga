@@ -39,7 +39,7 @@ public class Usuario implements Serializable, UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer usu_cod;
 	private String usu_nome;
-	@NaturalId
+	@NaturalId(mutable=true) 
 	private String usu_email;
 	private String usu_senha;
 	private String usu_endereco;
