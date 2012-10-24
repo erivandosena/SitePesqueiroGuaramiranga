@@ -6,6 +6,79 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
+	
+	<ui:define name="head">
+	<script language="javascript" type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/tinyfck/tiny_mce.js"></script>
+	<script language="javascript" type="text/javascript">
+	//<![CDATA[
+    tinyMCE.init({
+		// General options
+		mode : "textareas",
+		elements : "elm3",
+		theme : "advanced",
+		skin : "o2k7",
+		skin_variant : "silver",
+		language : "pt",
+		plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave,visualblocks",
+
+		// Theme options
+		theme_advanced_buttons1 : "code,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+		theme_advanced_buttons2 : "replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+		theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,ltr,rtl,|,fullscreen",
+		theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,pagebreak",
+		
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_resizing : true,
+		theme_advanced_resize_horizontal : false,
+		theme_advanced_link_targets : "_something=My somthing;_something2=My somthing2;_something3=My somthing3;",
+
+        extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+		file_browser_callback : "fileBrowserCallBack",
+		paste_use_dialog : false,
+		apply_source_formatting : true,
+		plugin_insertdate_dateFormat : "%d/%m/%Y",
+        plugin_insertdate_timeFormat : "%H:%M:%S",
+        
+        //contexto, ex. http://localhost:8080/<App>/
+        convert_urls : true,
+        relative_urls : false,
+        remove_script_host : false,
+        document_base_url : "#{facesContext.externalContext.request.contextPath}"
+    });
+        
+    function fileBrowserCallBack(field_name, url, type, win) {
+        var connector = "../../filemanager/browser.html?Connector=connectors/jsp/connector";
+        var enableAutoTypeSelection = true;
+ 
+        var cType;
+        tinyfck_field = field_name;
+        tinyfck = win;
+    
+        switch (type) {
+            case "image":
+                cType = "Image";
+                break;
+            case "flash":
+                cType = "Flash";
+                break;
+            case "file":
+                cType = "File";
+                break;
+            case "media":
+                cType = "Media";
+                break;
+        }
+    
+        if (enableAutoTypeSelection && cType) {
+            connector += "&Type=" + cType;
+        }
+        window.open(connector, "tinyfck", "modal,width=640,height=480");
+    }
+  	//]]>
+	</script>
+	</ui:define>
   
 	<ui:define name="featured_slide"></ui:define>
 	
@@ -48,7 +121,9 @@
     <h:inputText id="slogan" value="#{siteBean.site.web_slogan}" size="50" maxlength="50" />
     
     <h:outputLabel for="descricao" value="Sobre o site ou Informações" />
-    <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link" height="150" value="#{siteBean.site.web_descricao}" />
+    <!-- <p:editor id="descricao" controls="bold italic underline alignleft center alignright justify font size color link image source" height="150" value="#{siteBean.site.web_descricao}" /> -->
+    <h:inputTextarea id="descricao" rows="25" cols="100" value="#{siteBean.site.web_descricao}" />
+    
     
     <h:outputLabel for="proprietario" value="Nome do administrador" />
     <h:inputText id="proprietario" value="#{siteBean.site.web_proprietario}" size="50" maxlength="50" />
@@ -103,14 +178,14 @@
 
     <h:outputLabel for="youtube" value="Canal do Youtube (iniciando com http://)" />    
     <h:inputText id="youtube" value="#{siteBean.site.web_youtube}" size="50" maxlength="250" />
-		  </h:panelGrid>
+	</h:panelGrid>
 
-	  <fieldset><legend>Informações de webmail</legend>
-	  <h:panelGrid columns="1" border="0" >
-		  <h:outputLabel for="servidor" value="Servidor SMTP" />
+	<fieldset><legend>Informações de webmail</legend>
+	<h:panelGrid columns="1" border="0" >
+	<h:outputLabel for="servidor" value="Servidor SMTP" />
     <h:inputText id="servidor" value="#{siteBean.site.web_smtp}" size="50" maxlength="100" />
     
-		  <h:outputLabel for="porta" value="Porta" />
+	<h:outputLabel for="porta" value="Porta" />
     <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
     
     <h:outputLabel for="ssl" value="Conexão segura" />
@@ -120,33 +195,33 @@
 			<f:ajax event="click" render="painelPortaSsl" />
 	</h:selectOneRadio> 
 		  
-		  <h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
-		  <h:outputLabel for="portasll" value="Porta SSL" /><br />
-    <h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
-		  </h:panelGroup>
+	<h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
+		<h:outputLabel for="portasll" value="Porta SSL" /><br />
+    	<h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
+	</h:panelGroup>
 
-		  <h:outputLabel for="conta" value="Conta" />
+	<h:outputLabel for="conta" value="Conta" />
     <h:inputText id="conta" value="#{siteBean.site.web_conta}" size="25" maxlength="50" />
     
-		  <h:outputLabel for="senha" value="Senha" />
+	<h:outputLabel for="senha" value="Senha" />
     <h:inputSecret id="senha" redisplay="true" value="#{siteBean.site.web_senha}" size="25" maxlength="50" />
     </h:panelGrid>
     </fieldset>
     
     <fieldset><legend>Imagem da logomarca</legend>
-	  <h:panelGrid columns="1" border="0" >
-  	  <p:fileUpload id="upload" fileUploadListener="#{siteBean.handleFileUpload}" 
+	<h:panelGrid columns="1" border="0" >
+  	<p:fileUpload id="upload" fileUploadListener="#{siteBean.handleFileUpload}" 
   				sizeLimit="52428800" 
   				auto="true" 
   				label="Localizar..." 
-   	 			allowTypes="/(\.|\/)(png?g)$/" 
+   	 			allowTypes="/(\.|\/)(gif|GIF|jpe?g|JPE?G|png|PNG)$/" 
    	 			multiple="false" 
-  				description="Imagem PNG" 
-  				update="logomarca,btSalvar" 
-  				/>		
-		 <h:graphicImage id="logomarca" library="images" name="logo.png" alt="Logomarca" rendered="#{!empty siteBean.site.web_logomarca}" />
-
-		 <h:commandButton id="btExcluir" value="Excluir" actionListener="#{siteBean.excluirImagem}" disabled="#{empty siteBean.site.web_logomarca}"/>	
+  				description="Imagem GIF, JPG, PNG" 
+  				update="msg" 
+  				/>
+  				<h:outputText id="msg" value="#{siteBean.mensagemUpload}" escape="false" style="color:#C09853;font-weight:bold;background-color:#FCF8E3;height:15px;width:auto;padding:5px;"/>	
+	<h:graphicImage id="logomarca" library="images" name="#{empty siteBean.site.web_logomarca ? nulo.png : siteBean.site.web_logomarca}" alt="Logomarca" rendered="#{!empty siteBean.site.web_logomarca}" style="border:none" cache="false"/>
+	<h:commandButton id="btExcluir" value="Excluir" actionListener="#{siteBean.excluirImagem}" disabled="#{empty siteBean.site.web_logomarca}"/>	
     </h:panelGrid>
     </fieldset>
 

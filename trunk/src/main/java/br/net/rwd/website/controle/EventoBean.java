@@ -65,6 +65,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 	private static final String PATH = extContext.getRealPath("/upload/");
 	private byte[] bytesImagem;
+	String nomeImagem = null;
 	String nomeArquivo = null;
 	String subPasta = null;
 	File arquivo = null;
@@ -263,7 +264,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 	@Override
 	public void excluir() {
-		String local = PATH + "\\" + evento.getPub_cod();
+		String local = PATH + File.separator + evento.getPub_cod();
 		model.excluirEvento(evento);
 		//Exclui a pasta e os arquivos do disco
 		File pasta = new File(local);
@@ -271,7 +272,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 		if (pasta.isDirectory()) {  
             String[] children = pasta.list();  
             for (int i=0; i<children.length; i++) {  
-            	arquivo = new File(pasta+"\\"+children[i]);
+            	arquivo = new File(pasta+ File.separator +children[i]);
             	arquivo.delete(); 
             }  
         }
@@ -324,7 +325,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 
 		} else {
 
-			File arquivoAnterior = new File(PATH + "\\" + subPasta + "\\" + imagem.getIma_normal());
+			File arquivoAnterior = new File(PATH + File.separator + subPasta + File.separator + imagem.getIma_normal());
 			if (Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg") != imagem.getIma_normal()) {
 				// exclui o arquivo existente
 				if (arquivoAnterior.exists())
@@ -343,9 +344,9 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	
 	public void atualizarImagem() {
 		this.modoEdicaoImagem = true;
-		nomeArquivo = imagem.getIma_normal();
+		nomeImagem = imagem.getIma_normal();
 		subPasta = imagem.getEvento().getPub_cod().toString();
-		arquivo = new File(PATH + "\\" + subPasta + "\\" + imagem.getIma_normal());
+		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
 		if(arquivo.exists()) 
 		bytesImagem = FileParaBytes.getFileBytes(arquivo);
 		else
@@ -353,8 +354,8 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	}
 
 	public void excluirImagem() {
-		File arquivo = new File(PATH + "\\" + imagem.getEvento().getPub_cod()+ "\\" + imagem.getIma_normal());
-		File pasta = new File(PATH + "\\" + imagem.getEvento().getPub_cod());
+		File arquivo = new File(PATH + File.separator + imagem.getEvento().getPub_cod()+ File.separator + imagem.getIma_normal());
+		File pasta = new File(PATH + File.separator + imagem.getEvento().getPub_cod());
 		if (arquivo.exists())
 			arquivo.delete();
 		if (pasta.exists())
@@ -367,10 +368,11 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = evento.getPub_cod().toString();
 		nomeArquivo = event.getFile().getFileName();
-		arquivo = new File(PATH + "\\" + subPasta + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
+		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg");
+		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
 		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),640);
 
-		if (new File(arquivo.getPath()+ "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg")).exists())
+		if (new File(arquivo.getPath()+ File.separator + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg")).exists())
 			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
 		addAvisoMensagem("O arquivo " + nomeArquivo + " foi carregado. \nUse o botão salvar para completar a operação!");
 	}
@@ -378,7 +380,7 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	boolean salvaArquivo() {
 		boolean retorno = false;
 		// se a pasta não existir cria
-		File pasta = new File(PATH + "\\"+subPasta);
+		File pasta = new File(PATH + File.separator +subPasta);
 		if (!pasta.exists())
 			pasta.mkdirs();
 
@@ -402,8 +404,8 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 				fileOutputStream.flush();
 
 				// faz outras coisas aqui
-				imagem.setIma_normal(arquivo.getName());
-				evento.setPub_imagem(arquivo.getName());
+				imagem.setIma_normal(nomeImagem);
+				evento.setPub_imagem(nomeImagem);
 			}
 
 			fileOutputStream.close();
@@ -461,6 +463,6 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	public String getUrlEvento() {
 		String cod = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cod");
 		String tit = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("tit");
-		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/evento/"+cod+"/"+tit+"/";
+		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/evento/"+cod+ File.separator +tit+ File.separator;
 	}
 }

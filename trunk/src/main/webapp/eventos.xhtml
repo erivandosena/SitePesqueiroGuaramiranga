@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition template="/layout/layoutPrincipal.xhtml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -22,7 +23,7 @@
 	<ui:define name="content">
 
 	<div id="content">
-	<h:panelGroup rendered="#{!empty eventoBean.conteudoEvento.eventosNovos}">
+	<h:panelGroup rendered="#{empty eventoBean.conteudoEvento}">
 	<h3>Últimos eventos</h3>
     	<p:galleria value="#{eventoBean.eventosNovos}" var="item" panelWidth="600" panelHeight="320" showOverlays="true" frameWidth="100" frameHeight="53" showFilmstrip="false" filmstripPosition="top">
             <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}">
@@ -34,7 +35,7 @@
             <h:outputText value="#{item.pub_data}" styleClass="data">
 			<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="'Publicado em' dd 'de' MMMM 'de' yyyy"/>
 		    </h:outputText>
-			<h:outputText value="#{item.pub_sumario}" escape="false"/>
+			<h:outputText value="#{fn:substring(item.pub_sumario,0,255)}..." escape="false"/>
     		</p:galleriaOverlay>
     	</p:galleria>		
 	</h:panelGroup>
@@ -49,7 +50,7 @@
 	<p>
 	<h:outputText value="#{eventoBean.conteudoEvento.pub_sumario}" escape="false" />
 	</p>
-	<p><h:graphicImage value="/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}" alt="#{item.ima_descricao}" title="#{item.ima_descricao}" height="250" style="border: border:1px solid #000000;"/></p>
+	<p><h:graphicImage value="/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}" alt="#{eventoBean.imagem.ima_descricao}" title="#{eventoBean.imagem.ima_descricao}" height="250" style="border: border:1px solid #000000;"/></p>
 	
 	<p>
 	<h:outputText value="#{eventoBean.conteudoEvento.pub_conteudo}" escape="false"/>
@@ -58,7 +59,7 @@
 	<br />
 	
 	<p>
-	<iframe src='http://www.facebook.com/plugins/like.php?href=#{eventoBean.urlEvento}&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:600px;height:30px;' allowtransparency='true'></iframe>
+	<iframe src='http://www.facebook.com/plugins/like.php?href=#{eventoBean.urlEvento}/&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:600px;height:30px;' allowtransparency='true'></iframe>
 	</p>
 	
 	<h:panelGroup rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}">

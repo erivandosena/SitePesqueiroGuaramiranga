@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition template="/layout/layoutPrincipal.xhtml"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -22,7 +23,7 @@
 	<ui:define name="content">
 
 	<div id="content">
-	<h:panelGroup rendered="#{!empty galeriaBean.galeriasNovas}">
+	<h:panelGroup rendered="#{empty galeriaBean.conteudoGaleria}">
     <h3>Galerias em destaque</h3>	
     	<p:galleria value="#{galeriaBean.galeriasNovas}" var="item" panelWidth="600" panelHeight="320" showOverlays="true" frameWidth="100" frameHeight="53" filmstripPosition="top">
             <h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}">
@@ -34,7 +35,7 @@
             <h:outputText value="Clique na foto e veja +" styleClass="titulo"/><h:outputText value="#{item.gal_data}" styleClass="data">
 			<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="'Publicado em' dd 'de' MMMM 'de' yyyy"/>
 		    </h:outputText>
-			<h:outputText value="#{item.gal_descricao}" escape="false"/>
+			<h:outputText value="#{fn:substring(item.gal_descricao,0,255)}..." escape="false"/>
     		</p:galleriaOverlay>
     	</p:galleria>		
 	</h:panelGroup>
@@ -45,7 +46,7 @@
 	<h:outputText value="#{galeriaBean.conteudoGaleria.gal_descricao}" escape="false" />
 	</p>
 	<p>
-	<iframe src='http://www.facebook.com/plugins/like.php?href=#{galeriaBean.urlGaleria}&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:500px;height:30px;' allowtransparency='true'></iframe>
+	<iframe src='http://www.facebook.com/plugins/like.php?href=#{galeriaBean.urlGaleria}/&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:500px;height:30px;' allowtransparency='true'></iframe>
 	</p>
 
 	<p:galleria value="#{galeriaBean.fotosGaleria}" var="item" effect="fade" effectSpeed="1000" panelWidth="600" frameWidth="150" frameHeight="80" filmstripPosition="bottom" showOverlays="true">
