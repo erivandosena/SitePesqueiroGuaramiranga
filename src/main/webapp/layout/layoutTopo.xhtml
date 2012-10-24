@@ -7,19 +7,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div id="logo">
+      <div class="logomarca">
       <h:panelGroup rendered="#{empty siteBean.carregarDados.web_logomarca}">
       <h1><a href="index.jsf">#{siteBean.carregarDados.web_titulo}</a></h1>
       <p>#{siteBean.carregarDados.web_slogan}</p>
       </h:panelGroup>
-      <h:graphicImage library="images" name="logo.png" alt="#{siteBean.carregarDados.web_titulo}" title="#{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_logomarca}" />
-      <br /><br />
+      <h:graphicImage library="images" name="#{siteBean.carregarDados.web_logomarca}" alt="#{siteBean.carregarDados.web_titulo}" title="#{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_logomarca}" />
+      </div>
       <span>#{siteBean.saldacao} <strong>#{usuarioBean.usuarioLogado}</strong></span>
     </div>
     <div id="topnav">
       <ul>
         <li class="active"><h:link value="Inicial" outcome="/index.jsp" title="Inicial"/></li>
         <li><h:link value="Eventos" outcome="/eventos.jsf" title="Eventos"/></li>
-        <li><h:link value="Galeria de fotos" outcome="/galerias.jsf" title="Galerias"><f:param name="cod" value="#{0}" /></h:link></li>
+        <li><h:link value="Galeria" outcome="/galerias.jsf" title="Galerias"><f:param name="cod" value="#{0}" /></h:link></li>
         <li><h:link value="Fale conosco" outcome="/contato.jsf" title="Contato"/></li>
         <!--  
         <li><a href="#">DropDown</a>

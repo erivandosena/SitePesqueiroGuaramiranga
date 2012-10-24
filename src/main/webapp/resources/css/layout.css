@@ -162,8 +162,8 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	font-weight:normal;
 	line-height:normal;
 	border-bottom:1px dotted #999999;
-	font-size: 9pt;
-	font-variant: small-caps;
+	font-family: Arial;
+	font-size: 10pt;
 	font-weight: bold;
 	}
 
@@ -199,6 +199,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	display:block;
 	float:right;
 	width:600px;
+	overflow: hidden;
 	}
 
 /* ------Comments-----*/
@@ -495,12 +496,12 @@ padding-right: 4px;
 	overflow:hidden;
 	font-size:12px;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
-	color:#333333;
+	color:#FFFFFF;
 	background-color:#B2C629;
 	}
 
 #featured_slide a{
-	color:#FFFFFF;
+	color:#333333;
 	background-color:#B2C629;
 	}
 
@@ -548,10 +549,10 @@ padding-right: 4px;
 	display:block;
 	float:right;
 	width:380px;
-	height:250px;
+	height:auto;
 	margin:0 10px 0 0;
 	padding:4px;
-	border:1px solid #FFFFFF;
+	/*border:1px solid #FFFFFF;*/
 	}
 
 #featured_content .floater{
@@ -568,11 +569,6 @@ padding-right: 4px;
 	margin:0 0 20px 0;
 	padding:0;
 	line-height:1.6em;
-	}
-	
-#featured_content .italico{
-	color: white;
-	font-style: italic;
 	}
 
 #featured_content p.readmore{
@@ -656,7 +652,7 @@ table{
 	table-layout:auto;
 	vertical-align:top;
 	margin-bottom:15px;
-	border:1px solid #CCCCCC;
+	/*border:1px solid #CCCCCC*/;
 	}
 
 table thead th{
@@ -759,7 +755,7 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 	}
 .data {
 	font-size: 8pt;
-	margin-top: -20px;
+	margin-top: -15px;
 	padding-bottom: 5px;
 	clear: both;
 	position: absolute;
@@ -767,7 +763,7 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 	}
 	
 .titulo {
-	margin-top: -45px;
+	margin-top: -40px;
 	padding-bottom: 5px;
 	clear: both;
 	position: absolute;
@@ -780,5 +776,11 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 	font-family:Georgia, "Times New Roman", Times, serif;
 	font-size: 14px;
 	font-weight: bold;
+	}
+.logomarca {
+	width: 286px;
+	height: 134px;;
+	overflow: hidden;
+	margin-bottom: 10px;
 	}
 /* ----------------------------------------------Fim-------------------------------------*/

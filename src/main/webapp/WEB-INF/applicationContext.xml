@@ -36,7 +36,7 @@
   		<!-- Em producao -->
   		<property name="jdbcUrl" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/pesqueiroguaramiranga" /> 
   		<property name="user" value="guaramiranga" /> 
-  		<property name="password" value="pesq12" /> 
+  		<property name="password" value="pesq12" />
   		
   		<!-- Pool properties --> 
   		<property name="initialPoolSize" value="2" />

@@ -4,16 +4,11 @@
                                    		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
 
    <!-- Begin Example RewriteRules 
-   
       // These are custom rewrite-rules, and are probably not necessary for your application.
-
       <rewrite match="^/old-url/(\w+)/$" substitute="/new_url/$1/" redirect="301" />
-
    -->
    
-   <!-- Begin UrlMappings 
-      // These are examples of URL mappings, and should be customized for your application.
-   -->
+   <!-- Begin UrlMappings  -->
 
       <url-mapping id="seo1"> 
           <pattern value="/" /> 
@@ -80,29 +75,4 @@
 	      <view-id value="/galerias.jsf" />
       </url-mapping>
       
-      <url-mapping id="seo14"> 
-          <pattern value="/home/" /> 
-          <view-id value="http://www.pesqueiroguaramiranga.com.br:12180" />
-      </url-mapping> 
-      
-      <url-mapping id="seo15"> 
-          <pattern value="/portal/" /> 
-          <view-id value=":12180" />
-      </url-mapping> 
-      
-      <url-mapping id="seo16"> 
-          <pattern value="/portal2/" /> 
-          <view-id value="12180" />
-      </url-mapping> 
-      
-      <url-mapping id="seo17"> 
-          <pattern value="/portal3/" /> 
-          <view-id value=":12180/" />
-      </url-mapping>
-      
-      <url-mapping id="seo18"> 
-          <pattern value="www.pesqueiroguaramiranga.com.br/inicial/" /> 
-          <view-id value="http://www.pesqueiroguaramiranga.com.br:12180" />
-      </url-mapping>
-
 </pretty-config>

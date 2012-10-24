@@ -64,6 +64,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 	private static final String PATH = extContext.getRealPath("/upload/galeria/");
 	private byte[] bytesFoto;
+	String nomeImagem = null;
 	String nomeArquivo = null;
 	String subPasta = null;
 	File arquivo = null;
@@ -241,7 +242,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 	@Override
 	public void excluir() {
-		String local = PATH + "\\" + galeria.getGal_cod();
+		String local = PATH  + File.separator +  galeria.getGal_cod();
 		modelgaleria.excluirGaleria(galeria);
 		//Exclui a pasta e os arquivos do disco
 		File pasta = new File(local);
@@ -249,7 +250,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 		if (pasta.isDirectory()) {  
             String[] children = pasta.list();  
             for (int i=0; i<children.length; i++) {  
-            	arquivo = new File(pasta+"\\"+children[i]);
+            	arquivo = new File(pasta+ File.separator +children[i]);
             	arquivo.delete(); 
             }  
         }
@@ -302,7 +303,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 
 		} else {
 
-			File arquivoAnterior = new File(PATH + "\\" + subPasta + "\\" + foto.getFot_foto());
+			File arquivoAnterior = new File(PATH + File.separator + subPasta + File.separator + foto.getFot_foto());
 			if (Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg") != foto.getFot_foto()) {
 				// exclui o arquivo existente
 				if (arquivoAnterior.exists())
@@ -321,9 +322,9 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	
 	public void atualizarFoto() {
 		this.modoEdicaoFoto = true;
-		nomeArquivo = foto.getFot_foto();
+		nomeImagem = foto.getFot_foto();
 		subPasta = foto.getGaleria().getGal_cod().toString();
-		arquivo = new File(PATH + "\\" + subPasta + "\\" + foto.getFot_foto());
+		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
 		if(arquivo.exists()) 
 		bytesFoto = FileParaBytes.getFileBytes(arquivo);
 		else
@@ -331,8 +332,8 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	}
 
 	public void excluirFoto() {
-		File arquivo = new File(PATH + "\\" + foto.getGaleria().getGal_cod()+ "\\" + foto.getFot_foto());
-		File pasta = new File(PATH + "\\" + foto.getGaleria().getGal_cod());
+		File arquivo = new File(PATH + File.separator + foto.getGaleria().getGal_cod()+ File.separator + foto.getFot_foto());
+		File pasta = new File(PATH + File.separator + foto.getGaleria().getGal_cod());
 		if (arquivo.exists())
 			arquivo.delete();
 		if (pasta.exists())
@@ -345,7 +346,8 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = galeria.getGal_cod().toString();
 		nomeArquivo = event.getFile().getFileName();
-		arquivo = new File(PATH + "\\" + subPasta + "\\" + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg"));
+		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg");
+		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
 		bytesFoto = Redimensiona.novaLargura(event.getFile().getContents(),640);
 		
 		if (arquivo.exists())
@@ -356,7 +358,7 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	boolean salvaArquivo() {
 		boolean retorno = false;
 		// se a pasta não existir cria
-		File pasta = new File(PATH + "\\"+subPasta);
+		File pasta = new File(PATH + File.separator + subPasta);
 		if (!pasta.exists())
 			pasta.mkdirs();
 
@@ -380,8 +382,8 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 				fileOutputStream.flush();
 
 				// faz outras coisas aqui
-				foto.setFot_foto(arquivo.getName());
-				galeria.setGal_foto(arquivo.getName());
+				foto.setFot_foto(nomeImagem);
+				galeria.setGal_foto(nomeImagem);
 			}
 
 			fileOutputStream.close();
@@ -425,12 +427,12 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	}
 	
 	public List<Galeria> getGaleriasNovas() {
-		return galerias = modelgaleria.listar6Galerias();
+		return modelgaleria.listar6Galerias();
 	}
 
 	public String getUrlGaleria() {
 		String cod = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("cod");
 		String tit = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("tit");
-		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/galeria/"+cod+"/"+tit+"/";
+		return request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath())+ "/galeria/"+cod + File.separator + tit +File.separator;
 	}
 }

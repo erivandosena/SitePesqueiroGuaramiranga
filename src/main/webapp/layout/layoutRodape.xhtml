@@ -12,8 +12,8 @@
         <ul>
           <ui:repeat value="#{linkBean.linksMenuRodape}" var="item">
           <li>
-          <h:graphicImage library="images" name="hyperlink.png" alt="#{item.lin_nome}" title="#{item.lin_url}"/>
-          <a href="#{item.lin_url}" title="Hyperlink útil" target="_blank">#{item.lin_nome}</a>
+          <h:graphicImage library="images" name="hyperlink.png" alt="#{item.lin_nome}" title="#{item.lin_legenda}"/>
+          <a href="#{item.lin_url}" title="#{item.lin_legenda}" target="_blank">#{item.lin_nome}</a>
           </li>
           </ui:repeat>
         </ul>

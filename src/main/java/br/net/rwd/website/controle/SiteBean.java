@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,13 +20,10 @@ import org.primefaces.event.FileUploadEvent;
 import br.net.rwd.website.entidade.Site;
 import br.net.rwd.website.servico.SiteServico;
 import br.net.rwd.website.util.FileParaBytes;
-import br.net.rwd.website.util.Redimensiona;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object> {
-
-	private static final long serialVersionUID = 1L;
+public class SiteBean extends UtilBean implements CrudBeans<Object> {
 	
 	@ManagedProperty("#{siteServico}")
 	private SiteServico model;
@@ -69,6 +65,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	private static ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 	private static final String PATH = extContext.getRealPath("/resources/images/");
 	private byte[] bytesImagem;
+	private String mensagemUpload = null;
 	String nomeArquivo = null;
 	File arquivo = null;
 
@@ -336,6 +333,14 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 		this.bytesImagem = bytesImagem;
 	}
 	
+	public String getMensagemUpload() {
+		return mensagemUpload;
+	}
+
+	public void setMensagemUpload(String mensagemUpload) {
+		this.mensagemUpload = mensagemUpload;
+	}
+	
 	/* ------------------------------------------------- */
 
 	@Override
@@ -393,6 +398,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	@Override
 	public String retornar() {
         this.modoEdicao = false;
+        mensagemUpload = null;
         sites = model.listarSite();
         return "site";
 	}
@@ -445,16 +451,17 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	public void handleFileUpload(FileUploadEvent event) {
 		nomeArquivo = "logo.".concat( event.getFile().getFileName() .substring( event.getFile().getFileName() .lastIndexOf('.') + 1));
 		arquivo = new File(PATH + "\\"+nomeArquivo);
-		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),286);
-
+		bytesImagem = event.getFile().getContents();
+		
 		if (new File(arquivo.getPath()+ "\\" + nomeArquivo).exists())
 			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
+
+		mensagemUpload = "<p>O arquivo " + event.getFile().getFileName() + " foi carregado. \nUse o botão salvar para completar a operação!</p>";
 		addAvisoMensagem("O arquivo " + event.getFile().getFileName() + " foi carregado. \nUse o botão salvar para completar a operação!");
 	}
 	
 	private void salvarImagem() {
 		if (bytesImagem != null) {
-			//addInfoMensagem("É preciso carregar uma imagem antes de salvar!");
 		if (site.getWeb_logomarca() == null) {
 			if (salvaArquivo()) {
 				bytesImagem = null;
@@ -462,7 +469,6 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 			} else {
 				addErroMensagem("Inclusão de imagem não realizada!");
 			}
-
 		} else {
 
 			File arquivoAnterior = new File(PATH + "\\" + site.getWeb_logomarca());
@@ -471,11 +477,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 				if (arquivoAnterior.exists())
 					arquivoAnterior.delete();
 
-				if (!salvaArquivo())
+				if (!salvaArquivo()) 
 					addErroMensagem("Alteração da imagem não realizada!");
 			}
 			bytesImagem = null;
-			//addInfoMensagem("Imagem alterada com sucesso.");
 		}
 		}
 	}
@@ -535,7 +540,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 		File arquivo = new File(PATH + "\\" + site.getWeb_logomarca());
 		if (arquivo.exists())
 			arquivo.delete();
+		site.setWeb_logomarca(null);
+		model.alterarSite(site);
 		addInfoMensagem("Imagem excluída com sucesso.");
+		retornar();
 	}
 	
 	/* ----------------------UPLOAD--------------------- */

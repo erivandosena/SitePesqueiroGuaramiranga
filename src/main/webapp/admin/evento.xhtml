@@ -58,7 +58,7 @@
 			<h:message for="nome" styleClass="msg_erro" />
 			
 			<h:outputLabel for="sumario" value="Resumo" />
-			<p:editor id="sumario" controls="bold italic underline alignleft center alignright justify font size color link" height="100" value="#{eventoBean.evento.pub_sumario}" />
+	  		<p:inputTextarea id="sumario" rows="5" cols="100" maxlength="350" value="#{eventoBean.evento.pub_sumario}" />
 
 			<h:outputLabel for="conteudo" value="Descrição" />
 			<p:editor id="conteudo" controls="bold italic underline alignleft center alignright justify font size color link" height="400" value="#{eventoBean.evento.pub_conteudo}" required="true" requiredMessage="Campo obrigatório." />
@@ -75,15 +75,15 @@
       <h:panelGrid columns="1" border="0" >
 
       <h:outputLabel for="descricao" value="Descrição resumida da imagem" />
-	  <h:inputTextarea id="descricao" rows="2" cols="100" maxlength="255" value="#{eventoBean.imagem.ima_descricao}" />
+	  <p:inputTextarea id="descricao" rows="3" cols="100" maxlength="255" value="#{eventoBean.imagem.ima_descricao}" />
 
 	  <h:outputLabel for="upload" value="Imagem do evento"/>
       <p:fileUpload id="upload" 
-                    fileUploadListener="#{galeriaBean.handleFileUpload}" 
+                    fileUploadListener="#{eventoBean.handleFileUpload}" 
       				sizeLimit="52428800" 
       				auto="true" 
       				label="Localizar..." 
-     	 			allowTypes="/(\.|\/)(jpe?g)$/" 
+     	 			allowTypes="/(\.|\/)(jpe?g|JPE?G)$/" 
      	 			multiple="false" 
       				description="Imagem JPG" 
       				update="listagemImagem,btSalvar" 

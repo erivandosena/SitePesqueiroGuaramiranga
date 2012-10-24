@@ -51,6 +51,10 @@
 			<h:inputText id="nome" value="#{linkBean.link.lin_nome}" size="50" maxlength="40" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="nome" styleClass="msg_erro" />
 			
+			<h:outputLabel for="legenda" value="Legenda" />
+			<h:inputText id="legenda" value="#{linkBean.link.lin_legenda}" size="50" maxlength="50" />
+			<h:message for="legenda" styleClass="msg_erro" />
+			
 			<h:outputLabel for="url" value="URL do link (sempre iniciado com http://)" />
 			<h:inputText id="url" value="#{linkBean.link.lin_url}" size="99" maxlength="250" required="true" requiredMessage="Campo obrigatório." />
 			<h:message for="url" styleClass="msg_erro" />

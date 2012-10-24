@@ -12,7 +12,7 @@
 <title>#{siteBean.carregarDados.web_titulo}</title>
 </h:head>
     <h:body style="color: #333333;">
- 	<p:dialog widgetVar="dlg" header="#{galeriaBean.fotoGaleria.fot_descricao}" showHeader="#{true}" showEffect="drop" resizable="false" hideEffect="slide" modal="#{true}" width="665" >
+ 	<p:dialog widgetVar="dlg" header="#{galeriaBean.fotoGaleria.fot_descricao}" maximizable="false" minimizable="false" closable="false" showHeader="#{true}" showEffect="drop" resizable="#{false}" hideEffect="slide" modal="#{true}" width="670" >
  	<h:graphicImage value="/upload/galeria/#{galeriaBean.fotoGaleria.galeria.gal_cod}/#{galeriaBean.fotoGaleria.fot_foto}" alt="" title=""/>
  	<br />
  	<p:commandButton type="button" value="Voltar" onclick="dlg.hide();window.history.back();"/>

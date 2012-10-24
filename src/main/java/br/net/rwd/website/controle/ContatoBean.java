@@ -92,8 +92,8 @@ public class ContatoBean extends UtilBean {
     }  
 	
 	public String mensagemHtml(String tituloSite, String urlSite, String urlImagem, String numIp) {
-		String html = "<html><head><title>Mensagem</title>" +
-		"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
+		String html = "<html><head><title>E-mail com envio automático</title>" +
+		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
 	    "</head>" +
 	    "<body lang='PT-BR' link='blue' vlink='purple'>" +
 	    "<div align='center'>" +

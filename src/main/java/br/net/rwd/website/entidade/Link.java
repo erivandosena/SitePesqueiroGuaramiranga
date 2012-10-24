@@ -18,6 +18,7 @@ public class Link implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer lin_cod;
 	private String lin_nome;
+	private String lin_legenda;
 	private String lin_url;
 	private String lin_posicao;
 
@@ -35,6 +36,14 @@ public class Link implements Serializable {
 
 	public void setLin_nome(String lin_nome) {
 		this.lin_nome = lin_nome;
+	}
+
+	public String getLin_legenda() {
+		return lin_legenda;
+	}
+
+	public void setLin_legenda(String lin_legenda) {
+		this.lin_legenda = lin_legenda;
 	}
 
 	public String getLin_url() {

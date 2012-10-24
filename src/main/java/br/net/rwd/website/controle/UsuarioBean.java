@@ -453,8 +453,8 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
     }  
     
 	private String mensagemHtml(String nome, String login, final String senha, String urlSite, String urlImagem, String numIp, String adminSite, String tituloSite, String sloganSite, String nomeSite) {
-		String html = "<html><head><title>Mensagem</title>" +
-		"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>" +
+		String html = "<html><head><title>E-mail com envio automático</title>" +
+		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
 	    "</head>" +
 	    "<body link='blue' vlink='purple'>" +
 	    "<div align='center'>" +
@@ -466,7 +466,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<tr>" +
 	    "<td align='center' valign='middle'>" +
 	    "<a href='" + urlSite + "' target='_blank'>" +
-	    "<img src='"+urlImagem+"' border='0' width='286' align='middle'/></a>" +
+	    "<img src='"+urlImagem+"' border='0' width='286' height'134' align='middle'/></a>" +
 	    "</td>" +
 	    "<td align='center' valign='middle' style='color:#FFFFFF;text-transform:uppercase;'><strong>CONTA DE USUÁRIO</strong></td>" +
 	    "</tr>" +

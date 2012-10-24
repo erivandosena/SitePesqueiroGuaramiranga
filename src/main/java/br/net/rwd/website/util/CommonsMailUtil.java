@@ -126,7 +126,10 @@ public class CommonsMailUtil extends UtilBean {
 
 				// informacoes do servidor
 				email.setHostName(this.obj.getWeb_smtp());
-				email.setSmtpPort(this.obj.getWeb_porta());
+				if(this.obj.getWeb_porta() > 0) {
+					email.setSmtpPort(this.obj.getWeb_porta());
+				} 
+				//email.setCharset("ISO-8859-1");
 
 				// Autenticar no servidor
 				if(this.obj.getWeb_conta() != null && this.obj.getWeb_senha() != null) {
@@ -148,7 +151,8 @@ public class CommonsMailUtil extends UtilBean {
 				email.setSubject(this.assunto);
 
 				// definir a mensagem de html
-				email.setHtmlMsg(this.mensagem);
+				//email.setHtmlMsg(this.mensagem);
+				email.addPart(this.mensagem, "text/html;charset=iso-8859-1"); 
 
 				// define a mensagem texto alternativa quando servidor nao aceitar html
 				email.setTextMsg(this.mensagemAlternativa);

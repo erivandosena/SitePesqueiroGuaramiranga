@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
@@ -17,12 +18,8 @@
       	<ui:repeat value="#{galeriaBean.galeriasNovas}" var="item">
         <li class="last">
           <h2><h:graphicImage value="/upload/galeria/#{item.gal_cod}/#{item.gal_foto}" height="60" alt="#{item.gal_titulo}" title="#{item.gal_titulo}" rendered="#{!empty item.gal_foto}"/>
-            <h:outputText value="#{item.gal_data}" style="font-size: 8pt; color:#B2C629;">
-			<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="dd 'de' MMMM 'de' yyyy"/>
-		    </h:outputText>
-          <br />
           #{item.gal_titulo}</h2>
-          <p><h:outputText value="#{item.gal_descricao}" escape="false"/></p>
+          <p><h:outputText value="#{fn:substring(item.gal_descricao,0,100)}..." escape="false"/></p>
           <br />
           <p class="readmore">
 		  <h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}" title="Clique aqui!">
@@ -55,7 +52,7 @@
 					<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="EEEEEEEEEEEEE, dd 'de' MMMM 'de' yyyy"/>
 		    </h:outputText>
             </div>
-            <p><h:outputText value="#{item.pub_sumario}" escape="false"/></p>
+            <p><h:outputText value="#{fn:substring(item.pub_sumario,0,150)}..." escape="false"/></p>
           </li>
           </ui:repeat>
         </ul>
