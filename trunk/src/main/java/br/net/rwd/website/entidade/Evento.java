@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +17,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import br.net.rwd.website.util.NormalizaString;
 
 @Entity
 @Table(name = "publicacoes")
+@Cacheable(value=true)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Evento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
