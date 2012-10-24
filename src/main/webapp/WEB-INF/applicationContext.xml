@@ -39,14 +39,16 @@
   		<property name="password" value="pesq12" />
   		
   		<!-- Pool properties --> 
-  		<property name="initialPoolSize" value="2" />
-  		<property name="minPoolSize" value="2" /> 
-  		<property name="maxPoolSize" value="30" /> 
-  		<property name="maxStatements" value="50" /> 
+  		<property name="initialPoolSize" value="1" />
+  		<property name="minPoolSize" value="5" /> 
+  		<property name="maxPoolSize" value="25" /> 
+  		<property name="maxStatements" value="100" /> 
+  		<property name="loginTimeout" value="300" /> 
   		<property name="idleConnectionTestPeriod" value="3000" /> 
-  		<property name="loginTimeout" value="1800" /> 
-  		<property name="acquireIncrement" value="5" />
-    	<property name="numHelperThreads" value="3" /> 
+  		<!--
+  		<property name="acquireIncrement" value="1" />
+  		<property name="maxIdleTime" value="1800" />
+        <property name="numHelperThreads" value="3" /> -->
 	</bean>
 
 	<!-- Configuracao do Hibernate -->
@@ -56,7 +58,6 @@
 	<property name="jpaVendorAdapter">
 		<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 			<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="showSql" value="false" />
 		</bean>
 	</property>
     <property name="jpaDialect"> 
@@ -65,11 +66,12 @@
     <property name="jpaProperties"> 
         <props>  
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> 
-            <prop key="hibernate.connection.show_sql">false</prop> 
+            <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+            <prop key="hibernate.show_sql">false</prop>
             <prop key="hibernate.format_sql">false</prop>     
 			<prop key="hibernate.use_sql_comments">false</prop> 
 			<prop key="hibernate.generate_statistics">false</prop>
-			<prop key="hibernate.hbm2ddl.auto">validate</prop>
+			<prop key="hibernate.hbm2ddl.auto">false</prop>
        		<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop> 
 			<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
 			<prop key="hibernate.cache.use_second_level_cache">true</prop>

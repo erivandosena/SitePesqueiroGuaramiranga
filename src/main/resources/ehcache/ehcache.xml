@@ -35,5 +35,21 @@
 		timeToIdleSeconds="300"
 		timeToLiveSeconds="600" 
 		 />
+		 
+	<cache name="br.net.rwd.website.entidade.Evento"
+		maxElementsInMemory="500" 
+		overflowToDisk="true"
+		eternal="false" 
+		timeToIdleSeconds="300"
+		timeToLiveSeconds="600" 
+		 />	
+		 
+	<cache name="br.net.rwd.website.entidade.Galeria"
+		maxElementsInMemory="500" 
+		overflowToDisk="true"
+		eternal="false" 
+		timeToIdleSeconds="300"
+		timeToLiveSeconds="600" 
+		 />
 
 </ehcache>
