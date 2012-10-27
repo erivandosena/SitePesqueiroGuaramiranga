@@ -456,7 +456,7 @@ public class SiteBean extends UtilBean implements CrudBeans<Object> {
 		if (new File(arquivo.getPath()+ "\\" + nomeArquivo).exists())
 			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
 
-		mensagemUpload = "<p>O arquivo " + event.getFile().getFileName() + " foi carregado. \nUse o botão salvar para completar a operação!</p>";
+		mensagemUpload = "<p style='color:#C09853;font-weight:bold;background-color:#FCF8E3;height:15px;width:auto;padding:5px;'>O arquivo " + event.getFile().getFileName() + " foi carregado.\nUse o botão salvar para completar a operação!</p>";
 		addAvisoMensagem("O arquivo " + event.getFile().getFileName() + " foi carregado. \nUse o botão salvar para completar a operação!");
 	}
 	

@@ -8,6 +8,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
 	<div id="content">
+	<div style="overflow: hidden;">
 	<h:panelGroup rendered="#{!empty siteBean.carregarDados.web_descricao}">
       <h:outputText value="#{siteBean.carregarDados.web_descricao}" escape="false"/>
     </h:panelGroup>
@@ -58,6 +59,7 @@
         </ul>
         </h:panelGroup>
       </div>
+    </div>
     </div>
 
 </ui:composition>

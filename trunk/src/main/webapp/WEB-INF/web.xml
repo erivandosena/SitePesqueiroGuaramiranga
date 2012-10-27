@@ -228,6 +228,11 @@
 		</web-resource-collection>
 		<auth-constraint />
 	</security-constraint>
+	
+	<context-param>
+	<param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+	<param-value>true</param-value>
+	</context-param>  
 	  
 	<!--   
 	<error-page>

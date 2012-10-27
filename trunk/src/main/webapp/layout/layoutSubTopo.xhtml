@@ -26,7 +26,7 @@
       <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="Clique aqui!">
       <f:param name="tit" value="#{item.titulo_normalizado}" />
 	  <f:param name="cod" value="#{item.pub_cod}" />
-      #{item.pub_titulo}
+      <h:outputText value="#{item.pub_titulo}" styleClass="relevo"/>
       </h:link>
       
       </h2>

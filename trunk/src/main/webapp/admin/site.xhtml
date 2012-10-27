@@ -184,27 +184,22 @@
 	<h:panelGrid columns="1" border="0" >
 	<h:outputLabel for="servidor" value="Servidor SMTP" />
     <h:inputText id="servidor" value="#{siteBean.site.web_smtp}" size="50" maxlength="100" />
-    
-	<h:outputLabel for="porta" value="Porta" />
-    <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
-    
-    <h:outputLabel for="ssl" value="Conexão segura" />
-    <h:selectOneRadio id="ssl" value ="#{siteBean.site.web_ssl}" onchange="submit()" style="width:179px;"> 
-  			<f:selectItem itemValue="#{false}" itemLabel="Não" /> 
-  			<f:selectItem itemValue="#{true}" itemLabel="Sim"/> 
-			<f:ajax event="click" render="painelPortaSsl" />
-	</h:selectOneRadio> 
-		  
-	<h:panelGroup columns="2" id="painelPortaSsl" rendered="#{siteBean.site.web_ssl eq true}">
-		<h:outputLabel for="portasll" value="Porta SSL" /><br />
-    	<h:inputText id="portasll" value="#{siteBean.site.web_portassl}" size="10" />
-	</h:panelGroup>
 
 	<h:outputLabel for="conta" value="Conta" />
     <h:inputText id="conta" value="#{siteBean.site.web_conta}" size="25" maxlength="50" />
     
 	<h:outputLabel for="senha" value="Senha" />
     <h:inputSecret id="senha" redisplay="true" value="#{siteBean.site.web_senha}" size="25" maxlength="50" />
+
+	<h:outputLabel for="ssl" value="Conexão criptografada (utilizar porta 465 ou 587)" />
+    <h:selectOneRadio id="ssl" value ="#{siteBean.site.web_ssl}" onchange="submit()" style="width:179px;"> 
+  			<f:selectItem itemValue="#{false}" itemLabel="Não" /> 
+  			<f:selectItem itemValue="#{true}" itemLabel="Sim"/> 
+	</h:selectOneRadio> 
+	
+	<h:outputLabel for="porta" value="Porta SMTP (porta padrão 25)" />
+    <h:inputText id="porta" value="#{siteBean.site.web_porta}" size="10" />
+
     </h:panelGrid>
     </fieldset>
     
@@ -218,8 +213,8 @@
    	 			multiple="false" 
   				description="Imagem GIF, JPG, PNG" 
   				update="msg" 
-  				/>
-  				<h:outputText id="msg" value="#{siteBean.mensagemUpload}" escape="false" style="color:#C09853;font-weight:bold;background-color:#FCF8E3;height:15px;width:auto;padding:5px;"/>	
+  	/>
+  	<h:outputText id="msg" value="#{siteBean.mensagemUpload}" escape="false"/>	
 	<h:graphicImage id="logomarca" library="images" name="#{empty siteBean.site.web_logomarca ? nulo.png : siteBean.site.web_logomarca}" alt="Logomarca" rendered="#{!empty siteBean.site.web_logomarca}" style="border:none" cache="false"/>
 	<h:commandButton id="btExcluir" value="Excluir" actionListener="#{siteBean.excluirImagem}" disabled="#{empty siteBean.site.web_logomarca}"/>	
     </h:panelGrid>

@@ -24,9 +24,8 @@ import br.net.rwd.website.entidade.Site;
 import br.net.rwd.website.entidade.Usuario;
 import br.net.rwd.website.servico.SiteServico;
 import br.net.rwd.website.servico.UsuarioServico;
-import br.net.rwd.website.util.CommonsMailUtil;
 import br.net.rwd.website.util.Criptografia;
-import br.net.rwd.website.util.Uteis;
+import br.net.rwd.website.util.EmailUtil;
 
 @ManagedBean(name = "usuarioBean")
 @ViewScoped
@@ -426,16 +425,13 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	/* ------------------------------------------------- */
 	
 	public void envia(String nome, String email, final String senha, String assunto) {
-		CommonsMailUtil mail = new CommonsMailUtil();
+		EmailUtil mail = new EmailUtil();
 		Site site = modelsite.selecionarSite();
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		
 		String numIp = request.getRemoteHost();
 		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-		String urlImagem = urlSite+"/resources/images/"+site.getWeb_logomarca();
-		if(site.getWeb_logomarca() == null)
-			urlImagem = urlSite+"/resources/images/nulo.png";
-		
+
     	mail.setObj(site);
     	mail.setDe(site.getWeb_email());
     	mail.setDeNome(site.getWeb_titulo());
@@ -444,33 +440,40 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
     	mail.setDestinatariosNormais(null);
     	mail.setDestinatariosOcultos(null);
     	mail.setAssunto(assunto);
-    	mail.setMensagem(mensagemHtml(nome, email, senha, urlSite, urlImagem, numIp, site.getWeb_proprietario(), site.getWeb_titulo(), site.getWeb_slogan(), site.getWeb_site()));
-    	mail.setMensagemAlternativa(Uteis.html2text(mail.getMensagem()));
+    	mail.setMensagem(mensagemHtml(nome, email, senha, urlSite, numIp, site.getWeb_proprietario(), site.getWeb_titulo(), site.getWeb_slogan(), site.getWeb_site()));
     	mail.setAnexo(null);
-    	mail.enviarEmailHtml();
-
+    	if(mail.enviarAutenticado())
     	addInfoMensagem("As informações de acesso foram envidas para o e-mail: " + email);
     }  
     
-	private String mensagemHtml(String nome, String login, final String senha, String urlSite, String urlImagem, String numIp, String adminSite, String tituloSite, String sloganSite, String nomeSite) {
-		String html = "<html><head><title>E-mail com envio automático</title>" +
+	private String mensagemHtml(String nome, String login, final String senha, String urlSite, String numIp, String adminSite, String tituloSite, String sloganSite, String nomeSite) {
+		String html = "<html><head><title>E-mail automático</title>" +
 		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
 	    "</head>" +
-	    "<body link='blue' vlink='purple'>" +
+	    "<body lang='PT-BR' link='#FFFFFF' vlink='#FFFFFF' alink='#C6CBCC'>" +
 	    "<div align='center'>" +
 	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='10' " +
-	    "bordercolor='#CCCCCC' style='font-family:Tahoma, Geneva, sans-serif;font-size:small;'>" +
+	    "bordercolor='#000000' style='background-color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;font-size:13px;border:2px solid #000000;'>" +
 	    "<tr>" +
-	    "<td bgcolor='#000000' valign='top' style='border:0'>" +
+	    "<td bgcolor='#000000' valign='top'>" +
 	    "<table width='100%' border='0' cellspacing='10' cellpadding='0' align='center'>" +
 	    "<tr>" +
-	    "<td align='center' valign='middle'>" +
-	    "<a href='" + urlSite + "' target='_blank'>" +
-	    "<img src='"+urlImagem+"' border='0' width='286' height'134' align='middle'/></a>" +
+	    "<td align='left' valign='middle' style='display:block;float:left;width:auto;overflow:hidden;height:70px;'>" +
+	    "<a href='" + urlSite + "' target='_blank' style='color:#B2C629;outline:none;text-decoration:none;'>" +
+        "<h1 style='font-family:Georgia, \"Times New Roman\", Times, serif;font-size:16px;text-transform:capitalize;'>"+ tituloSite +"</h1>" +
+        "<p style='margin-top:-9px;padding:0;line-height:normal;font-size:8pt;color:#C6CBCC;'>"+sloganSite+"</p>" +
+        "</a>" +
 	    "</td>" +
-	    "<td align='center' valign='middle' style='color:#FFFFFF;text-transform:uppercase;'><strong>CONTA DE USUÁRIO</strong></td>" +
+	    "<td align='center' valign='middle' style='font-size:9pt;'><strong><a href='" + urlSite + "' target='_blank' " +
+	    "style='text-decoration:none;color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;color:#FFFFFF;text-transform:lowercase;'>" + nomeSite.toLowerCase() +
+	    "</a></strong></td>" +
 	    "</tr>" +
 	    "</table>" +
+	    "</td>" +
+	    "</tr>" +
+	    "<tr>" +
+	    "<td align='center' valign='middle' style='background-color:#B2C629;color:#ffffff;text-transform:uppercase;border:0px;'>" +
+        "<strong>CONTA DE USU&Aacute;RIO</strong>" +
 	    "</td>" +
 	    "</tr>" +
 	    "<tr>" +
@@ -478,8 +481,8 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
 	    "<tr>" +
 	    "<td colspan='2' align='left'><p align='left'>Parabéns! <strong>"+nome.toUpperCase()+"</strong></p><p align='justify'> " +
-	    "Você já pode acessar a área administrativa do site <a href='" + urlSite + "/admin/' target='_blank'>" + urlSite.substring(7, urlSite.length()) +"</a>, " +
-	    "para fazer seu login utilize as informações atualizadas de acesso abaixo:</p></td>" +
+	    "Você já pode acessar a <a href='" + urlSite + "/admin/' target='_blank' style='color:#000000;'>área administrativa</a> do site "+tituloSite+", " +
+	    "para fazer seu login utilize as informações atualizadas de usuário de senha abaixo.</p></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
@@ -491,10 +494,10 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
 	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
 	    "<tr>" +
-	    "<td align='left'>Nome de usuário:</td>" +
-	    "<td align='left'>" + login + "</td>" +
+	    "<td align='left' width='150'>Usuário:</td>" +
+	    "<td align='left' style='color:#000000;'>" + login + "</td>" +
 	    "</tr>" +
-	    "<td align='left'>Senha:</td>" +
+	    "<td align='left' width='150'>Senha:</td>" +
 	    "<td align='left'>" + senha + "</td>" +
 	    "</tr>" +
 	    "</table>" +
@@ -507,7 +510,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
 	    "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
 	    "<tr>" +
-	    "<td align='left'>IP:</td>" +
+	    "<td align='left' width='150'>IP:</td>" +
 	    "<td align='left'>" + numIp + "</td>" +
 	    "</tr>" +
 	    "</table>" +
@@ -520,21 +523,15 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "<td align='left' style='border:0'>" +
         
         "<p>"+adminSite+"</p>"+
-        "<p><strong>"+tituloSite+"</strong><br />"+sloganSite+"<br /><a href='"+urlSite+"'>"+nomeSite.toLowerCase()+"</a></p>" +
+        "<p><strong>"+tituloSite+"</strong><br />"+sloganSite+"<br /><a href='"+urlSite+"' target='_blank' style='color:#36F;'>"+nomeSite.toLowerCase()+"</a></p>" +
         
         "</td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0'><hr /></td>" +
-	    "</tr>" +
-	    "<tr>" +
 	    "<td style='border:0;font-size:smaller' align='center' valign='middle'>" +
-	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank'>" + tituloSite +
-	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a></p>" +
+	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank' style='color:#000000;'>" + tituloSite +
+	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank' style='color:#000000;'>RWD</a></p>" +
         "</td>" +
-	    "</tr>" +
-	    "<tr>" +
-	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</div>" +

@@ -42,13 +42,10 @@
   		<property name="initialPoolSize" value="1" />
   		<property name="minPoolSize" value="5" /> 
   		<property name="maxPoolSize" value="25" /> 
-  		<property name="maxStatements" value="100" /> 
-  		<property name="loginTimeout" value="300" /> 
+  		<property name="maxStatements" value="100" />
+  		<property name="maxIdleTime" value="1800" /> 
+  		<property name="loginTimeout" value="600" /> 
   		<property name="idleConnectionTestPeriod" value="3000" /> 
-  		<!--
-  		<property name="acquireIncrement" value="1" />
-  		<property name="maxIdleTime" value="1800" />
-        <property name="numHelperThreads" value="3" /> -->
 	</bean>
 
 	<!-- Configuracao do Hibernate -->
