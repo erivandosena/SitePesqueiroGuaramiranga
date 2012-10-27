@@ -21,7 +21,7 @@
 	<p:dialog style="color:#fff;font-weight:bold;font-size:10pt;"
 		header="Ops! Acesso não autorizado!" 
 		modal="true" 
-		closable="true"
+		closable="false"
 	    position="center" 
 	    widgetVar="modalNegado" 
 	    minWidth="600" 
@@ -32,7 +32,7 @@
 		visible="true">
 		
 		<center>
-			<h:graphicImage library="images" name="logo.png" alt="Acesso não autorizado"  />
+			<h:graphicImage library="images" name="negado.png" alt="Negado" title="Acesso não autorizado"  />
 			<br /><br /><br /> 
 			<a href="#{facesContext.externalContext.requestContextPath}/login/">Voltar</a>
 	   </center>

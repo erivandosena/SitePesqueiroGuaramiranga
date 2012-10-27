@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import br.net.rwd.website.entidade.Site;
 import br.net.rwd.website.servico.SiteServico;
-import br.net.rwd.website.util.CommonsMailUtil;
-import br.net.rwd.website.util.Uteis;
+import br.net.rwd.website.util.EmailUtil;
 
 @ManagedBean(name="contatoBean")
 @ViewScoped
@@ -64,15 +63,12 @@ public class ContatoBean extends UtilBean {
 	}
 	
 	public String envia() {
-		CommonsMailUtil mail = new CommonsMailUtil();
+		EmailUtil mail = new EmailUtil();
 		Site site = modelsite.selecionarSite();
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		
 		String numIp = request.getRemoteHost();
 		String urlSite = request.getRequestURL().toString().replace(request.getRequestURI(), request.getContextPath());
-		String urlImagem = urlSite+"/resources/images/"+site.getWeb_logomarca();
-		if(site.getWeb_logomarca() == null)
-			urlImagem = urlSite+"/resources/images/nulo.png";
 
     	mail.setObj(site);
     	mail.setDe(email);
@@ -82,46 +78,54 @@ public class ContatoBean extends UtilBean {
     	mail.setDestinatariosNormais(null);
     	mail.setDestinatariosOcultos(email);
     	mail.setAssunto(assunto);
-    	mail.setMensagem(mensagemHtml(site.getWeb_titulo(), urlSite, urlImagem, numIp));
-    	mail.setMensagemAlternativa(Uteis.html2text(mail.getMensagem()));
+    	mail.setMensagem(mensagemHtml(site.getWeb_titulo(), site.getWeb_site(), site.getWeb_slogan(), urlSite, numIp));
     	mail.setAnexo(null);
-    	mail.enviarEmailHtml();
-
+    	if(mail.enviarAutenticado())
     	addInfoMensagem(assunto+" enviado com sucesso!");
+    	
         return "contato"; 
     }  
 	
-	public String mensagemHtml(String tituloSite, String urlSite, String urlImagem, String numIp) {
-		String html = "<html><head><title>E-mail com envio automático</title>" +
+	public String mensagemHtml(String tituloSite, String nomeSite, String sloganSite, String urlSite, String numIp) {
+		String html = "<html><head><title>E-mail automático via formulário</title>" +
 		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
 	    "</head>" +
-	    "<body lang='PT-BR' link='blue' vlink='purple'>" +
+	    "<body lang='PT-BR' link='#FFFFFF' vlink='#FFFFFF'  alink='#C6CBCC'>" +
 	    "<div align='center'>" +
 	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='10' " +
-	    "bordercolor='#CCCCCC' style='font-family:Tahoma, Geneva, sans-serif;font-size:small;'>" +
+	    "bordercolor='#000000' style='background-color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;font-size:13px;border:2px solid #000000;'>" +
 	    "<tr>" +
-	    "<td bgcolor='#000000' valign='top' style='border:0'>" +
+	    "<td bgcolor='#000000' valign='top'>" +
 	    "<table width='100%' border='0' cellspacing='10' cellpadding='0' align='center'>" +
 	    "<tr>" +
-	    "<td align='center' valign='middle'>" +
-	    "<a href='" + urlSite + "' target='_blank'>" +
-	    "<img src='"+urlImagem+"' border='0' align='middle' width='286'/></a>" +
+	    "<td align='left' valign='middle' style='display:block;float:left;width:auto;overflow:hidden;height:70px;'>" +
+	    "<a href='" + urlSite + "' target='_blank' style='color:#B2C629;outline:none;text-decoration:none;'>" +
+        "<h1 style='font-family:Georgia, \"Times New Roman\", Times, serif;font-size:16px;text-transform:capitalize;'>"+ tituloSite +"</h1>" +
+        "<p style='margin-top:-9px;padding:0;line-height:normal;font-size:8pt;color:#C6CBCC;'>"+sloganSite+"</p>" +
+        "</a>" +
 	    "</td>" +
-	    "<td align='center' valign='middle' style='color:#FFFFFF;text-transform:uppercase;'><strong>FORMULÁRIO DE "+assunto+"</strong></td>" +
+	    "<td align='center' valign='middle' style='font-size:9pt;'><strong><a href='" + urlSite + "' target='_blank' " +
+	    "style='text-decoration:none;color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;color:#FFFFFF;text-transform:lowercase;'>" + nomeSite.toLowerCase() +
+	    "</a></strong></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td bgcolor='#F9F9F9' valign='top' style='border:0;'>" +
+	    "<td align='center' valign='middle' style='background-color:#B2C629;color:#ffffff;text-transform:uppercase;border:0px;'>" +
+        "<strong>FORMULÁRIO DE "+assunto+"</strong>" +
+	    "</td>" +
+	    "</tr>" +
+	    "<tr>" +
+	    "<td bgcolor='#F7F7F7' valign='top' style='border:0;'>" +
         "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
         "<tr>" +
-        "<td align='left'>Nome:</td>" +
-        "<td align='left'><strong>" + nome + "</strong></td>" +
+        "<td align='left' width='80'>Nome:</td>" +
+        "<td align='left'>" + nome + "</td>" +
         "</tr>" +
         "<tr>" +
-        "<td align='left'>E-mail:</td>" +
-        "<td align='left'><strong>" + email.toLowerCase() + "</strong></td>" +
+        "<td align='left' width='80'>E-mail:</td>" +
+        "<td align='left'>" + email.toLowerCase() + "</td>" +
         "</tr>" +
         "</table>" +
 	    "</td>" +
@@ -130,10 +134,10 @@ public class ContatoBean extends UtilBean {
 	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
+	    "<td bgcolor='#F7F7F7' valign='top' style='border:0'>" +
         "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
         "<tr>" +
-        "<td align='left'>Mensagem:</td>" +
+        "<td align='left' width='80'>Mensagem:</td>" +
         "<td>" + mensagem + "</td>" +
         "</tr>" +
         "</table>" +
@@ -143,26 +147,20 @@ public class ContatoBean extends UtilBean {
 	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td bgcolor='#F9F9F9' valign='top' style='border:0'>" +
+	    "<td bgcolor='#F7F7F7' valign='top' style='border:0'>" +
         "<table width='100%' align='left' border='0' cellspacing='10' cellpadding='0'>" +
         "<tr>" +
-        "<td align='left'>IP:</td>" +
+        "<td align='left' width='80'>IP:</td>" +
         "<td align='left'>" + numIp + "</td>" +
         "</tr>" +
         "</table>" +
         "</td>" +
 	    "</tr>" +
 	    "<tr>" +
-	    "<td style='border:0'><hr /></td>" +
-	    "</tr>" +
-	    "<tr>" +
 	    "<td style='border:0;font-size:smaller' align='center' valign='middle'>" +
-	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank'>" + tituloSite +
-	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank'>RWD</a></p>" +
+	    "<p align='center'>&#169; <a href='" + urlSite + "' target='_blank' style='color:#000000;'>" + tituloSite +
+	    "</a> | Produzido por <a href='http://www.rwd.net.br' target='_blank' style='color:#000000;'>RWD</a></p>" +
         "</td>" +
-	    "</tr>" +
-	    "<tr>" +
-	    "<td style='border:0'></td>" +
 	    "</tr>" +
 	    "</table>" +
 	    "</div>" +

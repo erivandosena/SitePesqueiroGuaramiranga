@@ -182,10 +182,10 @@
 			<version>${slf4jVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-email</artifactId>
-			<version>1.2</version>
-		</dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.4.5</version>
+        </dependency>
 		<dependency>
    			<groupId>com.ocpsoft</groupId>
    			<artifactId>prettyfaces-jsf2</artifactId>

@@ -6,9 +6,6 @@ import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
 import org.apache.log4j.Logger;
 
 import br.net.rwd.website.controle.UtilBean;
@@ -119,6 +116,7 @@ public class CommonsMailUtil extends UtilBean {
 	}
 
 	public void enviarEmailHtml() {
+		/*
 		try {
 				// Cria a mensagem de e-mail
 				//MultiPartEmail email = new MultiPartEmail(); // Cria o e-mail preparado para os anexos
@@ -129,7 +127,7 @@ public class CommonsMailUtil extends UtilBean {
 				if(this.obj.getWeb_porta() > 0) {
 					email.setSmtpPort(this.obj.getWeb_porta());
 				} 
-				//email.setCharset("ISO-8859-1");
+				email.setCharset("utf-8");
 
 				// Autenticar no servidor
 				if(this.obj.getWeb_conta() != null && this.obj.getWeb_senha() != null) {
@@ -152,7 +150,7 @@ public class CommonsMailUtil extends UtilBean {
 
 				// definir a mensagem de html
 				//email.setHtmlMsg(this.mensagem);
-				email.addPart(this.mensagem, "text/html;charset=iso-8859-1"); 
+				email.addPart(this.mensagem, "text/html;charset=utf-8"); 
 
 				// define a mensagem texto alternativa quando servidor nao aceitar html
 				email.setTextMsg(this.mensagemAlternativa);
@@ -191,6 +189,7 @@ public class CommonsMailUtil extends UtilBean {
 			addErroMensagem("Erro ao enviar e-mail. Verifique endereços de e-mail.");
 			return;
 		}
+		*/
 	}
 
 	private List<InternetAddress> montaDestinatarios(String destinatarios) throws AddressException {
