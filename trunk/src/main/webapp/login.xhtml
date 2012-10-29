@@ -8,12 +8,12 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
 	
+   <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Login</ui:define>
+   
    <ui:define name="head">
    <meta name="robots" content="noindex, nofollow" />
    </ui:define>
-	
-    <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Login</ui:define>
-    
+
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>

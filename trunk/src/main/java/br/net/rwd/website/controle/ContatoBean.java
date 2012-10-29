@@ -88,9 +88,9 @@ public class ContatoBean extends UtilBean {
 	
 	public String mensagemHtml(String tituloSite, String nomeSite, String sloganSite, String urlSite, String numIp) {
 		String html = "<html><head><title>E-mail automático via formulário</title>" +
-		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
+		"<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' \\>" +
 	    "</head>" +
-	    "<body lang='PT-BR' link='#FFFFFF' vlink='#FFFFFF'  alink='#C6CBCC'>" +
+	    "<body link='#FFFFFF' vlink='#FFFFFF'  alink='#C6CBCC'>" +
 	    "<div align='center'>" +
 	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='10' " +
 	    "bordercolor='#000000' style='background-color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;font-size:13px;border:2px solid #000000;'>" +
@@ -113,7 +113,7 @@ public class ContatoBean extends UtilBean {
 	    "</tr>" +
 	    "<tr>" +
 	    "<td align='center' valign='middle' style='background-color:#B2C629;color:#ffffff;text-transform:uppercase;border:0px;'>" +
-        "<strong>FORMULÁRIO DE "+assunto+"</strong>" +
+        "<strong>FORMULÁRIO DE "+assunto.toUpperCase()+"</strong>" +
 	    "</td>" +
 	    "</tr>" +
 	    "<tr>" +
@@ -125,7 +125,7 @@ public class ContatoBean extends UtilBean {
         "</tr>" +
         "<tr>" +
         "<td align='left' width='80'>E-mail:</td>" +
-        "<td align='left'>" + email.toLowerCase() + "</td>" +
+        "<td align='left' style='color:#000000;'>" + email.toLowerCase() + "</td>" +
         "</tr>" +
         "</table>" +
 	    "</td>" +

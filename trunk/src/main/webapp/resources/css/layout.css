@@ -920,13 +920,13 @@ input, textarea, select {font-size:12px; font-family:Verdana, Arial, Helvetica, 
 	position:absolute;
 	bottom:-35px;
 	left:0;
-	height:38px;
-	padding:5px 20px 0 20px;
+	height:auto;
+	padding:4px 10px 4px 10px;
 	background:#000;
 	background:rgba(0,0,0,.5);
 	width:540px;
 	font-size:10pt;
-	line-height:1.33;
+	line-height:0.99;
 	color:#fff;
 	border-top:1px solid #000;
 	text-shadow:none;

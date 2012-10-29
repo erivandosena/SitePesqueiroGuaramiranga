@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,8 +24,12 @@ import br.net.rwd.website.util.FileParaBytes;
 
 @ManagedBean(name = "siteBean")
 @ViewScoped
-public class SiteBean extends UtilBean implements CrudBeans<Object> {
+public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@ManagedProperty("#{siteServico}")
 	private SiteServico model;
 	private Site site;

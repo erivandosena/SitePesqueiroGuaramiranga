@@ -448,9 +448,9 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
     
 	private String mensagemHtml(String nome, String login, final String senha, String urlSite, String numIp, String adminSite, String tituloSite, String sloganSite, String nomeSite) {
 		String html = "<html><head><title>E-mail automático</title>" +
-		"<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">" +
+		"<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1' \\>" +
 	    "</head>" +
-	    "<body lang='PT-BR' link='#FFFFFF' vlink='#FFFFFF' alink='#C6CBCC'>" +
+	    "<body link='#FFFFFF' vlink='#FFFFFF' alink='#C6CBCC'>" +
 	    "<div align='center'>" +
 	    "<table align='center' width='600' border='1' cellspacing='10' cellpadding='10' " +
 	    "bordercolor='#000000' style='background-color:#ffffff;font-family:verdana,Arial,Helvetica,sans-serif;font-size:13px;border:2px solid #000000;'>" +
@@ -473,7 +473,7 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 	    "</tr>" +
 	    "<tr>" +
 	    "<td align='center' valign='middle' style='background-color:#B2C629;color:#ffffff;text-transform:uppercase;border:0px;'>" +
-        "<strong>CONTA DE USU&Aacute;RIO</strong>" +
+        "<strong>CONTA DE USUÁRIO</strong>" +
 	    "</td>" +
 	    "</tr>" +
 	    "<tr>" +

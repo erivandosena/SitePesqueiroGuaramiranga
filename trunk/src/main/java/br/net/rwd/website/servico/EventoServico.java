@@ -41,14 +41,12 @@ public class EventoServico extends DAOGenerico<Serializable> {
 	}
 	
 	public List<Evento> listarEventos() {
-		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod ASC");
+		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_data DESC");
 	}
 	
-	public List<Evento> listar4Eventos() {
-		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod DESC LIMIT 4");
+	public List<Evento> listarEventosNovos(int limit, int offset) {
+		//(retorna ultimos 6 registros) em JPA equivale ao SQL: select * from publicacoes order by pub_cod desc limit 6 offset 0
+		return dao.obterListaLimitOffset(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod DESC", limit, offset);
 	}
-	
-	public List<Evento> listar40Eventos() {
-		return dao.obterLista(Evento.class, "SELECT e FROM Evento e ORDER BY e.pub_cod DESC LIMIT 40");
-	}
+
 }

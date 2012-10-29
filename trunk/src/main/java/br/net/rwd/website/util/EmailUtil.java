@@ -18,6 +18,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
 
@@ -84,6 +85,7 @@ public class EmailUtil {
 
 		try {
 			MimeMessage email = new MimeMessage(sessao); 
+			email.setHeader("Content-Type", "text/plain; charset=ISO-8859-1");
 			email.setFrom(new InternetAddress(this.de, this.deNome));
 			email.setRecipient(Message.RecipientType.TO, new InternetAddress(this.para, this.paraNome));
 
@@ -97,12 +99,17 @@ public class EmailUtil {
 				email.setRecipients(Message.RecipientType.BCC, ocultos);
 			}
 
-			email.setSubject(this.assunto);
+			email.setSubject(MimeUtility.encodeText(this.assunto, "ISO-8859-1", "B"));
 			email.setSentDate(new Date());
 
 			// Preparando o corpo de email
 			MimeMultipart partesEmail = new MimeMultipart(); 
 			MimeBodyPart corpoEmail = new MimeBodyPart();
+			
+			corpoEmail.setHeader("Content-Type","text/plain; charset=ISO-8859-1"); 
+			corpoEmail.setContent(corpoEmail, "text/plain; charset=ISO-8859-1" ); 
+			//corpoEmail.setHeader("Content-Transfer-Encoding", "quoted-printable");
+			
 			corpoEmail.setContent(this.mensagem, "text/html");
 			partesEmail.addBodyPart(corpoEmail);
 
@@ -116,7 +123,7 @@ public class EmailUtil {
 			} 
 
 			email.setContent(partesEmail);
-			
+
 			if(CONEXAO_SSL) {
 			Transport transport = sessao.getTransport("smtps");
 			transport.connect(SERVIDOR_SMTP, PORTA_SERVIDOR_SMTP, CONTA_PADRAO, SENHA_CONTA_PADRAO);

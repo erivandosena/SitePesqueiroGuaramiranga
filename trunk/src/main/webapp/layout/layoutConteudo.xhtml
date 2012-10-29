@@ -14,9 +14,9 @@
     </h:panelGroup>
     <br />
 	  <div class="homepage">
-	  <h:panelGroup rendered="#{galeriaBean.galeriasNovas ne null}">
+	  <h:panelGroup rendered="#{galeriaBean.getGaleriasNovas(0,4) ne null}">
       <ul>
-      	<ui:repeat value="#{galeriaBean.galeriasNovas}" var="item">
+      	<ui:repeat value="#{galeriaBean.getGaleriasNovas(0,4)}" var="item">
         <li class="last">
           <h2><h:graphicImage value="/upload/galeria/#{item.gal_cod}/#{item.gal_foto}" height="60" alt="#{item.gal_titulo}" title="#{item.gal_titulo}" rendered="#{!empty item.gal_foto}"/>
           #{item.gal_titulo}</h2>
@@ -37,9 +37,9 @@
     </div>
 	
       <div id="comments">
-      	<h:panelGroup rendered="#{eventoBean.eventosNovos ne null}">
+      	<h:panelGroup rendered="#{eventoBean.getEventosNovos(0,4) ne null}">
         <ul class="commentlist">
-          <ui:repeat value="#{eventoBean.eventosNovos}" var="item">
+          <ui:repeat value="#{eventoBean.getEventosNovos(0,4)}" var="item">
           <li class="comment_odd">
             <div class="author">
             <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="Clique aqui!">

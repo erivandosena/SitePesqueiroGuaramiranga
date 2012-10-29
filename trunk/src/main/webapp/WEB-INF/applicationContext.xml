@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jee="http://www.springframework.org/schema/jee" 
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-        http://www.springframework.org/schema/jee 
-        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:context="http://www.springframework.org/schema/context" 
+	   xmlns:tx="http://www.springframework.org/schema/tx" 
+	   xmlns:jee="http://www.springframework.org/schema/jee" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	   http://www.springframework.org/schema/context 
+	   http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	   http://www.springframework.org/schema/tx 
+	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+	   http://www.springframework.org/schema/jee 
+	   http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 	<!-- Seta anotaçoes para serem usadas pelo Spring -->
 	<context:annotation-config />
 	
-	<!-- Define o pacote onde o Spring vai procurar por beans anotados -->
+	<!-- Define o pacote onde o spring vai procurar por beans anotados -->
 	<context:component-scan base-package="br.net.rwd.website.dao, br.net.rwd.website.servico, br.net.rwd.website.controle" />
 	
-	<!-- define que as transaçoes irao ser anotadas -->
+	<!-- define que as transacoes irao ser anotadas -->
 	<tx:annotation-driven />
 	
 	<!-- Configuracao do Banco de Dados -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> 
   		<!-- Connection properties --> 
   		<property name="driverClass" value="org.postgresql.Driver" /> 
-  		
-  		<!-- Em desenvolvimento 
-  		<property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/pesqueiro" /> 
-  		<property name="user" value="postgres" /> 
-  		<property name="password" value="postgres" />
-  		--> 	
-  		
-  		<!-- Em producao -->
+
+  		<!-- Bd em producao -->
   		<property name="jdbcUrl" value="jdbc:postgresql://pgsql4.porta80.com.br:5432/pesqueiroguaramiranga" /> 
   		<property name="user" value="guaramiranga" /> 
   		<property name="password" value="pesq12" />
   		
   		<!-- Pool properties --> 
-  		<property name="initialPoolSize" value="1" />
+  		<property name="initialPoolSize" value="2" />
   		<property name="minPoolSize" value="5" /> 
   		<property name="maxPoolSize" value="25" /> 
   		<property name="maxStatements" value="100" />
@@ -65,7 +59,7 @@
             <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> 
             <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
             <prop key="hibernate.show_sql">false</prop>
-            <prop key="hibernate.format_sql">false</prop>     
+            <prop key="hibernate.format_sql">true</prop>     
 			<prop key="hibernate.use_sql_comments">false</prop> 
 			<prop key="hibernate.generate_statistics">false</prop>
 			<prop key="hibernate.hbm2ddl.auto">false</prop>

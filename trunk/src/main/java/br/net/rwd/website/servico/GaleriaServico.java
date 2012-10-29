@@ -41,11 +41,11 @@ public class GaleriaServico extends DAOGenerico<Serializable>{
 	}
 	
 	public List<Galeria> listarGalerias() {
-		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_cod ASC");
+		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_data DESC");
 	}
 	
-	public List<Galeria> listar6Galerias() {
-		return dao.obterLista(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_cod DESC LIMIT 6");
+	public List<Galeria> listarGaleriasNovas(int limit, int offset) {
+		return dao.obterListaLimitOffset(Galeria.class, "SELECT g FROM Galeria g ORDER BY g.gal_cod DESC", limit, offset);
 	}
 
 }

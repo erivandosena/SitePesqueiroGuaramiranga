@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.net.rwd.website</groupId>
@@ -151,8 +151,6 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>8.3-606.jdbc3</version>
-			<!-- colocar uma cópia em /usr/share/tomcat7/lib -->
-  			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>
@@ -263,6 +261,8 @@
 				<version>2.2</version>
 				<configuration>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+					<packagingExcludes>upload/galeria/</packagingExcludes>
+					<packagingExcludes>upload/</packagingExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
