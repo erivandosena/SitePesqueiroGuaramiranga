@@ -6,6 +6,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns="http://www.w3.org/1999/xhtml">
 	
+   <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />#{paginaBean.conteudoPagina.pag_titulo}</ui:define>
+   
+   <ui:define name="head">
+   <meta name="description" content="#{siteBean.carregarDados.web_titulo} #{siteBean.carregarDados.web_slogan} - #{paginaBean.conteudoPagina.pag_titulo}" />
+   <meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,eventos,galeria,fotos,conteudo #{paginaBean.conteudoPagina.pag_cod}" />
+   </ui:define>
+	
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>

@@ -8,16 +8,14 @@
 	  xmlns:p="http://primefaces.org/ui">
 	  
    <h:head>
-   
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <meta name="robots" content="noindex, nofollow" />
    <title><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Acesso negado</title>
+   <meta name="robots" content="noindex, nofollow" />
    <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
    <h:outputStylesheet library="css" name="layout.css" target="body" />
-   
    </h:head> 
+   
    <h:body>     
-  		
 	<p:dialog style="color:#fff;font-weight:bold;font-size:10pt;"
 		header="Ops! Acesso não autorizado!" 
 		modal="true" 
@@ -38,6 +36,5 @@
 	   </center>
 
 	</p:dialog>
-
 	</h:body>
 </html>

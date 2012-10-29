@@ -57,6 +57,15 @@ public class DAOGenerico<T extends Serializable> {
 		}
 		return (List<T>) consulta.getResultList();
 	}
+	
+	@SuppressWarnings({ "unchecked", "hiding" })
+	@Transactional(readOnly = true)
+	public <T> List<T> obterListaLimitOffset(Class<T> classe, String jpql, int limit, int offset) {
+		Query consulta = entityManager.createQuery(jpql);
+		consulta.setFirstResult(limit);
+		consulta.setMaxResults(offset);
+		return (List<T>) consulta.getResultList();
+	}
 
 	@SuppressWarnings({ "hiding", "unchecked" })
 	@Transactional

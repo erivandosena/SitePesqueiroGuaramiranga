@@ -10,7 +10,7 @@
       <div class="subnav">
       	<h2>Eventos</h2>
 		<ul> 
-			<h:panelGroup rendered="#{!empty eventoBean.eventosNovos}">
+			<h:panelGroup rendered="#{!empty eventoBean.getEventosNovos(0,6)}">
 			<li>
 			<h:link outcome="/eventos.jsf" title="Eventos">
       		<f:param name="cod" value="#{0}" />

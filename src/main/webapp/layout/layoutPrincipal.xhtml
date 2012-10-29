@@ -8,9 +8,7 @@
 
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><ui:insert name="tituloJanela" >#{siteBean.carregarDados.web_titulo}<h:outputText value=" - #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_slogan}" /></ui:insert></title>
-<meta name="description" content="#{siteBean.carregarDados.web_titulo} acesse #{siteBean.carregarDados.web_titulo} e veja mais. #{siteBean.carregarDados.web_slogan}" />
-<meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,eventos,galeria,fotos" />
+<title><ui:insert name="tituloJanela" >#{siteBean.carregarDados.web_titulo}<h:outputText value=" #{siteBean.carregarDados.web_slogan}" rendered="#{!empty siteBean.carregarDados.web_slogan}" /></ui:insert></title>
 <link rel="shortcut icon" type="image/x-icon" href="#{facesContext.externalContext.request.contextPath}/favicon.ico" />
 <h:outputStylesheet library="css" name="layout.css" target="body" />
 <ui:insert name="head"></ui:insert>

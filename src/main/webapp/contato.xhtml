@@ -7,6 +7,13 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns="http://www.w3.org/1999/xhtml">
 
+    <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" />Contato</ui:define>
+
+	<ui:define name="head">
+    <meta name="description" content="#{siteBean.carregarDados.web_titulo} #{siteBean.carregarDados.web_slogan} aguardamos seu feedback" />
+    <meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,galerias,fotos,eventos,contato,feedback" />
+    </ui:define>
+
 	<ui:define name="featured_slide">
   	<div id="breadcrumb">
     <ul>

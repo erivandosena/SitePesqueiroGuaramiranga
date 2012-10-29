@@ -1,14 +1,6 @@
 <pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.3" 
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.3
-                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
-
-   <!-- Begin Example RewriteRules 
-      // These are custom rewrite-rules, and are probably not necessary for your application.
-      <rewrite match="^/old-url/(\w+)/$" substitute="/new_url/$1/" redirect="301" />
-   -->
-   
-   <!-- Begin UrlMappings  -->
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.3 http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.3.xsd">
 
       <url-mapping id="seo1"> 
           <pattern value="/" /> 
@@ -66,11 +58,6 @@
       </url-mapping>
 
       <url-mapping id="seo12">
-		  <pattern value="/foto/#{cod : galeriaBean.fot_cod}/" />
-	      <view-id value="/foto.jsf" />
-      </url-mapping>
-
-      <url-mapping id="seo13">
 		  <pattern value="/galeria/#{cod : galeriaBean.gal_cod}/" />
 	      <view-id value="/galerias.jsf" />
       </url-mapping>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition template="/layout/layoutPrincipal.xhtml"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns="http://www.w3.org/1999/xhtml">
 
+    <ui:define name="tituloJanela"><h:outputText value="#{siteBean.carregarDados.web_titulo} - " rendered="#{!empty siteBean.carregarDados.web_titulo}" /><h:outputText value="Eventos" rendered="#{eventoBean.conteudoEvento.pub_cod eq null}"/>#{eventoBean.conteudoEvento.pub_titulo}</ui:define>
+
 	<ui:define name="head">
+    <meta name="description" content="#{siteBean.carregarDados.web_titulo} confira nossos eventos #{eventoBean.conteudoEvento.pub_titulo}" />
+    <meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,galerias,fotos,evento" />
+    
 	<h:outputScript library="javascript" name="jquery-1.7.2.min.js" target="head"/>
 	<h:outputScript library="javascript" name="slides/slides.min.jquery.js" target="head"/>
 	<script language="javascript" type="text/javascript">
@@ -50,10 +54,7 @@
 	<h:outputScript library="javascript" name="lightbox/jquery-ui-1.8.18.custom.min.js" target="head" />
 	<h:outputScript library="javascript" name="lightbox/jquery.smooth-scroll.min.js" target="head" />
 	<h:outputScript library="javascript" name="lightbox/lightbox.js" target="head" />
-
-	<!-- <h:outputStylesheet library="css" name="lightbox/screen.css" target="body" /> -->
 	<h:outputStylesheet library="css" name="lightbox/lightbox.css" target="body" />
-	
 	<script language="javascript" type="text/javascript">
 		//<![CDATA[
 		  jQuery(document).ready(function($) {
@@ -99,13 +100,13 @@
 
 	<div id="content">
 	<h:panelGroup rendered="#{empty eventoBean.conteudoEvento}">
-	<h3>Últimos eventos</h3>
+	<h3>Últimos eventos em destaque</h3>
     <div id="container_slides">
 		<div id="moldura">
 			<h:graphicImage id="ribbon" library="images" name="slides/new-ribbon.png" width="112" height="112" alt="Novo" title="Novo" />
 			<div id="slides">
 				<div class="slides_container">
-				    <ui:repeat value="#{eventoBean.eventosNovos}" var="item">
+				    <ui:repeat value="#{eventoBean.getEventosNovos(0,6)}" var="item">
 					<div class="slide">
             		<h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}">
 					<f:param name="tit" value="#{item.titulo_normalizado}" />
@@ -123,7 +124,8 @@
 			</div>
 			<h:graphicImage id="frame" library="images" name="slides/example-frame.png" width="739" height="341" alt="Últimos eventos" title="Últimos eventos" />   
     	</div>
-    	</div>		
+    	</div>
+
 	</h:panelGroup>
 
 	<h:panelGroup rendered="#{!empty eventoBean.conteudoEvento}">
@@ -137,11 +139,14 @@
 	<h:outputText value="#{eventoBean.conteudoEvento.pub_sumario}" escape="false" />
 	</p>
 	
+	<h:panelGroup rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}">
 	<p>
 	<a href="#{facesContext.externalContext.request.contextPath}/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" rel="lightbox[plants]" title="#{eventoBean.imagem.ima_descricao}">
-	<h:graphicImage value="/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}" alt="#{eventoBean.imagem.ima_descricao}" title="#{eventoBean.imagem.ima_descricao}" height="250" style="border: border:1px solid #000000;"/>
+	<!-- <h:graphicImage value="/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" rendered="#{eventoBean.conteudoEvento.pub_imagem ne null}" alt="#{eventoBean.imagem.ima_descricao}" title="#{eventoBean.imagem.ima_descricao}" height="250" style="border: border:1px solid #000000;"/> -->
+	<img src="#{facesContext.externalContext.request.contextPath}/upload/#{eventoBean.conteudoEvento.pub_cod}/#{eventoBean.conteudoEvento.pub_imagem}" alt="#{eventoBean.imagem.ima_descricao}" title="#{eventoBean.imagem.ima_descricao}" height="250" style="border: border:1px solid #000000;"/>
 	</a>
 	</p>
+	</h:panelGroup>
 
 	<p>
 	<h:outputText value="#{eventoBean.conteudoEvento.pub_conteudo}" escape="false"/>
@@ -169,27 +174,24 @@
 			</div>
 			<h:graphicImage id="frame" library="images" name="slides/example-frame.png" width="739" height="341" alt="Fotos" title="Fotos do evento #{eventoBean.conteudoEvento.pub_titulo}" />   
     	</div>
-    	</div>
+    </div>
+    </h:panelGroup>
     	
     	<p>
-		<iframe src='http://www.facebook.com/plugins/like.php?href=#{eventoBean.urlEvento}&amp;layout=standard&amp;show_faces=false&amp;width=380&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:600px;height:30px;' allowtransparency='true'></iframe>
+		<iframe src='http://www.facebook.com/plugins/like.php?href=#{eventoBean.urlEvento}&amp;layout=standard&amp;show_faces=true&amp;width=390&amp;action=like&amp;colorscheme=light&amp;height=25' scrolling='no' frameborder='0' style='border:none;overflow:hidden;width:590px;height:80px;' allowtransparency='true'></iframe>
 		</p>
-    	
 	</h:panelGroup>
-	<br class="clear" />
 	
-	</h:panelGroup>
 	</div>
 	</ui:define>
 	
 	<ui:define name="columnConteudo">
 	</ui:define>
-	
-	<ui:define name="columnParceria">
-	</ui:define>
 
 	<ui:define name="columnGaleria">
 	</ui:define>
-
-
+	
+	<ui:define name="columnParceria">
+	</ui:define>
+	
 </ui:composition>

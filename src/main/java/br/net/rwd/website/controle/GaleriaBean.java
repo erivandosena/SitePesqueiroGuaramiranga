@@ -426,8 +426,8 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 			return null;
 	}
 	
-	public List<Galeria> getGaleriasNovas() {
-		return modelgaleria.listar6Galerias();
+	public List<Galeria> getGaleriasNovas(int limit, int offset) {
+		return modelgaleria.listarGaleriasNovas(limit, offset);
 	}
 
 	public String getUrlGaleria() {

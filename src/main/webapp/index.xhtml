@@ -7,9 +7,64 @@
 	xmlns="http://www.w3.org/1999/xhtml">
 
 	<ui:define name="head">
-	<h:outputScript library="javascript" name="jquery-1.8.2.min.js" target="head"/>
+	<meta name="description" content="#{siteBean.carregarDados.web_titulo} #{siteBean.carregarDados.web_slogan}, sejam bem-vindos!" />
+	<meta name="keywords" content="pesqueiro,guaramiranga,restaurante,manjericao,eventos,galeria,fotos,feedback" />
+	
+	<h:outputScript library="javascript" name="jquery-1.7.2.min.js" target="head"/>
     <h:outputScript library="javascript" name="carrossel/jquery.jcarousel.pack.js" target="head"/>
     <h:outputScript library="javascript" name="carrossel/jquery.jcarousel.setup.js" target="head"/>
+	</ui:define>
+	
+	<ui:define name="columnEvento">
+		<h:panelGroup rendered="#{!empty eventoBean.getEventosNovos(0,6)}">
+		<div class="subnav">
+			<ul>
+			<li>
+			<h:link outcome="/eventos.jsf" title="Eventos">
+      		<f:param name="cod" value="#{0}" />
+      		<span class="destaque">Últimos Eventos</span>
+      		</h:link>
+			</li>
+			<ui:repeat value="#{eventoBean.getEventosNovos(0,6)}" var="item">
+			<li>
+		  	<h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="#{item.pub_titulo}">
+				<f:param name="cod" value="#{item.pub_cod}" />
+				<f:param name="tit" value="#{item.titulo_normalizado}" />
+				<h:outputText value="#{item.pub_data}" style="font-size: 9px;font-weight: bold;">
+				<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="dd/MM/yyyy"/>
+		    	</h:outputText><br />#{item.pub_titulo}
+		  	</h:link>
+			</li>
+			</ui:repeat>
+		</ul>
+		</div>
+	  </h:panelGroup>
+	</ui:define>
+	
+	<ui:define name="columnGaleria">
+		<h:panelGroup rendered="#{!empty galeriaBean.getGaleriasNovas(0,6)}">
+		<div class="subnav">
+			<ul>
+			<li>
+			<h:link outcome="/galerias.jsf" title="Galerias">
+      		<f:param name="cod" value="#{0}" />
+      		<span class="destaque">Novas Galerias</span>
+      		</h:link>
+			</li>
+			<ui:repeat value="#{galeriaBean.getGaleriasNovas(0,6)}" var="item">
+			<li>
+		  	<h:link outcome="/galerias.jsf" rendered="#{item.gal_foto ne null}" title="#{item.gal_titulo}">
+				<f:param name="cod" value="#{item.gal_cod}" />
+				<f:param name="tit" value="#{item.titulo_normalizado}" />
+				<h:outputText value="#{item.gal_data}" style="font-size: 9px;font-weight: bold;">
+				<f:convertDateTime type="date" dateStyle="full" timeZone="GMT-3" locale="pt_BR" pattern="dd/MM/yyyy"/>
+		    	</h:outputText><br />#{item.gal_titulo}
+		  	</h:link>
+			</li>
+			</ui:repeat>
+		</ul>
+		</div>
+	  </h:panelGroup>
 	</ui:define>
 	
 </ui:composition>

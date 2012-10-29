@@ -7,11 +7,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
     <div id="featured_slide">
-    <h:panelGroup rendered="#{!empty eventoBean.eventosDestaque}">
+    <h:panelGroup rendered="#{!empty eventoBean.getEventosNovos(0,4)}">
     <div id="featured_content">
     
       <ul>
-      <ui:repeat value="#{eventoBean.eventosDestaque}" var="item">
+      <ui:repeat value="#{eventoBean.getEventosNovos(0,4)}" var="item">
       <li>
       
       <h:link outcome="/eventos.jsf" rendered="#{item.pub_imagem ne null}" title="Clique aqui!">

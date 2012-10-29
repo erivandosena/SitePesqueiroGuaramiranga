@@ -10,7 +10,7 @@
       <div class="subnav">
       	<h2>Galerias</h2>
 		<ul>
-		    <h:panelGroup rendered="#{!empty galeriaBean.galeriasNovas}">
+		    <h:panelGroup rendered="#{!empty galeriaBean.getGaleriasNovas(0,4)}">
 			<li>
 			<h:link outcome="/galerias.jsf" title="Galerias">
       		<f:param name="cod" value="#{0}" />

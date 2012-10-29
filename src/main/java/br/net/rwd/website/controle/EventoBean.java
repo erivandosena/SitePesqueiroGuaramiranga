@@ -448,12 +448,8 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 			return null;
 	}
 	
-	public List<Evento> getEventosNovos() {
-		return eventos = model.listar4Eventos();
-	}
-	
-	public List<Evento> getEventosDestaque() {
-		return eventos = model.listar40Eventos();
+	public List<Evento> getEventosNovos(int p1, int p2) {
+		return model.listarEventosNovos(p1, p2);
 	}
     
 	public String getNormalizarTitulo() {
