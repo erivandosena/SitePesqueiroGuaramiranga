@@ -455,10 +455,10 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 
 	public void handleFileUpload(FileUploadEvent event) {
 		nomeArquivo = "logo.".concat( event.getFile().getFileName() .substring( event.getFile().getFileName() .lastIndexOf('.') + 1));
-		arquivo = new File(PATH + "\\"+nomeArquivo);
+		arquivo = new File(PATH + File.separator +nomeArquivo);
 		bytesImagem = event.getFile().getContents();
 		
-		if (new File(arquivo.getPath()+ "\\" + nomeArquivo).exists())
+		if (new File(arquivo.getPath()+ File.separator + nomeArquivo).exists())
 			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
 
 		mensagemUpload = "<p style='color:#C09853;font-weight:bold;background-color:#FCF8E3;height:15px;width:auto;padding:5px;'>O arquivo " + event.getFile().getFileName() + " foi carregado.\nUse o botão salvar para completar a operação!</p>";
@@ -476,7 +476,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 			}
 		} else {
 
-			File arquivoAnterior = new File(PATH + "\\" + site.getWeb_logomarca());
+			File arquivoAnterior = new File(PATH + File.separator + site.getWeb_logomarca());
 			if (nomeArquivo != site.getWeb_logomarca()) {
 				// exclui o arquivo existente
 				if (arquivoAnterior.exists())
@@ -534,7 +534,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	
 	private void atualizarImagem() {
 		nomeArquivo = site.getWeb_logomarca();
-		arquivo = new File(PATH + "\\" + site.getWeb_logomarca());
+		arquivo = new File(PATH + File.separator + site.getWeb_logomarca());
 		if(arquivo.exists()) 
 		bytesImagem = FileParaBytes.getFileBytes(arquivo);
 		else
@@ -542,7 +542,7 @@ public class SiteBean extends UtilBean implements Serializable, CrudBeans<Object
 	}
 	
 	public void excluirImagem() {
-		File arquivo = new File(PATH + "\\" + site.getWeb_logomarca());
+		File arquivo = new File(PATH + File.separator + site.getWeb_logomarca());
 		if (arquivo.exists())
 			arquivo.delete();
 		site.setWeb_logomarca(null);
