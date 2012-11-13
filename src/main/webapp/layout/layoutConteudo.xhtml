@@ -15,6 +15,7 @@
     <br />
 	  <div class="homepage">
 	  <h:panelGroup rendered="#{galeriaBean.getGaleriasNovas(0,4) ne null}">
+	  <h1>Novas galerias de fotos</h1>
       <ul>
       	<ui:repeat value="#{galeriaBean.getGaleriasNovas(0,4)}" var="item">
         <li class="last">
@@ -38,6 +39,7 @@
 	
       <div id="comments">
       	<h:panelGroup rendered="#{eventoBean.getEventosNovos(0,4) ne null}">
+		<h1>Novos eventos</h1>
         <ul class="commentlist">
           <ui:repeat value="#{eventoBean.getEventosNovos(0,4)}" var="item">
           <li class="comment_odd">
