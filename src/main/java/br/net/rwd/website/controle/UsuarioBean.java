@@ -264,11 +264,6 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 					addErroMensagem("Usuário existente! Informe outro e-mail.");
 				} else {
 					
-					System.out.println(this.usuario.getPer_roles());
-					System.out.println(this.usuario.getPer_roles().toString());
-					System.out.println(usuario.getPer_roles());
-					System.out.println(usuario.getPer_roles().toString());
-					
 					if (this.usuario.getPer_roles().toString() == "[]") {
 						addErroMensagem("Selecione o perfil.");
 					} else {			
@@ -413,7 +408,9 @@ public class UsuarioBean extends UtilBean implements CrudBeans<Object> {
 		String username = null;
 		Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (usuarioLogado instanceof UserDetails) {
-			username = model.selecionarUsuarioLogin(((UserDetails)usuarioLogado).getUsername()).getUsu_email().toString();
+			Usuario usuario = model.selecionarUsuarioLogin(((UserDetails)usuarioLogado).getUsername());
+			if (usuario != null)
+				username = usuario.getUsu_email();
 		} else {
 			username = usuarioLogado.toString();
 		}
