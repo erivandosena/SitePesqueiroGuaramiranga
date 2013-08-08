@@ -368,9 +368,10 @@ public class EventoBean extends UtilBean implements CrudBeans<Object> {
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = evento.getPub_cod().toString();
 		nomeArquivo = event.getFile().getFileName();
-		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg");
+		String extensao = nomeArquivo.substring(nomeArquivo.lastIndexOf('.')+1);
+		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + "."+extensao);
 		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
-		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),640);
+		bytesImagem = Redimensiona.novaLargura(event.getFile().getContents(),640,extensao);
 
 		if (new File(arquivo.getPath()+ File.separator + Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg")).exists())
 			addAvisoMensagem("Já existe uma imagem com mesmo nome, se continuar, a imagem atual será substituída.");
