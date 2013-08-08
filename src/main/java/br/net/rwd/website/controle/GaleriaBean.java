@@ -346,9 +346,10 @@ public class GaleriaBean extends UtilBean implements CrudBeans<Object> {
 	public void handleFileUpload(FileUploadEvent event) {
 		subPasta = galeria.getGal_cod().toString();
 		nomeArquivo = event.getFile().getFileName();
-		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + ".jpg");
+		String extensao = nomeArquivo.substring(nomeArquivo.lastIndexOf('.')+1);
+		nomeImagem = Criptografia.criptografarMD5(nomeArquivo).concat("-" + subPasta + "."+extensao);
 		arquivo = new File(PATH + File.separator + subPasta + File.separator + nomeImagem);
-		bytesFoto = Redimensiona.novaLargura(event.getFile().getContents(),640);
+		bytesFoto = Redimensiona.novaLargura(event.getFile().getContents(),640,extensao);
 		
 		if (arquivo.exists())
 			addAvisoMensagem("Já existe uma foto com mesmo nome, se continuar, a foto atual será substituída.");
